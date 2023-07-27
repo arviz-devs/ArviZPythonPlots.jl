@@ -105,14 +105,6 @@ const _precompile_arviz_version = arviz_version()
 
 function __init__()
     initialize_arviz()
-    @require SampleChains = "754583d1-7fc4-4dab-93b5-5eaca5c9622e" begin
-        include("samplechains.jl")
-    end
-    @require MCMCChains = "c7f686f2-ff18-58e9-bc7b-31028e88f75d" begin
-        import .MCMCChains: Chains, sections
-        include("mcmcchains.jl")
-    end
-    return nothing
 end
 
 include("utils.jl")
