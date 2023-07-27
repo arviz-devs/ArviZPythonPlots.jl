@@ -1,7 +1,7 @@
-using ArviZ
+using ArviZPyPlot
 using Test
 
-@testset "ArviZ" begin
+@testset "ArviZPyPlot" begin
     include("helpers.jl")
     include("test_rcparams.jl")
     include("test_utils.jl")
