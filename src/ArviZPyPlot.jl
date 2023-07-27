@@ -5,7 +5,6 @@ using Base: @__doc__
 using Requires
 using REPL
 using DataFrames
-using JSON3: JSON3, StructTypes
 using OrderedCollections: OrderedDict
 
 using Reexport
@@ -13,7 +12,6 @@ using Reexport
 @reexport using PyPlot
 using PyCall
 using Conda
-using DataDeps: DataDeps
 using DimensionalData: DimensionalData, Dimensions
 using LogExpFunctions: logsumexp
 
