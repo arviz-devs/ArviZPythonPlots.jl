@@ -1,5 +1,5 @@
 __precompile__()
-module ArviZ
+module ArviZPyPlot
 
 using Base: @__doc__
 using Requires
