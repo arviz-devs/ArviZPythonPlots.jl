@@ -118,11 +118,7 @@ end
 include("utils.jl")
 include("rcparams.jl")
 include("xarray.jl")
-
 include("conversions.jl")
-using .ArviZStats
-using .ArviZStats: summary
-
 include("plots.jl")
 
 end # module
