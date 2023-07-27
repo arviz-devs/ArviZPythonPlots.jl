@@ -2,8 +2,6 @@ __precompile__()
 module ArviZPyPlot
 
 using Base: @__doc__
-using Requires
-using REPL
 using DataFrames
 using OrderedCollections: OrderedDict
 
@@ -13,47 +11,9 @@ using Reexport
 using PyCall
 using Conda
 using DimensionalData: DimensionalData, Dimensions
-using LogExpFunctions: logsumexp
 
-import Base:
-    convert,
-    get,
-    getindex,
-    getproperty,
-    hash,
-    haskey,
-    iterate,
-    length,
-    propertynames,
-    setindex,
-    show,
-    write,
-    +
 import Base.Docs: getdoc
-using StatsBase: StatsBase
-import StatsBase: summarystats
 import Markdown: @doc_str
-import PyCall: PyObject
-
-using InferenceObjects
-import InferenceObjects: convert_to_inference_data, namedtuple_of_arrays
-# internal functions temporarily used/extended here
-using InferenceObjects:
-    attributes, recursive_stack, groupnames, groups, hasgroup, rekey, setattribute!
-import InferenceObjects: namedtuple_of_arrays
-using InferenceObjects: from_netcdf, to_netcdf
-
-using MCMCDiagnosticTools:
-    MCMCDiagnosticTools,
-    AutocovMethod,
-    FFTAutocovMethod,
-    BDAAutocovMethod,
-    bfmi,
-    ess,
-    ess_rhat,
-    mcse,
-    rhat,
-    rstar
 
 # Exports
 
@@ -90,9 +50,6 @@ const arviz = PyNULL()
 const xarray = PyNULL()
 const pandas = PyNULL()
 const _rcParams = PyNULL()
-const DEFAULT_SAMPLE_DIMS = Dimensions.key2dim((:chain, :draw))
-const SUPPORTED_GROUPS = Symbol[]
-const SUPPORTED_GROUPS_DICT = Dict{Symbol,Int}()
 
 include("setup.jl")
 
