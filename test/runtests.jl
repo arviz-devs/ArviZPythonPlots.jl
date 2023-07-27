@@ -5,6 +5,7 @@ using Test
     include("helpers.jl")
     include("test_rcparams.jl")
     include("test_utils.jl")
+    include("test_conversions.jl")
     include("ArviZStats/runtests.jl")
     include("test_plots.jl")
     include("test_samplechains.jl")
