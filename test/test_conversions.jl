@@ -1,5 +1,5 @@
 using ArviZPyPlot
-using ArviZExamples
+using ArviZExampleData
 using Test
 
 @testset "conversions" begin

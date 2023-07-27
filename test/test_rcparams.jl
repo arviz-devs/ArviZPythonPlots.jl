@@ -1,15 +1,18 @@
+using ArviZPyPlot
+using Test
+
 @testset "rcParams" begin
     @testset "rcParams" begin
-        @test rcParams isa ArviZ.RcParams
-        @test pyisinstance(PyObject(rcParams), ArviZ.arviz.rcparams.RcParams)
-        pyrcParams = ArviZ.arviz.rcParams
+        @test rcParams isa ArviZPyPlot.RcParams
+        @test pyisinstance(PyObject(rcParams), ArviZPyPlot.arviz.rcparams.RcParams)
+        pyrcParams = ArviZPyPlot.arviz.rcParams
         @test rcParams == pyrcParams
-        @test ArviZ.RcParams(pyrcParams) isa ArviZ.RcParams{Any,Any}
+        @test ArviZPyPlot.RcParams(pyrcParams) isa ArviZPyPlot.RcParams{Any,Any}
         @test isa(
-            convert(ArviZ.RcParams{String,Union{Int64,String}}, pyrcParams),
-            ArviZ.RcParams{String,Union{Int64,String}},
+            convert(ArviZPyPlot.RcParams{String,Union{Int64,String}}, pyrcParams),
+            ArviZPyPlot.RcParams{String,Union{Int64,String}},
         )
-        @test convert(ArviZ.RcParams, pyrcParams) isa ArviZ.RcParams
+        @test convert(ArviZPyPlot.RcParams, pyrcParams) isa ArviZPyPlot.RcParams
         @test haskey(rcParams, "plot.backend")
         def_backend = rcParams["plot.backend"]
         @test ("plot.backend" => def_backend) ∈ rcParams
