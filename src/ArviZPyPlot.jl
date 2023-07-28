@@ -61,7 +61,7 @@ check_needs_update(; update=false)
 const _precompile_arviz_version = arviz_version()
 
 function __init__()
-    initialize_arviz()
+    return initialize_arviz()
 end
 
 include("utils.jl")

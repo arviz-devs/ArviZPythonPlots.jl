@@ -2,9 +2,7 @@ function topandas(::Val{:ELPDData}, d::PSISLOOResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
     psis_result = d.psis_result
-    ds = convert_to_dataset((
-        loo_i=pointwise.elpd, pareto_shape=pointwise.pareto_shape
-    ))
+    ds = convert_to_dataset((loo_i=pointwise.elpd, pareto_shape=pointwise.pareto_shape))
     pyds = PyCall.PyObject(ds)
     entries = (
         elpd_loo=estimates.elpd,
@@ -18,10 +16,7 @@ function topandas(::Val{:ELPDData}, d::PSISLOOResult)
         scale="log",
     )
     return PyCall.pycall(
-        arviz.stats.ELPDData,
-        PyCall.PyObject;
-        data=values(entries),
-        index=keys(entries),
+        arviz.stats.ELPDData, PyCall.PyObject; data=values(entries), index=keys(entries)
     )
 end
 
@@ -41,9 +36,6 @@ function topandas(::Val{:ELPDData}, d::WAICResult)
         scale="log",
     )
     return PyCall.pycall(
-        arviz.stats.ELPDData,
-        PyCall.PyObject;
-        data=values(entries),
-        index=keys(entries),
+        arviz.stats.ELPDData, PyCall.PyObject; data=values(entries), index=keys(entries)
     )
 end

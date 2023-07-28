@@ -7,7 +7,9 @@ function PyCall.PyObject(data::InferenceData)
     return pycall(arviz.InferenceData, PyObject; map(PyObject, groups)...)
 end
 
-function ArviZ.convert_to_inference_data(obj::PyObject; dims=nothing, coords=nothing, kwargs...)
+function ArviZ.convert_to_inference_data(
+    obj::PyObject; dims=nothing, coords=nothing, kwargs...
+)
     if pyisinstance(obj, arviz.InferenceData)
         group_names = obj.groups()
         groups = (

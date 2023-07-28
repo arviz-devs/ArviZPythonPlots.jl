@@ -15,11 +15,11 @@ makedocs(;
     ],
     checkdocs=:exports,
     format=Documenter.HTML(;
-        prettyurls=haskey(ENV, "CI"),
-        sidebar_sitename=false,
-        canonical="stable",
+        prettyurls=haskey(ENV, "CI"), sidebar_sitename=false, canonical="stable"
     ),
     linkcheck=true,
 )
 
-deploydocs(; repo="github.com/arviz-devs/ArviZPyPlot.jl.git", devbranch="main", push_preview=true)
+deploydocs(;
+    repo="github.com/arviz-devs/ArviZPyPlot.jl.git", devbranch="main", push_preview=true
+)
