@@ -55,15 +55,15 @@ jobs:
               ),
           )
         shell: julia --color=yes {0}
-      - name: Install ArviZ dependencies
+      - name: Install Python ArviZ dependencies
         run: |
           using Pkg
           Pkg.instantiate()
           using Conda
           # https://discourse.julialang.org/t/conda-not-installing-matplotlib-for-pyplot/96813/2
           Conda.add("conda==23.1.0")
-          using ArviZ
-          ArviZ.initialize_arviz()
-          ArviZ.initialize_pandas()
+          using ArviZPyPlot
+          ArviZPyPlot.initialize_arviz()
+          ArviZPyPlot.initialize_pandas()
         shell: julia --color=yes --project {0}
       - uses: julia-actions/julia-runtest@latest
