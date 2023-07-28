@@ -1,7 +1,10 @@
 @doc doc"""
     rcParams
 
-Dictionary to contain ArviZ default parameters, with validation when setting items.
+Dictionary to contain Python ArviZ default parameters, with validation when setting items.
+
+Note that only Python code will use these parameters, so in general only the ones used by
+plotting functions have an effect.
 """
 rcParams
 
