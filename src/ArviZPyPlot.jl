@@ -45,6 +45,9 @@ export plot_autocorr,
 ## rcParams
 export rcParams, with_rc_context
 
+## styles
+export styles, use_style
+
 const _min_arviz_version = v"0.13.0"
 const arviz = PyNULL()
 const xarray = PyNULL()
@@ -64,6 +67,7 @@ end
 
 include("utils.jl")
 include("rcparams.jl")
+include("style.jl")
 include("xarray.jl")
 include("conversions.jl")
 include("plots.jl")
