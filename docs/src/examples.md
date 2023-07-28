@@ -1,4 +1,4 @@
-# Matplotlib Example Gallery
+# Example Gallery
 
 ## Autocorrelation Plot
 
