@@ -1,4 +1,3 @@
-__precompile__()
 module ArviZPyPlot
 
 using Base: @__doc__
