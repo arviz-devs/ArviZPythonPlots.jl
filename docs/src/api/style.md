@@ -1,13 +1,13 @@
-# [Plotting functions](@id plots-api)
+# [Plotting styles](@id style-api)
 
 ```@index
-Pages = ["plots.md"]
+Pages = ["style.md"]
 ```
 
 ## Reference
 
 ```@autodocs
 Modules = [ArviZPyPlot]
-Pages   = ["plots.jl"]
+Pages   = ["style.jl"]
 Private = false
 ```

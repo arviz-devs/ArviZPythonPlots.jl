@@ -1,13 +1,13 @@
-# [Plotting functions](@id plots-api)
+# [rcParams](@id rcparams-api)
 
 ```@index
-Pages = ["plots.md"]
+Pages = ["rcparams.md"]
 ```
 
 ## Reference
 
 ```@autodocs
 Modules = [ArviZPyPlot]
-Pages   = ["plots.jl"]
+Pages   = ["rcparams.jl"]
 Private = false
 ```

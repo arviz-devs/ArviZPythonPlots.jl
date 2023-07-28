@@ -8,7 +8,9 @@ makedocs(;
         "Examples gallery" => "examples.md",
         "API" => [
             hide("api/index.md"),
-            "Plots" => "api/plots.md",
+            "Plotting styles" => "api/style.md",
+            "rcParams" => "api/rcparams.md",
+            "Plotting functions" => "api/plots.md",
         ],
     ],
     checkdocs=:exports,
