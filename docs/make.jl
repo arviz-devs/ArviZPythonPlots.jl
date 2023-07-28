@@ -20,3 +20,4 @@ makedocs(;
     linkcheck=true,
 )
 
+deploydocs(; repo="github.com/arviz-devs/ArviZPyPlot.jl.git", devbranch="main", push_preview=true)
