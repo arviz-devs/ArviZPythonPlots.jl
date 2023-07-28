@@ -5,7 +5,7 @@ makedocs(;
     sitename="ArviZPyPlot.jl",
     pages=[
         "Home" => "index.md",
-        "Example Gallery" => ["Matplotlib" => "mpl_examples.md"],
+        "Examples gallery" => "gallery.md",
         "API" => [
             hide("api/index.md"),
             "Plots" => "api/plots.md",
