@@ -1,4 +1,4 @@
-module ArviZPyPlot
+module ArviZPythonPlots
 
 using Base: @__doc__
 using DataFrames

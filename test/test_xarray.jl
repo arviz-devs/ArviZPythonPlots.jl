@@ -1,4 +1,4 @@
-using ArviZPyPlot
+using ArviZPythonPlots
 using DimensionalData
 using PyCall
 using Test
@@ -16,7 +16,7 @@ using Test
         ds = Dataset((; x, y); metadata)
         o = PyObject(ds)
         @test o isa PyObject
-        @test pyisinstance(o, ArviZPyPlot.xarray.Dataset)
+        @test pyisinstance(o, ArviZPythonPlots.xarray.Dataset)
 
         @test issetequal(Symbol.(o.coords.keys()), (:chain, :draw, :shared, :ydim1))
         for (dim, coord) in o.coords.items()
@@ -56,7 +56,7 @@ using Test
         idata1 = random_data()
         pyidata1 = PyObject(idata1)
         @test pyidata1 isa PyObject
-        @test pyisinstance(pyidata1, ArviZPyPlot.arviz.InferenceData)
+        @test pyisinstance(pyidata1, ArviZPythonPlots.arviz.InferenceData)
         idata2 = convert(InferenceData, pyidata1)
         test_idata_approx_equal(idata2, idata1)
     end

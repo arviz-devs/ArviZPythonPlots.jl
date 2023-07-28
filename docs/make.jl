@@ -1,8 +1,8 @@
-using ArviZPyPlot, Documenter
+using ArviZPythonPlots, Documenter
 
 makedocs(;
-    modules=[ArviZPyPlot],
-    sitename="ArviZPyPlot.jl",
+    modules=[ArviZPythonPlots],
+    sitename="ArviZPythonPlots.jl",
     pages=[
         "Home" => "index.md",
         "Examples gallery" => "examples.md",
@@ -21,5 +21,7 @@ makedocs(;
 )
 
 deploydocs(;
-    repo="github.com/arviz-devs/ArviZPyPlot.jl.git", devbranch="main", push_preview=true
+    repo="github.com/arviz-devs/ArviZPythonPlots.jl.git",
+    devbranch="main",
+    push_preview=true,
 )
