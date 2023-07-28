@@ -63,7 +63,7 @@ plot_compare(model_compare; figsize=(12, 4))
 gcf()
 ```
 
-See [`compare`](@ref), [`plot_compare`](@ref)
+See [`compare`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.compare), [`plot_compare`](@ref)
 
 ## Density Plot
 
@@ -351,7 +351,7 @@ plot_khat(loo_data; show_bins=true)
 gcf()
 ```
 
-See [`loo`](@ref), [`plot_khat`](@ref)
+See [`loo`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo), [`plot_khat`](@ref)
 
 ## LOO-PIT ECDF Plot
 
@@ -367,7 +367,7 @@ plot_loo_pit(idata; y=:y, ecdf=true, color=:maroon)
 gcf()
 ```
 
-See [`psis`](@ref), [`plot_loo_pit`](@ref)
+See [`loo_pit`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo_pit), [`plot_loo_pit`](@ref)
 
 ## LOO-PIT Overlay Plot
 
@@ -382,7 +382,7 @@ plot_loo_pit(; idata, y=:obs, color=:indigo)
 gcf()
 ```
 
-See [`plot_loo_pit`](@ref)
+See [`loo_pit`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo_pit), [`plot_loo_pit`](@ref)
 
 ## Quantile Monte Carlo Standard Error Plot
 
