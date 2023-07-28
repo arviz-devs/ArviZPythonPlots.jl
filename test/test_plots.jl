@@ -1,7 +1,6 @@
-using ArviZ
+using ArviZPyPlot
 using ArviZExampleData
 using PyCall
-using PyPlot
 using Test
 
 @testset "plots" begin
@@ -79,7 +78,7 @@ using Test
         close(gcf())
     end
 
-    @testset "$(f)" for f in (plot_dist, ArviZ.plot_ecdf)
+    @testset "$(f)" for f in (plot_dist, ArviZPyPlot.plot_ecdf)
         f(arr1)
         close(gcf())
     end

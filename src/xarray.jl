@@ -1,12 +1,15 @@
-PyObject(data::Dataset) = _to_xarray(data)
+PyCall.PyObject(data::Dataset) = _to_xarray(data)
 
 Base.convert(::Type{Dataset}, obj::PyObject) = Dataset(_dimstack_from_xarray(obj))
 
-function PyObject(data::InferenceData)
-    return pycall(arviz.InferenceData, PyObject; map(PyObject, groups(data))...)
+function PyCall.PyObject(data::InferenceData)
+    groups = NamedTuple(data)
+    return pycall(arviz.InferenceData, PyObject; map(PyObject, groups)...)
 end
 
-function convert_to_inference_data(obj::PyObject; dims=nothing, coords=nothing, kwargs...)
+function ArviZ.convert_to_inference_data(
+    obj::PyObject; dims=nothing, coords=nothing, kwargs...
+)
     if pyisinstance(obj, arviz.InferenceData)
         group_names = obj.groups()
         groups = (

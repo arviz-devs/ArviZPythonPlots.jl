@@ -1,12 +1,10 @@
-using ArviZ
+using ArviZPyPlot
 using Test
 
-@testset "ArviZ" begin
+@testset "ArviZPyPlot" begin
     include("helpers.jl")
     include("test_rcparams.jl")
     include("test_utils.jl")
-    include("ArviZStats/runtests.jl")
+    include("test_conversions.jl")
     include("test_plots.jl")
-    include("test_samplechains.jl")
-    include("test_mcmcchains.jl")
 end

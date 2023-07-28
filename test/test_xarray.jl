@@ -1,4 +1,7 @@
-using ArviZ, DimensionalData, PyCall, Test
+using ArviZPyPlot
+using DimensionalData
+using PyCall
+using Test
 
 @testset "xarray interop" begin
     @testset "Dataset <-> xarray" begin
@@ -10,10 +13,10 @@ using ArviZ, DimensionalData, PyCall, Test
         ydims = (:chain, :draw, Dim{:ydim1}(Any["a", "b"]), :shared)
         y = DimArray(randn(nchains, ndraws, 2, nshared), ydims)
         metadata = Dict(:prop1 => "val1", :prop2 => "val2")
-        ds = ArviZ.Dataset((; x, y); metadata)
+        ds = Dataset((; x, y); metadata)
         o = PyObject(ds)
         @test o isa PyObject
-        @test pyisinstance(o, ArviZ.xarray.Dataset)
+        @test pyisinstance(o, ArviZPyPlot.xarray.Dataset)
 
         @test issetequal(Symbol.(o.coords.keys()), (:chain, :draw, :shared, :ydim1))
         for (dim, coord) in o.coords.items()
@@ -33,8 +36,8 @@ using ArviZ, DimensionalData, PyCall, Test
         x[1] = 1
         @test x == variables["x"].values
 
-        ds2 = convert(ArviZ.Dataset, o)
-        @test ds2 isa ArviZ.Dataset
+        ds2 = convert(Dataset, o)
+        @test ds2 isa Dataset
         @test ds2.x ≈ ds.x
         @test ds2.y ≈ ds.y
         dims1 = sort(collect(DimensionalData.dims(ds)); by=DimensionalData.name)
@@ -53,7 +56,7 @@ using ArviZ, DimensionalData, PyCall, Test
         idata1 = random_data()
         pyidata1 = PyObject(idata1)
         @test pyidata1 isa PyObject
-        @test pyisinstance(pyidata1, ArviZ.arviz.InferenceData)
+        @test pyisinstance(pyidata1, ArviZPyPlot.arviz.InferenceData)
         idata2 = convert(InferenceData, pyidata1)
         test_idata_approx_equal(idata2, idata1)
     end

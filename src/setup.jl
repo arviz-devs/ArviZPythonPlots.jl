@@ -52,11 +52,6 @@ function initialize_arviz()
     check_needs_update(; update=true)
     check_needs_rebuild()
 
-    append!(SUPPORTED_GROUPS, map(Symbol, arviz.data.inference_data.SUPPORTED_GROUPS_ALL))
-    for (i, n) in enumerate(SUPPORTED_GROUPS)
-        SUPPORTED_GROUPS_DICT[n] = i
-    end
-
     pytype_mapping(arviz.InferenceData, InferenceData)
 
     # pytypemap-ing RcParams produces a Dict
