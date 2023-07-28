@@ -65,11 +65,9 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 
 [[deps.ArviZ]]
 deps = ["DataInterpolations", "Dates", "DimensionalData", "Distributions", "DocStringExtensions", "InferenceObjects", "IteratorInterfaceExtensions", "LinearAlgebra", "LogExpFunctions", "MCMCDiagnosticTools", "Markdown", "Optim", "OrderedCollections", "PSIS", "PrettyTables", "Printf", "REPL", "Random", "Requires", "Setfield", "Statistics", "StatsBase", "TableTraits", "Tables"]
-git-tree-sha1 = "4c3733846ee536c0af367954fb36ea0c5687df7f"
-repo-rev = "nopython"
-repo-url = "https://github.com/arviz-devs/ArviZ.jl.git"
+git-tree-sha1 = "78ad273e050ae891fc79c2a5d6b5003ef20c4735"
 uuid = "131c737c-5715-5e2e-ad31-c244f01c1dc7"
-version = "0.9.0-DEV"
+version = "0.9.0"
 
 [[deps.Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
