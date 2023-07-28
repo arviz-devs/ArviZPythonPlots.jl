@@ -1,4 +1,5 @@
 [deps]
+ArviZ = "131c737c-5715-5e2e-ad31-c244f01c1dc7"
 ArviZExampleData = "2f96bb34-afd9-46ae-bcd0-9b2d4372fe3c"
 ArviZPyPlot = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
 Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
