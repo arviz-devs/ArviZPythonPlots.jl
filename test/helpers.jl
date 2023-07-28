@@ -1,4 +1,4 @@
-using ArviZPyPlot
+using ArviZPythonPlots
 using Random
 using PyCall
 

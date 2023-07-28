@@ -1,18 +1,18 @@
-using ArviZPyPlot
+using ArviZPythonPlots
 using Test
 
 @testset "rcParams" begin
     @testset "rcParams" begin
-        @test rcParams isa ArviZPyPlot.RcParams
-        @test pyisinstance(PyObject(rcParams), ArviZPyPlot.arviz.rcparams.RcParams)
-        pyrcParams = ArviZPyPlot.arviz.rcParams
+        @test rcParams isa ArviZPythonPlots.RcParams
+        @test pyisinstance(PyObject(rcParams), ArviZPythonPlots.arviz.rcparams.RcParams)
+        pyrcParams = ArviZPythonPlots.arviz.rcParams
         @test rcParams == pyrcParams
-        @test ArviZPyPlot.RcParams(pyrcParams) isa ArviZPyPlot.RcParams{Any,Any}
+        @test ArviZPythonPlots.RcParams(pyrcParams) isa ArviZPythonPlots.RcParams{Any,Any}
         @test isa(
-            convert(ArviZPyPlot.RcParams{String,Union{Int64,String}}, pyrcParams),
-            ArviZPyPlot.RcParams{String,Union{Int64,String}},
+            convert(ArviZPythonPlots.RcParams{String,Union{Int64,String}}, pyrcParams),
+            ArviZPythonPlots.RcParams{String,Union{Int64,String}},
         )
-        @test convert(ArviZPyPlot.RcParams, pyrcParams) isa ArviZPyPlot.RcParams
+        @test convert(ArviZPythonPlots.RcParams, pyrcParams) isa ArviZPythonPlots.RcParams
         @test haskey(rcParams, "plot.backend")
         def_backend = rcParams["plot.backend"]
         @test ("plot.backend" => def_backend) ∈ rcParams

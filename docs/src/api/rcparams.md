@@ -7,7 +7,7 @@ Pages = ["rcparams.md"]
 ## Reference
 
 ```@autodocs
-Modules = [ArviZPyPlot]
+Modules = [ArviZPythonPlots]
 Pages   = ["rcparams.jl"]
 Private = false
 ```

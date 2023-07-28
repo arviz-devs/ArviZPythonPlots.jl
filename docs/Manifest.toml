@@ -82,7 +82,7 @@ git-tree-sha1 = "1785e4846ff05cf03a9e02dcb084b55cbc1b1135"
 uuid = "2f96bb34-afd9-46ae-bcd0-9b2d4372fe3c"
 version = "0.1.5"
 
-[[deps.ArviZPyPlot]]
+[[deps.ArviZPythonPlots]]
 deps = ["ArviZ", "Conda", "DataFrames", "DimensionalData", "Markdown", "OrderedCollections", "PyCall", "PyPlot", "Reexport"]
 git-tree-sha1 = "87e7896719a8700476610dc61e76781edcd0ba1d"
 repo-rev = "rmarvizcode"

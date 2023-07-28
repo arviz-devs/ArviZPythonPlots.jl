@@ -62,8 +62,8 @@ jobs:
           using Conda
           # https://discourse.julialang.org/t/conda-not-installing-matplotlib-for-pyplot/96813/2
           Conda.add("conda==23.1.0")
-          using ArviZPyPlot
-          ArviZPyPlot.initialize_arviz()
-          ArviZPyPlot.initialize_pandas()
+          using ArviZPythonPlots
+          ArviZPythonPlots.initialize_arviz()
+          ArviZPythonPlots.initialize_pandas()
         shell: julia --color=yes --project {0}
       - uses: julia-actions/julia-runtest@latest

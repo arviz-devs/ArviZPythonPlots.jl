@@ -7,7 +7,7 @@ Pages = ["plots.md"]
 ## Reference
 
 ```@autodocs
-Modules = [ArviZPyPlot]
+Modules = [ArviZPythonPlots]
 Pages   = ["plots.jl"]
 Private = false
 ```
