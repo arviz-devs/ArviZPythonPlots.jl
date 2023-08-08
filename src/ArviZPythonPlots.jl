@@ -6,9 +6,8 @@ using OrderedCollections: OrderedDict
 
 using Reexport
 @reexport using ArviZ
-@reexport using PyPlot
-using PyCall
-using Conda
+using PythonCall
+@reexport using PythonPlot
 using DimensionalData: DimensionalData, Dimensions
 
 import Base.Docs: getdoc
@@ -47,26 +46,23 @@ export rcParams, with_rc_context
 ## styles
 export styles, use_style
 
-const _min_arviz_version = v"0.13.0"
-const arviz = PyNULL()
-const xarray = PyNULL()
-const pandas = PyNULL()
-const _rcParams = PyNULL()
-
-include("setup.jl")
-
-# Load ArviZ once at precompilation time for docstringS
-copy!(arviz, import_arviz())
-check_needs_update(; update=false)
-const _precompile_arviz_version = arviz_version()
+const arviz = PythonCall.pynew()
+const xarray = PythonCall.pynew()
+const pandas = PythonCall.pynew()
+const pyplot = PythonCall.pynew()
+# const _rcParams = PythonCall.pynew()
 
 function __init__()
-    return initialize_arviz()
+    PythonCall.pycopy!(arviz, pyimport("arviz"))
+    PythonCall.pycopy!(xarray, pyimport("xarray"))
+    PythonCall.pycopy!(pandas, pyimport("pandas"))
+    PythonCall.pycopy!(pyplot, pyimport("matplotlib" => "pyplot"))
+    # PythonCall.pycopy!(_rcParams, arviz.rcParams)
 end
 
 include("lazyhelp.jl")
 include("utils.jl")
-include("rcparams.jl")
+# include("rcparams.jl")
 include("style.jl")
 include("xarray.jl")
 include("conversions.jl")
