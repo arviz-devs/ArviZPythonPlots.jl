@@ -7,9 +7,6 @@ on:
   schedule:
     - cron: "0 0 * * *"
 
-env:
-  PYTHON: "Conda" # use Julia's packaged Conda build for installing packages
-
 jobs:
   test:
     name: Julia ${{ matrix.julia-version }} - ${{ matrix.arviz_version }}
