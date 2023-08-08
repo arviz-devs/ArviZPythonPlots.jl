@@ -71,22 +71,18 @@ macro forwardfun(f, forward_docs=true)
 end
 
 """
-    @forwardplotfun f [forward_docs]
-    @forwardplotfun(f, forward_docs=true)
+    @forwardplotfun f
 
 Wrap a plotting function `arviz.f` in `f`, forwarding its docstrings.
 
 Use [`convert_arguments`](@ref) and [`convert_result`](@ref) to customize what is passed to
 and returned from `f`.
 """
-macro forwardplotfun(f, forward_docs=true)
+macro forwardplotfun(f)
     fesc = esc(f)
-    fdoc = forwarddoc(f)
+    sf = string(f)
     ex = quote
-        if $forward_docs
-            @doc $fdoc $f
-        end
-
+        @doc LazyHelp(arviz, $sf)
         function $(fesc)(args...; kwargs...)
             args, kwargs = convert_arguments($(fesc), args...; kwargs...)
             result = arviz.$(f)(args...; kwargs..., backend="matplotlib")

@@ -64,6 +64,7 @@ function __init__()
     return initialize_arviz()
 end
 
+include("lazyhelp.jl")
 include("utils.jl")
 include("rcparams.jl")
 include("style.jl")
