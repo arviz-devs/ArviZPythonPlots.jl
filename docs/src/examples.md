@@ -5,7 +5,7 @@
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 plot_autocorr(data; var_names=["tau", "mu"])
@@ -19,7 +19,7 @@ See [`plot_autocorr`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("regression1d")
 plot_bpv(data)
@@ -33,7 +33,7 @@ See [`plot_bpv`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("regression1d")
 plot_bpv(data; kind="t_stat", t_stat="0.5")
@@ -47,7 +47,7 @@ See [`plot_bpv`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 model_compare = compare(
     (
@@ -66,7 +66,7 @@ See [`compare`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.compare), 
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered_data = load_example_data("centered_eight")
 non_centered_data = load_example_data("non_centered_eight")
@@ -90,7 +90,7 @@ using ArviZPythonPlots
 
 Random.seed!(308)
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 a = rand(Poisson(4), 1000)
 b = rand(Normal(0, 1), 1000)
@@ -107,7 +107,7 @@ See [`plot_dist`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 d1 = load_example_data("centered_eight")
 d2 = load_example_data("non_centered_eight")
@@ -122,7 +122,7 @@ See [`plot_elpd`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 plot_energy(data; figsize=(12, 8))
@@ -136,7 +136,7 @@ See [`plot_energy`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("radon")
 plot_ess(idata; var_names=["b"], kind="evolution")
@@ -150,7 +150,7 @@ See [`plot_ess`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("non_centered_eight")
 plot_ess(idata; var_names=["mu"], kind="local", marker="_", ms=20, mew=2, rug=true)
@@ -164,7 +164,7 @@ See [`plot_ess`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("radon")
 plot_ess(idata; var_names=["sigma"], kind="quantile", color="C4")
@@ -178,7 +178,7 @@ See [`plot_ess`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered_data = load_example_data("centered_eight")
 non_centered_data = load_example_data("non_centered_eight")
@@ -198,7 +198,7 @@ See [`plot_forest`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 rugby_data = load_example_data("rugby")
 plot_forest(
@@ -225,7 +225,7 @@ using ArviZPythonPlots
 
 Random.seed!(308)
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 x_data = randn(100)
 y_data = 2 .+ x_data .* 0.5
@@ -243,7 +243,7 @@ See [`plot_hdi`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("non_centered_eight")
 plot_pair(
@@ -264,7 +264,7 @@ See [`plot_pair`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 
@@ -293,7 +293,7 @@ using ArviZPythonPlots
 
 Random.seed!(308)
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 plot_kde(rand(100), rand(100))
 gcf()
@@ -310,7 +310,7 @@ using ArviZPythonPlots
 
 Random.seed!(308)
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 dist = rand(Beta(rand(Uniform(0.5, 10)), 5), 1000)
 plot_kde(dist; quantiles=[0.25, 0.5, 0.75])
@@ -324,7 +324,7 @@ See [`plot_kde`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("radon")
 loo_data = loo(idata)
@@ -339,7 +339,7 @@ See [`loo`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo), [`plot_k
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("radon")
 
@@ -354,7 +354,7 @@ See [`loo_pit`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo_pit), 
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 idata = load_example_data("non_centered_eight")
 plot_loo_pit(; idata, y="obs", color="indigo")
@@ -368,7 +368,7 @@ See [`loo_pit`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.loo_pit), 
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 plot_mcse(data; var_names=["tau", "mu"], rug=true, extra_methods=true)
@@ -382,7 +382,7 @@ See [`plot_mcse`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("radon")
 plot_mcse(data; var_names=["sigma_a"], color="C4", errorbar=true)
@@ -396,7 +396,7 @@ See [`plot_mcse`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered = load_example_data("centered_eight")
 coords = Dict("school" => ["Choate", "Deerfield"])
@@ -413,7 +413,7 @@ See [`plot_pair`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered = load_example_data("centered_eight")
 coords = Dict("school" => ["Choate", "Deerfield"])
@@ -435,7 +435,7 @@ See [`plot_pair`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered = load_example_data("centered_eight")
 coords = Dict("school" => ["Choate", "Deerfield"])
@@ -457,7 +457,7 @@ See [`plot_pair`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 centered = load_example_data("centered_eight")
 coords = Dict("school" => ["Choate", "Deerfield"])
@@ -481,7 +481,7 @@ See [`plot_pair`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 ax = plot_parallel(data; var_names=["theta", "tau", "mu"])
@@ -497,7 +497,7 @@ See [`plot_parallel`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 coords = Dict("school" => ["Choate"])
@@ -512,7 +512,7 @@ See [`plot_posterior`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("non_centered_eight")
 plot_ppc(data; data_pairs=Dict("obs" => "obs"), alpha=0.03, figsize=(12, 6), textsize=14)
@@ -526,7 +526,7 @@ See [`plot_ppc`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("non_centered_eight")
 plot_ppc(data; alpha=0.3, kind="cumulative", figsize=(12, 6), textsize=14)
@@ -540,7 +540,7 @@ See [`plot_ppc`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("centered_eight")
 plot_rank(data; var_names=["tau", "mu"])
@@ -554,7 +554,7 @@ See [`plot_rank`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("classification10d")
 plot_separation(data; y="outcome", y_hat="outcome", figsize=(8, 1))
@@ -568,7 +568,7 @@ See [`plot_separation`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("non_centered_eight")
 plot_trace(data; var_names=["tau", "mu"])
@@ -582,7 +582,7 @@ See [`plot_trace`](@ref)
 ```@example
 using ArviZPythonPlots, ArviZExampleData
 
-ArviZPythonPlots.use_style("arviz-darkgrid")
+use_style("arviz-darkgrid")
 
 data = load_example_data("non_centered_eight")
 plot_violin(data; var_names=["mu", "tau"])
