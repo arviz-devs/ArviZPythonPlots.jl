@@ -95,8 +95,8 @@ use_style("arviz-darkgrid")
 a = rand(Poisson(4), 1000)
 b = rand(Normal(0, 1), 1000)
 _, ax = subplots(1, 2; figsize=(10, 4))
-plot_dist(a; color="C1", label="Poisson", ax=ax[1])
-plot_dist(b; color="C2", label="Gaussian", ax=ax[2])
+plot_dist(a; color="C1", label="Poisson", ax=ax[0])
+plot_dist(b; color="C2", label="Gaussian", ax=ax[1])
 gcf()
 ```
 
