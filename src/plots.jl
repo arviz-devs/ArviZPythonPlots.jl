@@ -49,11 +49,13 @@ function convert_arguments(
 end
 
 function convert_arguments(::typeof(plot_elpd), data, args...; kwargs...)
-    dict = pydict(pystr(k) => try
-        topandas(Val(:ELPDData), v)
-    catch
-        Py(convert_to_inference_data(v))
-    end for (k, v) in pairs(data))
+    dict = pydict(
+        pystr(k) => try
+            topandas(Val(:ELPDData), v)
+        catch
+            Py(convert_to_inference_data(v))
+        end for (k, v) in pairs(data)
+    )
     return tuple(dict, args...), kwargs
 end
 function convert_arguments(::typeof(plot_khat), df, args...; kwargs...)
@@ -115,9 +117,11 @@ for f in (:plot_density, :plot_forest)
             kwargs...,
         )
             tdata = transform(data)
-            datasets = pylist(map(tdata) do datum
-                return Py(convert_to_dataset(datum; group))
-            end)
+            datasets = pylist(
+                map(tdata) do datum
+                    return Py(convert_to_dataset(datum; group))
+                end,
+            )
             return tuple(datasets, args...), kwargs
         end
         function convert_arguments(

@@ -33,21 +33,15 @@ function gendocstr(h::LazyHelp)
     end
 end
 
-function Documenter.Writers.HTMLWriter.mdconvert(
-    h::LazyHelp,
-    parent;
-    kwargs...,
-)
+function Documenter.Writers.HTMLWriter.mdconvert(h::LazyHelp, parent; kwargs...)
     s = gendocstr(h)
     # quote docstring `s` to prevent changing display result
-    m = Markdown.parse(
-        """
-        ```
-        $s
-        ```
-        """,
-    )
-    Documenter.Writers.HTMLWriter.mdconvert(m, parent; kwargs...)
+    m = Markdown.parse("""
+                       ```
+                       $s
+                       ```
+                       """)
+    return Documenter.Writers.HTMLWriter.mdconvert(m, parent; kwargs...)
 end
 
 Documenter.Utilities.MDFlatten.mdflatten(::IOBuffer, ::LazyHelp, ::Markdown.MD) = nothing

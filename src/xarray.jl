@@ -7,9 +7,7 @@ function PythonCall.Py(data::InferenceData)
     return arviz.InferenceData(; map(Py, groups)...)
 end
 
-function ArviZ.convert_to_inference_data(
-    obj::Py; dims=nothing, coords=nothing, kwargs...
-)
+function ArviZ.convert_to_inference_data(obj::Py; dims=nothing, coords=nothing, kwargs...)
     if pyisinstance(obj, arviz.InferenceData)
         group_names = obj.groups()
         groups = (
@@ -96,7 +94,7 @@ function _to_xarray(data::DimensionalData.AbstractDimArray)
         values = replace(values, missing => NaN)
     end
     metadata = pydict(DimensionalData.metadata(data))
-    da = arviz.numpy_to_data_array(values; var_name, dims, coords, default_dims)
+    return da = arviz.numpy_to_data_array(values; var_name, dims, coords, default_dims)
     # if !isempty(metadata)
     #    da.attrs = metadata
     # end

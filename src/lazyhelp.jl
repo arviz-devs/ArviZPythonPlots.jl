@@ -7,7 +7,7 @@ struct LazyHelp
     keys::Tuple{Vararg{String}}
     LazyHelp(o) = new(o, ())
     LazyHelp(o, k::AbstractString) = new(o, (k,))
-    LazyHelp(o, k1::AbstractString, k2::AbstractString) = new(o, (k1,k2))
+    LazyHelp(o, k1::AbstractString, k2::AbstractString) = new(o, (k1, k2))
     LazyHelp(o, k::Tuple{Vararg{AbstractString}}) = new(o, k)
 end
 

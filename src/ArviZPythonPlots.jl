@@ -56,7 +56,7 @@ function __init__()
     PythonCall.pycopy!(arviz, pyimport("arviz"))
     PythonCall.pycopy!(xarray, pyimport("xarray"))
     PythonCall.pycopy!(pandas, pyimport("pandas"))
-    PythonCall.pycopy!(pyplot, pyimport("matplotlib" => "pyplot"))
+    return PythonCall.pycopy!(pyplot, pyimport("matplotlib" => "pyplot"))
     # PythonCall.pycopy!(_rcParams, arviz.rcParams)
 end
 
