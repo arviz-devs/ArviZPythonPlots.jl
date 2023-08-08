@@ -106,8 +106,8 @@ end
 
 # Convert python types to Julia types if possible
 @inline frompytype(x) = x
-@inline frompytype(x::PyObject) = PyAny(x)
-frompytype(x::AbstractArray{PyObject}) = map(frompytype, x)
+@inline frompytype(x::Py) = PyAny(x)
+frompytype(x::AbstractArray{Py}) = map(frompytype, x)
 frompytype(x::AbstractArray{Any}) = map(frompytype, x)
 frompytype(x::AbstractArray{<:AbstractArray}) = map(frompytype, x)
 
@@ -119,10 +119,10 @@ Convert a Python `pandas.DataFrame` or `pandas.Series` into a `DataFrames.DataFr
 If `index_name` is not `nothing`, the index is converted into a column with `index_name`.
 Otherwise, it is discarded.
 """
-function todataframes(::Val{:DataFrame}, df::PyObject; index_name=nothing)
+function todataframes(::Val{:DataFrame}, df::Py; index_name=nothing)
     initialize_pandas()
     col_vals = map(df.columns) do name
-        series = py"$(df)[$(name)]"
+        series = pygetitem(df, name)
         vals = series.values
         return Symbol(name) => frompytype(vals)
     end
@@ -132,13 +132,13 @@ function todataframes(::Val{:DataFrame}, df::PyObject; index_name=nothing)
     end
     return DataFrames.DataFrame(col_vals)
 end
-function todataframes(::Val{:Series}, series::PyObject; kwargs...)
+function todataframes(::Val{:Series}, series::Py; kwargs...)
     initialize_pandas()
     colnames = map(i -> Symbol(frompytype(i)), series.index)
     colvals = map(x -> [frompytype(x)], series.values)
     return DataFrames.DataFrame(colvals, colnames)
 end
-function todataframes(df::PyObject; kwargs...)
+function todataframes(df::Py; kwargs...)
     initialize_pandas()
     if pyisinstance(df, pandas.Series)
         return todataframes(Val(:Series), df; kwargs...)
@@ -147,9 +147,9 @@ function todataframes(df::PyObject; kwargs...)
 end
 
 """
-    topandas(::Type{:DataFrame}, df; index_name = nothing) -> PyObject
-    topandas(::Type{:Series}, df) -> PyObject
-    topandas(::Val{:ELPDData}, df) -> PyObject
+    topandas(::Type{:DataFrame}, df; index_name = nothing) -> Py
+    topandas(::Type{:Series}, df) -> Py
+    topandas(::Val{:ELPDData}, df) -> Py
 
 Convert a `DataFrames.DataFrame` to the specified pandas type.
 
@@ -157,18 +157,18 @@ If `index_name` is not `nothing`, the corresponding column is made the index of 
 returned dataframe.
 """
 function topandas(::Val{:DataFrame}, df; index_name=nothing)
-    initialize_pandas()
+    # initialize_pandas()
     df = DataFrames.DataFrame(df)
     colnames = names(df)
-    rowvals = map(Array, eachrow(df))
+    rowvals = map(x -> Py(collect(x)).to_numpy(), eachrow(df))
     pdf = pandas.DataFrame(rowvals; columns=colnames)
     index_name !== nothing && pdf.set_index(index_name; inplace=true)
     return pdf
 end
 function topandas(::Val{:Series}, df)
-    initialize_pandas()
+    # initialize_pandas()
     df = DataFrames.DataFrame(df)
-    rownames = names(df)
-    colvals = Array(only(eachrow(df)))
+    rownames = pylist(names(df))
+    colvals = Py(only(eachrow(df))).to_numpy()
     return pandas.Series(colvals, rownames)
 end
