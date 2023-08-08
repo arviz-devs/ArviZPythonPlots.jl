@@ -12,6 +12,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/cache@v1
+      - name: Cache CondaPkg
+        id: cache-condaPkg
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-condapkg
+        with:
+          path: |
+            .CondaPkg
+            docs/.CondaPkg
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('docs/CondaPkg.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ env.cache-name }}-
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-docdeploy@v1
         env:
