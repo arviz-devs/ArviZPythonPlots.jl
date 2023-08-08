@@ -1,14 +1,14 @@
-PyCall.PyObject(data::Dataset) = _to_xarray(data)
+PythonCall.Py(data::Dataset) = _to_xarray(data)
 
-Base.convert(::Type{Dataset}, obj::PyObject) = Dataset(_dimstack_from_xarray(obj))
+Base.convert(::Type{Dataset}, obj::Py) = Dataset(_dimstack_from_xarray(obj))
 
-function PyCall.PyObject(data::InferenceData)
+function PythonCall.Py(data::InferenceData)
     groups = NamedTuple(data)
-    return pycall(arviz.InferenceData, PyObject; map(PyObject, groups)...)
+    return arviz.InferenceData(; map(Py, groups)...)
 end
 
 function ArviZ.convert_to_inference_data(
-    obj::PyObject; dims=nothing, coords=nothing, kwargs...
+    obj::Py; dims=nothing, coords=nothing, kwargs...
 )
     if pyisinstance(obj, arviz.InferenceData)
         group_names = obj.groups()
@@ -25,7 +25,7 @@ function ArviZ.convert_to_inference_data(
     end
 end
 
-function _dimstack_from_xarray(o::PyObject)
+function _dimstack_from_xarray(o::Py)
     pyisinstance(o, xarray.Dataset) ||
         throw(ArgumentError("argument is not an `xarray.Dataset`."))
     var_names = collect(o.data_vars)
@@ -34,12 +34,12 @@ function _dimstack_from_xarray(o::PyObject)
     return DimensionalData.DimStack(data...; metadata)
 end
 
-function _dimarray_from_xarray(o::PyObject)
+function _dimarray_from_xarray(o::Py)
     pyisinstance(o, xarray.DataArray) ||
         throw(ArgumentError("argument is not an `xarray.DataArray`."))
     name = Symbol(o.name)
     data = _process_pyarray(o.to_numpy())
-    coords = PyCall.PyDict(o.coords)
+    coords = PythonCall.PyDict(o.coords)
     dims = Tuple(
         map(d -> _wrap_dims(Symbol(d), _process_pyarray(coords[d].values)), o.dims)
     )
@@ -50,8 +50,8 @@ end
 
 _process_pyarray(x) = x
 # NOTE: sometimes strings fail to convert to Julia types, so we try to force them here
-function _process_pyarray(x::Union{PyObject,<:AbstractVector{PyObject}})
-    return map(z -> z isa PyObject ? PyAny(z)::Any : z, x)
+function _process_pyarray(x::Union{Py,<:AbstractVector{Py}})
+    return map(z -> z isa Py ? PyAny(z)::Any : z, x)
 end
 
 # wrap dims in a `Dim`, converting to an AbstractRange if possible
@@ -77,26 +77,28 @@ end
 _wrap_dims(name::Symbol, dims::AbstractVector) = DimensionalData.Dim{name}(dims)
 
 function _to_xarray(data::DimensionalData.AbstractDimStack)
-    data_vars = Dict(pairs(map(_to_xarray, DimensionalData.layers(data))))
-    attrs = Dict(pairs(DimensionalData.metadata(data)))
-    return PyCall.pycall(xarray.Dataset, PyObject, data_vars; attrs)
+    data_vars = Iterators.map(pairs(DimensionalData.layers(data))) do (k, v)
+        pystr(k) => _to_xarray(v)
+    end |> pydict
+    attrs = pydict(pairs(DimensionalData.metadata(data)))
+    return xarray.Dataset(data_vars; attrs)
 end
 
 function _to_xarray(data::DimensionalData.AbstractDimArray)
-    var_name = DimensionalData.name(data)
+    var_name = pystr(DimensionalData.name(data))
     data_dims = DimensionalData.dims(data)
-    dims = collect(DimensionalData.name(data_dims))
-    coords = Dict(zip(dims, DimensionalData.index(data_dims)))
-    default_dims = String[]
+    dims = pylist(map(pystr, DimensionalData.name(data_dims)))
+    coords = pydict(Dict(zip(dims, map(pylist, DimensionalData.index(data_dims)))))
+    default_dims = pylist()
     values = parent(data)
     if Missing <: eltype(values)
-        # passing `missing` to Python causes the array to have a `PyCall.jlwrap` dtype
+        # passing `missing` to Python causes the array to have a `PythonCall.jlwrap` dtype
         values = replace(values, missing => NaN)
     end
-    metadata = DimensionalData.metadata(data)
+    metadata = pydict(DimensionalData.metadata(data))
     da = arviz.numpy_to_data_array(values; var_name, dims, coords, default_dims)
-    if !isempty(metadata)
-        da.attrs = metadata
-    end
-    return da
+    # if !isempty(metadata)
+    #    da.attrs = metadata
+    # end
+    # return da
 end
