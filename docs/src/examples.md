@@ -594,9 +594,7 @@ See [`plot_violin`](@ref)
 ## Styles
 
 ```@example
-using PyCall
-using Distributions
-using ArviZPythonPlots
+using ArviZPythonPlots, Distributions, PythonCall
 
 x = range(0, 1; length=100)
 dist = pdf.(Beta(2, 5), x)
@@ -611,7 +609,7 @@ style_list = [
 
 fig = figure(; figsize=(12, 12))
 for (idx, style) in enumerate(style_list)
-    @pywith plt.style.context(style) begin
+    pywith(pyplot.style.context(style)) do _
         ax = fig.add_subplot(3, 2, idx; label=idx)
         for i in 0:9
             ax.plot(x, dist .- i, "C$i"; label="C$i")
