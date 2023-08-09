@@ -23,41 +23,12 @@
 @forwardplotfun plot_trace
 @forwardplotfun plot_violin
 
-function convert_arguments(::typeof(plot_kde), values, args...; values2=nothing, kwargs...)
-    if values2 === nothing
-        kwargs_new = NamedTuple(kwargs)
-    else
-        kwargs_new = (; values2=convert(Array, values2), kwargs...)
-    end
-    return tuple(convert(Array, values), args...), kwargs_new
-end
-
-function convert_arguments(
-    ::typeof(plot_compare), mc::ModelComparisonResult, args...; kwargs...
-)
-    df = DataFrame(mc)
-    rename!(df, :elpd_mcse => :se, :elpd_diff_mcse => :dse)
-    if eltype(mc.elpd_result) <: PSISLOOResult
-        rename!(df, :elpd => :elpd_loo, :p => :p_loo)
-    elseif eltype(mc.elpd_result) <: WAICResult
-        rename!(df, :elpd => :elpd_waic, :p => :p_waic)
-    end
-    df.warning = map(_ -> false, df.name)
-    df.scale = map(_ -> "log", df.name)
-    pdf = topandas(Val(:DataFrame), df; index_name=:name)
-    return tuple(pdf, args...), kwargs
-end
-
 function convert_arguments(::typeof(plot_elpd), data, args...; kwargs...)
-    dict = Dict(k => try
-        topandas(Val(:ELPDData), v)
-    catch
-        convert_to_inference_data(v)
-    end for (k, v) in pairs(data))
+    dict = OrderedDict(
+        k => v isa AbstractELPDResult ? v : convert_to_inference_data(v) for
+        (k, v) in pairs(data)
+    )
     return tuple(dict, args...), kwargs
-end
-function convert_arguments(::typeof(plot_khat), df, args...; kwargs...)
-    return tuple(topandas(Val(:ELPDData), df), args...), kwargs
 end
 
 for f in (
@@ -67,33 +38,11 @@ for f in (
     :plot_pair,
     :plot_parallel,
     :plot_posterior,
+    :plot_trace,
     :plot_violin,
 )
     @eval begin
         function convert_arguments(::typeof($(f)), data, args...; kwargs...)
-            idata = convert_to_inference_data(data; group=:posterior)
-            return tuple(idata, args...), kwargs
-        end
-    end
-end
-
-function convert_arguments(::typeof(plot_trace), data, args...; kwargs...)
-    idata = convert_to_inference_data(data; group=:posterior)
-    # temporary workaround for https://github.com/arviz-devs/arviz/issues/2150
-    if arviz_version() ≤ v"0.13.0" &&
-        hasgroup(idata, :sample_stats) &&
-        haskey(idata.sample_stats, :diverging)
-        sample_dims = Dimensions.key2dim((:chain, :draw))
-        diverging = permutedims(idata.sample_stats.diverging, sample_dims)
-        sample_stats = merge(idata.sample_stats, (; diverging))
-        idata = merge(idata, InferenceData(; sample_stats))
-    end
-    return tuple(idata, args...), kwargs
-end
-
-for f in (:plot_autocorr, :plot_ess, :plot_mcse, :plot_posterior, :plot_violin)
-    @eval begin
-        function convert_arguments(::typeof($(f)), data::AbstractArray, args...; kwargs...)
             idata = convert_to_inference_data(data; group=:posterior)
             return tuple(idata, args...), kwargs
         end

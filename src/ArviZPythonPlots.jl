@@ -1,20 +1,16 @@
 module ArviZPythonPlots
 
 using Base: @__doc__
-using DataFrames
-using OrderedCollections: OrderedDict
-
-using Reexport
-@reexport using ArviZ
-@reexport using PyPlot
-using PyCall
-using Conda
+using ArviZ
 using DimensionalData: DimensionalData, Dimensions
-
-import Base.Docs: getdoc
-import Markdown: @doc_str
+using OrderedCollections: OrderedDict
+using PythonCall
+using Reexport
+using Tables
 
 # Exports
+
+@reexport using PythonPlot
 
 ## Plots
 export plot_autocorr,
@@ -42,28 +38,26 @@ export plot_autocorr,
     plot_violin
 
 ## rcParams
-export rcParams, with_rc_context
+export rcParams, rc_context
 
 ## styles
 export styles, use_style
 
-const _min_arviz_version = v"0.13.0"
-const arviz = PyNULL()
-const xarray = PyNULL()
-const pandas = PyNULL()
-const _rcParams = PyNULL()
-
-include("setup.jl")
-
-# Load ArviZ once at precompilation time for docstringS
-copy!(arviz, import_arviz())
-check_needs_update(; update=false)
-const _precompile_arviz_version = arviz_version()
+const arviz = PythonCall.pynew()
+const xarray = PythonCall.pynew()
+const pandas = PythonCall.pynew()
 
 function __init__()
-    return initialize_arviz()
+    PythonCall.pycopy!(arviz, pyimport("arviz"))
+    PythonCall.pycopy!(xarray, pyimport("xarray"))
+    PythonCall.pycopy!(pandas, pyimport("pandas"))
+    PythonCall.pycopy!(rcParams, arviz.rcParams)
+    # use 1-based indexing in plots
+    rcParams["data.index_origin"] = 1
+    return nothing
 end
 
+include("lazyhelp.jl")
 include("utils.jl")
 include("rcparams.jl")
 include("style.jl")

@@ -1,9 +1,9 @@
-function topandas(::Val{:ELPDData}, d::PSISLOOResult)
+function PythonCall.Py(d::PSISLOOResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
     psis_result = d.psis_result
     ds = convert_to_dataset((loo_i=pointwise.elpd, pareto_shape=pointwise.pareto_shape))
-    pyds = PyCall.PyObject(ds)
+    pyds = PythonCall.Py(ds)
     entries = (
         elpd_loo=estimates.elpd,
         se=estimates.elpd_mcse,
@@ -15,16 +15,16 @@ function topandas(::Val{:ELPDData}, d::PSISLOOResult)
         pareto_k=pyds.pareto_shape,
         scale="log",
     )
-    return PyCall.pycall(
-        arviz.stats.ELPDData, PyCall.PyObject; data=values(entries), index=keys(entries)
-    )
+    data = pylist(values(entries))
+    index = pylist(map(pystr, keys(entries)))
+    return arviz.stats.ELPDData(; data, index)
 end
 
-function topandas(::Val{:ELPDData}, d::WAICResult)
+function PythonCall.Py(d::WAICResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
     ds = convert_to_dataset((waic_i=pointwise.elpd,))
-    pyds = PyCall.PyObject(ds)
+    pyds = PythonCall.Py(ds)
     entries = (
         elpd_waic=estimates.elpd,
         se=estimates.elpd_mcse,
@@ -35,7 +35,27 @@ function topandas(::Val{:ELPDData}, d::WAICResult)
         waic_i=pyds.waic_i,
         scale="log",
     )
-    return PyCall.pycall(
-        arviz.stats.ELPDData, PyCall.PyObject; data=values(entries), index=keys(entries)
-    )
+    data = pylist(values(entries))
+    index = pylist(map(pystr, keys(entries)))
+    return arviz.stats.ELPDData(; data, index)
+end
+
+function rekey(nt::NamedTuple, old_new_keys::Pair...)
+    keys_new = replace(keys(nt), old_new_keys...)
+    return NamedTuple{keys_new}(values(nt))
+end
+
+function PythonCall.Py(mc::ModelComparisonResult)
+    table = Tables.columntable(mc)
+    se_pairs = (:elpd_mcse => :se, :elpd_diff_mcse => :dse)
+    est_pairs = if eltype(mc.elpd_result) <: PSISLOOResult
+        (:elpd => :elpd_loo, :p => :p_loo)
+    elseif eltype(mc.elpd_result) <: WAICResult
+        (:elpd => :elpd_waic, :p => :p_waic)
+    end
+    nrows = Tables.rowcount(table)
+    new_cols = (warning=fill(false, nrows), scale=fill("log", nrows))
+    table_new = merge(rekey(table, est_pairs..., se_pairs...), new_cols)
+    pdf = topandas(Val(:DataFrame), table_new; index_name="name")
+    return pdf
 end

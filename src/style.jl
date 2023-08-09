@@ -12,11 +12,14 @@ To see all available style specifications, use [`styles()`](@ref).
 
 If a `Vector` of styles is provided, they are applied from first to last.
 """
-use_style(style) = plt.style.use(style)
+function use_style(style)
+    pyplot.style.use(style)
+    return nothing
+end
 
 """
     styles() -> Vector{String}
 
 Get all available matplotlib styles for use with [`use_style`](@ref)
 """
-styles() = plt.style.available
+styles() = pyconvert(Vector{String}, pyplot.style.available)

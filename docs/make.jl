@@ -1,4 +1,7 @@
 using ArviZPythonPlots, Documenter
+using ArviZPythonPlots: LazyHelp
+
+include("lazyhelp.jl")
 
 makedocs(;
     modules=[ArviZPythonPlots],
@@ -17,7 +20,9 @@ makedocs(;
     format=Documenter.HTML(;
         prettyurls=haskey(ENV, "CI"), sidebar_sitename=false, canonical="stable"
     ),
+    doctest=false,
     linkcheck=true,
+    strict=true,
 )
 
 deploydocs(;
