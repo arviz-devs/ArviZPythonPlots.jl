@@ -71,38 +71,7 @@ topytype(::Missing) = Py(NaN)
 topytype(x) = Py(x)
 
 """
-    todataframes(df; index_name = nothing) -> DataFrames.DataFrame
 
-Convert a Python `pandas.DataFrame` or `pandas.Series` into a `DataFrames.DataFrame`.
-
-If `index_name` is not `nothing`, the index is converted into a column with `index_name`.
-Otherwise, it is discarded.
-"""
-function todataframes(::Val{:DataFrame}, df::Py; index_name=nothing)
-    col_vals = map(df.columns) do name
-        series = pygetitem(df, name)
-        vals = series.values
-        return Symbol(name) => frompytype(vals)
-    end
-    if index_name !== nothing
-        index_vals = frompytype(df.index.values)
-        col_vals = [Symbol(index_name) => index_vals; col_vals]
-    end
-    return DataFrames.DataFrame(col_vals)
-end
-function todataframes(::Val{:Series}, series::Py; kwargs...)
-    colnames = map(i -> Symbol(frompytype(i)), series.index)
-    colvals = map(x -> [frompytype(x)], series.values)
-    return DataFrames.DataFrame(colvals, colnames)
-end
-function todataframes(df::Py; kwargs...)
-    if pyisinstance(df, pandas.Series)
-        return todataframes(Val(:Series), df; kwargs...)
-    end
-    return todataframes(Val(:DataFrame), df; kwargs...)
-end
-
-"""
     topandas(::Type{:DataFrame}, df; index_name = nothing) -> Py
     topandas(::Type{:Series}, df) -> Py
     topandas(::Val{:ELPDData}, df) -> Py
