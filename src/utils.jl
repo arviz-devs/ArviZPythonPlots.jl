@@ -9,22 +9,11 @@ to arviz.
 convert_arguments(::Any, args...; kwargs...) = args, kwargs
 
 """
-    convert_result(f, result, args...)
-
-Convert result of the function `f` before returning.
-
-This function is used primarily for post-processing outputs of arviz before returning.
-The `args` are primarily used for dispatch.
-"""
-convert_result(f, result, args...) = result
-
-"""
     @forwardplotfun f
 
 Wrap a plotting function `arviz.f` in `f`, forwarding its docstrings.
 
-Use [`convert_arguments`](@ref) and [`convert_result`](@ref) to customize what is passed to
-and returned from `f`.
+Use [`convert_arguments`](@ref)  to customize what is passed to `f`.
 """
 macro forwardplotfun(f)
     fesc = esc(f)
@@ -35,7 +24,7 @@ macro forwardplotfun(f)
             pyargs = Iterators.map(topytype, args)
             pykwargs = (k => topytype(v) for (k, v) in pairs(kwargs))
             result = arviz.$(f)(pyargs...; pykwargs..., backend="matplotlib")
-            return convert_result($(fesc), result)
+            return result
         end
     end
     # make sure line number of methods are place where macro is called, not here
