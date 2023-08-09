@@ -55,7 +55,6 @@ end
 
 # Convert python types to Julia types if possible
 @inline frompytype(x) = x
-@inline frompytype(x::Py) = PyAny(x)
 frompytype(x::AbstractArray{Py}) = map(frompytype, x)
 frompytype(x::AbstractArray{Any}) = map(frompytype, x)
 frompytype(x::AbstractArray{<:AbstractArray}) = map(frompytype, x)
@@ -80,7 +79,6 @@ If `index_name` is not `nothing`, the index is converted into a column with `ind
 Otherwise, it is discarded.
 """
 function todataframes(::Val{:DataFrame}, df::Py; index_name=nothing)
-    initialize_pandas()
     col_vals = map(df.columns) do name
         series = pygetitem(df, name)
         vals = series.values
@@ -93,13 +91,11 @@ function todataframes(::Val{:DataFrame}, df::Py; index_name=nothing)
     return DataFrames.DataFrame(col_vals)
 end
 function todataframes(::Val{:Series}, series::Py; kwargs...)
-    initialize_pandas()
     colnames = map(i -> Symbol(frompytype(i)), series.index)
     colvals = map(x -> [frompytype(x)], series.values)
     return DataFrames.DataFrame(colvals, colnames)
 end
 function todataframes(df::Py; kwargs...)
-    initialize_pandas()
     if pyisinstance(df, pandas.Series)
         return todataframes(Val(:Series), df; kwargs...)
     end
