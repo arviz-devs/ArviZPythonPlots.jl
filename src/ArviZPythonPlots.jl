@@ -41,7 +41,7 @@ export plot_autocorr,
     plot_violin
 
 ## rcParams
-export rcParams, with_rc_context
+export rcParams, rc_context
 
 ## styles
 export styles, use_style
@@ -49,15 +49,15 @@ export styles, use_style
 const arviz = PythonCall.pynew()
 const xarray = PythonCall.pynew()
 const pandas = PythonCall.pynew()
-const pyplot = PythonCall.pynew()
-# const _rcParams = PythonCall.pynew()
 
 function __init__()
     PythonCall.pycopy!(arviz, pyimport("arviz"))
     PythonCall.pycopy!(xarray, pyimport("xarray"))
     PythonCall.pycopy!(pandas, pyimport("pandas"))
-    return PythonCall.pycopy!(pyplot, pyimport("matplotlib" => "pyplot"))
-    # PythonCall.pycopy!(_rcParams, arviz.rcParams)
+    PythonCall.pycopy!(_rcParams, arviz.rcParams)
+    # use 1-based indexing in plots
+    rcParams["data.index_origin"] = 1
+    return nothing
 end
 
 include("lazyhelp.jl")
