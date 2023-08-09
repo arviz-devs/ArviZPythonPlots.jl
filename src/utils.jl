@@ -30,10 +30,11 @@ macro forwardplotfun(f)
     fesc = esc(f)
     sf = string(f)
     ex = quote
-        @doc LazyHelp(arviz, $sf)
-        function $(fesc)(args...; kwargs...)
+        @doc LazyHelp(arviz, $sf) function $(fesc)(args...; kwargs...)
             args, kwargs = convert_arguments($(fesc), args...; kwargs...)
-            result = arviz.$(f)(args...; kwargs..., backend="matplotlib")
+            pyargs = Iterators.map(topytype, args)
+            pykwargs = (k => topytype(v) for (k, v) in pairs(kwargs))
+            result = arviz.$(f)(pyargs...; pykwargs..., backend="matplotlib")
             return convert_result($(fesc), result)
         end
     end
@@ -58,6 +59,17 @@ end
 frompytype(x::AbstractArray{Py}) = map(frompytype, x)
 frompytype(x::AbstractArray{Any}) = map(frompytype, x)
 frompytype(x::AbstractArray{<:AbstractArray}) = map(frompytype, x)
+
+# Convert Julia types to suitable Python types
+topytype(x::AbstractVector) = pylist(map(topytype, x))
+topytype(x::AbstractVector{<:Real}) = Py(x).to_numpy()
+topytype(x::AbstractArray{<:Real}) = Py(x).to_numpy()
+topytype(x::Tuple) = pytuple(map(topytype, x))
+topytype(x::AbstractDict) = pydict(topytype(k) => topytype(v) for (k, v) in pairs(x))
+topytype(x::NamedTuple) = topytype(pairs(x))
+topytype(x::Symbol) = pystr(x)
+topytype(::Missing) = Py(NaN)
+topytype(x) = Py(x)
 
 """
     todataframes(df; index_name = nothing) -> DataFrames.DataFrame
