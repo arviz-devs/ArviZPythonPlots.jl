@@ -1,8 +1,8 @@
 module ArviZPythonPlots
 
 using Base: @__doc__
-using DataFrames
 using OrderedCollections: OrderedDict
+using Tables
 
 using Reexport
 @reexport using ArviZ

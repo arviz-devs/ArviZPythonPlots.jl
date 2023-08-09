@@ -54,21 +54,17 @@ topytype(::Missing) = Py(NaN)
 topytype(x) = Py(x)
 
 """
+    topandas(::Type{:DataFrame}, table; index_name = nothing) -> Py
 
-    topandas(::Type{:DataFrame}, df; index_name = nothing) -> Py
-    topandas(::Type{:Series}, df) -> Py
-    topandas(::Val{:ELPDData}, df) -> Py
-
-Convert a `DataFrames.DataFrame` to the specified pandas type.
+Convert a Tables-compatible table to the specified pandas type.
 
 If `index_name` is not `nothing`, the corresponding column is made the index of the
 returned dataframe.
 """
-function topandas(::Val{:DataFrame}, df; index_name=nothing)
+function topandas(::Val{:DataFrame}, table; index_name=nothing)
     # initialize_pandas()
-    df = DataFrames.DataFrame(df)
-    colnames = names(df)
-    rowvals = map(x -> Py(collect(x)).to_numpy(), eachrow(df))
+    colnames = topytype(Tables.columnnames(table))
+    rowvals = map(topytype ∘ values, Tables.namedtupleiterator(table))
     pdf = pandas.DataFrame(rowvals; columns=colnames)
     index_name !== nothing && pdf.set_index(index_name; inplace=true)
     return pdf

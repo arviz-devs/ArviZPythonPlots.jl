@@ -40,16 +40,22 @@ function PythonCall.Py(d::WAICResult)
     return arviz.stats.ELPDData(; data, index)
 end
 
+function rekey(nt::NamedTuple, old_new_keys::Pair...)
+    keys_new = replace(keys(nt), old_new_keys...)
+    return NamedTuple{keys_new}(values(nt))
+end
+
 function PythonCall.Py(mc::ModelComparisonResult)
-    df = DataFrame(mc)
-    rename!(df, :elpd_mcse => :se, :elpd_diff_mcse => :dse)
-    if eltype(mc.elpd_result) <: PSISLOOResult
-        rename!(df, :elpd => :elpd_loo, :p => :p_loo)
+    table = Tables.columntable(mc)
+    se_pairs = (:elpd_mcse => :se, :elpd_diff_mcse => :dse)
+    est_pairs = if eltype(mc.elpd_result) <: PSISLOOResult
+        (:elpd => :elpd_loo, :p => :p_loo)
     elseif eltype(mc.elpd_result) <: WAICResult
-        rename!(df, :elpd => :elpd_waic, :p => :p_waic)
+        (:elpd => :elpd_waic, :p => :p_waic)
     end
-    df.warning = map(_ -> false, df.name)
-    df.scale = map(_ -> "log", df.name)
-    pdf = topandas(Val(:DataFrame), df; index_name="name")
+    nrows = Tables.rowcount(table)
+    new_cols = (warning=fill(false, nrows), scale=fill("log", nrows))
+    table_new = merge(rekey(table, est_pairs..., se_pairs...), new_cols)
+    pdf = topandas(Val(:DataFrame), table_new; index_name="name")
     return pdf
 end
