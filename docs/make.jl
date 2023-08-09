@@ -22,6 +22,7 @@ makedocs(;
     ),
     doctest=false,
     linkcheck=true,
+    strict=true,
 )
 
 deploydocs(;
