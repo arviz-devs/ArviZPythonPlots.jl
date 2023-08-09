@@ -25,8 +25,8 @@
 
 function convert_arguments(::typeof(plot_elpd), data, args...; kwargs...)
     dict = OrderedDict(
-        k => v isa AbstractELPDResult ? v : convert_to_inference_data(v)
-        for (k, v) in pairs(data)
+        k => v isa AbstractELPDResult ? v : convert_to_inference_data(v) for
+        (k, v) in pairs(data)
     )
     return tuple(dict, args...), kwargs
 end
