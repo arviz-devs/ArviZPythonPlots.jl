@@ -1,6 +1,5 @@
 using ArviZPythonPlots
 using Random
-using PyCall
 
 function random_dim_array(var_name, dims, coords, default_dims=())
     _dims = (default_dims..., dims...)

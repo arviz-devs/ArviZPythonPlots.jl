@@ -1,6 +1,6 @@
 using ArviZPythonPlots
 using DimensionalData
-using PyCall
+using PythonCall
 using Test
 
 @testset "xarray interop" begin

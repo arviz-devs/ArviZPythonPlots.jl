@@ -1,6 +1,6 @@
 using ArviZPythonPlots
 using ArviZExampleData
-using PyCall
+using PythonCall
 using Test
 
 @testset "plots" begin
