@@ -1,4 +1,4 @@
-function topandas(::Val{:ELPDData}, d::PSISLOOResult)
+function PythonCall.Py(d::PSISLOOResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
     psis_result = d.psis_result
@@ -20,7 +20,7 @@ function topandas(::Val{:ELPDData}, d::PSISLOOResult)
     return arviz.stats.ELPDData(; data, index)
 end
 
-function topandas(::Val{:ELPDData}, d::WAICResult)
+function PythonCall.Py(d::WAICResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
     ds = convert_to_dataset((waic_i=pointwise.elpd,))
@@ -38,4 +38,18 @@ function topandas(::Val{:ELPDData}, d::WAICResult)
     data = pylist(values(entries))
     index = pylist(map(pystr, keys(entries)))
     return arviz.stats.ELPDData(; data, index)
+end
+
+function PythonCall.Py(mc::ModelComparisonResult)
+    df = DataFrame(mc)
+    rename!(df, :elpd_mcse => :se, :elpd_diff_mcse => :dse)
+    if eltype(mc.elpd_result) <: PSISLOOResult
+        rename!(df, :elpd => :elpd_loo, :p => :p_loo)
+    elseif eltype(mc.elpd_result) <: WAICResult
+        rename!(df, :elpd => :elpd_waic, :p => :p_waic)
+    end
+    df.warning = map(_ -> false, df.name)
+    df.scale = map(_ -> "log", df.name)
+    pdf = topandas(Val(:DataFrame), df; index_name="name")
+    return pdf
 end
