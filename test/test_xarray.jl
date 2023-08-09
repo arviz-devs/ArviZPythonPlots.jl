@@ -1,3 +1,4 @@
+using ArviZ
 using ArviZPythonPlots
 using DimensionalData
 using PythonCall

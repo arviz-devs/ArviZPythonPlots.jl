@@ -1,19 +1,16 @@
 module ArviZPythonPlots
 
 using Base: @__doc__
+using ArviZ
+using DimensionalData: DimensionalData, Dimensions
 using OrderedCollections: OrderedDict
+using PythonCall
+using Reexport
 using Tables
 
-using Reexport
-@reexport using ArviZ
-using PythonCall
-@reexport using PythonPlot
-using DimensionalData: DimensionalData, Dimensions
-
-import Base.Docs: getdoc
-import Markdown: @doc_str
-
 # Exports
+
+@reexport using PythonPlot
 
 ## Plots
 export plot_autocorr,

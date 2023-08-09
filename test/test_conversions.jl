@@ -1,5 +1,6 @@
-using ArviZPythonPlots
+using ArviZ
 using ArviZExampleData
+using ArviZPythonPlots
 using PythonCall
 using Test
 
