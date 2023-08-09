@@ -22,4 +22,4 @@ end
 
 Get all available matplotlib styles for use with [`use_style`](@ref)
 """
-styles() = map(Base.Fix2(pyconvert, String), pyplot.style.available)
+styles() = pyconvert(Vector{String}, pyplot.style.available)
