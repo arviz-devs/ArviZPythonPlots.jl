@@ -25,7 +25,7 @@ PythonCall = "0.9"
 PythonPlot = "1"
 Reexport = "1"
 Tables = "1"
-julia = "1.6"
+julia = "1.7"
 
 [extras]
 ArviZExampleData = "2f96bb34-afd9-46ae-bcd0-9b2d4372fe3c"
