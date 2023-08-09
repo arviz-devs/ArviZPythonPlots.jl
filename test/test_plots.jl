@@ -14,81 +14,81 @@ using Test
 
     @testset "$(f)" for f in (plot_trace, plot_pair)
         f(data; var_names=["tau", "mu"])
-        close(gcf())
+        plotclose()
         f((x=arr1, y=arr2); var_names=["x", "y"])
-        close(gcf())
+        plotclose()
     end
 
     @testset "$(f)" for f in
                         (plot_autocorr, plot_ess, plot_mcse, plot_posterior, plot_violin)
         f(data; var_names=["tau", "mu"])
-        close(gcf())
+        plotclose()
         f(arr1)
-        close(gcf())
+        plotclose()
         f((x=arr1, y=arr2); var_names=["x", "y"])
-        close(gcf())
+        plotclose()
     end
 
     @testset "$(f)" for f in (plot_energy, plot_parallel)
         f(data)
-        close(gcf())
+        plotclose()
     end
 
     @testset "$(f)" for f in (plot_density, plot_forest)
         f(data; var_names=["tau", "mu"])
-        close(gcf())
+        plotclose()
         f([(x=arr1,), (x=arr2,)]; var_names=["x"])
-        close(gcf())
+        plotclose()
         f(arr3)
-        close(gcf())
+        plotclose()
         f((x=arr1, y=arr2); var_names=["x", "y"])
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_bpv" begin
         plot_bpv(data)
-        close(gcf())
+        plotclose()
         plot_bpv(data; kind="p_value")
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_separation" begin
         data3 = load_example_data("classification10d")
         plot_separation(data3; y="outcome")
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_rank" begin
         plot_rank(data; var_names=["tau", "mu"])
-        close(gcf())
+        plotclose()
         plot_rank(arr1)
-        close(gcf())
+        plotclose()
         plot_rank((x=arr1, y=arr2); var_names=["x", "y"])
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_compare" begin
         mc = compare((a=data, b=data2))
         plot_compare(mc)
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_dist_compare" begin
         plot_dist_comparison(data; var_names=["mu"])
-        close(gcf())
+        plotclose()
     end
 
     @testset "$(f)" for f in (plot_dist, ArviZPythonPlots.plot_ecdf)
         f(arr1)
-        close(gcf())
+        plotclose()
     end
 
     VERSION ≥ v"1.8" && @testset "plot_kde" begin
         plot_kde(arr1)
-        close(gcf())
+        plotclose()
 
         plot_kde(arr1, arr2)
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_hdi" begin
@@ -96,29 +96,29 @@ using Test
         y_data = 2 .+ x_data .* 0.5
         y_data_rep = 0.5 .* randn(rng, 200, 100) .+ transpose(y_data)
         plot_hdi(x_data, y_data_rep)
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_elpd" begin
         plot_elpd(Dict("a" => data, "b" => data2))
-        close(gcf())
+        plotclose()
         plot_elpd(Dict("a" => loo(data), "b" => loo(data2)))
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_khat" begin
         l = loo(data)
         plot_khat(l)
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_loo_pit" begin
         plot_loo_pit(data; y="obs")
-        close(gcf())
+        plotclose()
     end
 
     @testset "plot_loo_pit" begin
         plot_ppc(data)
-        close(gcf())
+        plotclose()
     end
 end

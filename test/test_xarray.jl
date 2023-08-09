@@ -14,8 +14,8 @@ using Test
         y = DimArray(randn(nchains, ndraws, 2, nshared), ydims)
         metadata = Dict(:prop1 => "val1", :prop2 => "val2")
         ds = Dataset((; x, y); metadata)
-        o = PyObject(ds)
-        @test o isa PyObject
+        o = Py(ds)
+        @test o isa Py
         @test pyisinstance(o, ArviZPythonPlots.xarray.Dataset)
 
         @test issetequal(Symbol.(o.coords.keys()), (:chain, :draw, :shared, :ydim1))
@@ -52,19 +52,19 @@ using Test
         @test DimensionalData.metadata(ds2) == DimensionalData.metadata(ds)
     end
 
-    @testset "InferenceData <-> PyObject" begin
+    @testset "InferenceData <-> Py" begin
         idata1 = random_data()
-        pyidata1 = PyObject(idata1)
-        @test pyidata1 isa PyObject
+        pyidata1 = Py(idata1)
+        @test pyidata1 isa Py
         @test pyisinstance(pyidata1, ArviZPythonPlots.arviz.InferenceData)
         idata2 = convert(InferenceData, pyidata1)
         test_idata_approx_equal(idata2, idata1)
     end
 
-    @testset "convert_to_inference_data(obj::PyObject)" begin
+    @testset "convert_to_inference_data(obj::Py)" begin
         data = Dict(:z => randn(4, 100, 10))
         idata1 = convert_to_inference_data(data)
-        idata2 = convert_to_inference_data(PyObject(data))
+        idata2 = convert_to_inference_data(Py(data))
         @test idata2 isa InferenceData
         @test idata2.posterior.z ≈ collect(idata1.posterior.z)
     end

@@ -1,6 +1,6 @@
 using ArviZPythonPlots
 using DataFrames: DataFrames
-using PyCall
+using PythonCall
 using Test
 
 pandas = ArviZPythonPlots.pandas
@@ -9,10 +9,10 @@ pandas = ArviZPythonPlots.pandas
     @testset "frompytype" begin
         x = 1.0
         @test ArviZPythonPlots.frompytype(x) === x
-        x2 = PyObject(x)
+        x2 = Py(x)
         @test ArviZPythonPlots.frompytype(x2) == x
-        @test ArviZPythonPlots.frompytype([x2]) == [x]
-        @test ArviZPythonPlots.frompytype(Any[x2]) == [x]
+        @test ArviZPythonPlots.frompytype(pylist([x2])) == [x]
+        @test ArviZPythonPlots.frompytype(Py([x 2x]).to_numpy()) == [x 2x]
         @test eltype(ArviZPythonPlots.frompytype(Any[x2])) <: Real
         @test ArviZPythonPlots.frompytype([[x2]]) == [[x]]
     end
@@ -28,7 +28,7 @@ pandas = ArviZPythonPlots.pandas
             pdf = ArviZPythonPlots.topandas(Val(:DataFrame), df; index_name=:i)
             @test pyisinstance(pdf, pandas.DataFrame)
             pdf_exp = pandas.DataFrame(rowvals; columns, index)
-            @test py"($(pdf) == $(pdf_exp)).all().all()"
+            @test pyconvert(Bool, pyall(pyeq(pdf, pdf_exp)))
         end
 
         @testset "DataFrames.DataFrame -> pandas.Series" begin
@@ -36,7 +36,7 @@ pandas = ArviZPythonPlots.pandas
             ps = ArviZPythonPlots.topandas(Val(:Series), df2)
             @test pyisinstance(ps, pandas.Series)
             ps_exp = pandas.Series([1.0, 2.0, 3.0], [:a, :b, :c])
-            @test py"($(ps) == $(ps_exp)).all()"
+            @test pyconvert(Bool, pyall(pyeq(ps, ps_exp)))
         end
     end
 
@@ -64,13 +64,14 @@ pandas = ArviZPythonPlots.pandas
     end
 
     @testset "styles" begin
-        @test ArviZPythonPlots.styles() isa AbstractArray{String}
-        @test "arviz-darkgrid" ∈ ArviZPythonPlots.styles()
-        @test ArviZPythonPlots.styles() == ArviZPythonPlots.arviz.style.available
+        @test styles() isa AbstractArray{String}
+        @test "arviz-darkgrid" ∈ styles()
+        @test styles() ==
+            map(Base.Fix1(pyconvert, String), ArviZPythonPlots.arviz.style.available)
     end
 
     @testset "use_style" begin
-        ArviZPythonPlots.use_style("arviz-darkgrid")
-        ArviZPythonPlots.use_style("default")
+        use_style("arviz-darkgrid")
+        use_style("default")
     end
 end
