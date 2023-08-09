@@ -45,6 +45,7 @@ end
 # Convert Julia types to suitable Python types
 topytype(x::AbstractVector) = pylist(map(topytype, x))
 topytype(x::AbstractVector{<:Real}) = Py(x).to_numpy()
+topytype(x::AbstractUnitRange{<:Integer}) = topytype(collect(x))
 topytype(x::AbstractArray{<:Real}) = Py(x).to_numpy()
 topytype(x::Tuple) = pytuple(map(topytype, x))
 topytype(x::AbstractDict) = pydict(topytype(k) => topytype(v) for (k, v) in pairs(x))
@@ -66,6 +67,6 @@ function topandas(::Val{:DataFrame}, table; index_name=nothing)
     colnames = topytype(Tables.columnnames(table))
     rowvals = map(topytype ∘ values, Tables.namedtupleiterator(table))
     pdf = pandas.DataFrame(rowvals; columns=colnames)
-    index_name !== nothing && pdf.set_index(index_name; inplace=true)
+    index_name !== nothing && pdf.set_index(topytype(index_name); inplace=true)
     return pdf
 end
