@@ -18,58 +18,6 @@ The `args` are primarily used for dispatch.
 """
 convert_result(f, result, args...) = result
 
-function forwarddoc(f::Symbol)
-    pydoc = "$(Docs.getdoc(getproperty(arviz, f)))"
-    pydoc_sections = split(pydoc, '\n'; limit=2)
-    if length(pydoc_sections) > 1
-        summary, body = pydoc_sections
-        summary *= "\n"
-    else
-        summary = ""
-        body = pydoc
-    end
-    return """
-    $summary
-
-    !!! note
-        This function is forwarded to Python's [`arviz.$(f)`](https://python.arviz.org/en/v$(arviz_version())/api/generated/arviz.$(f).html).
-        The docstring of that function is included below.
-    ```
-    $body
-    ```
-    """
-end
-
-forwardgetdoc(f::Symbol) = Docs.getdoc(getproperty(arviz, f))
-
-"""
-    @forwardfun f [forward_docs]
-    @forwardfun(f, forward_docs=true)
-
-Wrap a function `arviz.f` in `f`, forwarding its docstrings.
-
-Use [`convert_arguments`](@ref) and [`convert_result`](@ref) to customize what is passed to
-and returned from `f`.
-"""
-macro forwardfun(f, forward_docs=true)
-    fesc = esc(f)
-    fdoc = forwarddoc(f)
-    ex = quote
-        if $forward_docs
-            @doc $fdoc $f
-        end
-
-        function $(fesc)(args...; kwargs...)
-            args, kwargs = convert_arguments($(fesc), args...; kwargs...)
-            result = arviz.$(f)(args...; kwargs...)
-            return convert_result($(fesc), result)
-        end
-    end
-    # make sure line number of methods are place where macro is called, not here
-    _replace_line_number!(ex, __source__)
-    return ex
-end
-
 """
     @forwardplotfun f
 
