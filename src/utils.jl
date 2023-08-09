@@ -53,12 +53,6 @@ function _replace_line_number!(ex, source)
     end
 end
 
-# Convert python types to Julia types if possible
-@inline frompytype(x) = x
-frompytype(x::AbstractArray{Py}) = map(frompytype, x)
-frompytype(x::AbstractArray{Any}) = map(frompytype, x)
-frompytype(x::AbstractArray{<:AbstractArray}) = map(frompytype, x)
-
 # Convert Julia types to suitable Python types
 topytype(x::AbstractVector) = pylist(map(topytype, x))
 topytype(x::AbstractVector{<:Real}) = Py(x).to_numpy()
