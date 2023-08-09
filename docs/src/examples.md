@@ -45,7 +45,7 @@ See [`plot_bpv`](@ref)
 ## Compare Plot
 
 ```@example
-using ArviZPythonPlots, ArviZExampleData
+using ArviZ, ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-darkgrid")
 
@@ -84,9 +84,7 @@ See [`plot_density`](@ref)
 ## Dist Plot
 
 ```@example
-using Random
-using Distributions
-using ArviZPythonPlots
+using ArviZPythonPlots, Distributions, Random
 
 Random.seed!(308)
 
@@ -322,7 +320,7 @@ See [`plot_kde`](@ref)
 ## Pareto Shape Plot
 
 ```@example
-using ArviZPythonPlots, ArviZExampleData
+using ArviZ, ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-darkgrid")
 
