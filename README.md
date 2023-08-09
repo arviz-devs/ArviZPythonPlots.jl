@@ -8,7 +8,7 @@
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org)
 
 ArviZPythonPlots.jl provides PyPlot-compatible plotting functions for exploratory analysis of Bayesian models using [ArviZ.jl](https://julia.arviz.org/).
-It provides an interface to use the plotting functions in [Python ArviZ](https://python.arviz.org/) with Julia types.
-It also re-exports all methods exported by both ArviZ.jl and [PyPlot.jl](https://github.com/JuliaPy/PyPlot.jl).
+It uses ArviZPythonPlots.jl uses [PythonCall.jl](https://github.com/cjdoris/PythonCall.jl) to provide an interface to use the plotting functions in [Python ArviZ](https://python.arviz.org/) with Julia types.
+It also re-exports all methods exported by both ArviZ.jl and [PythonPlot.jl](https://github.com/JuliaPy/PythonPlot.jl).
 
 See the [documentation](https://julia.arviz.org/ArviZPythonPlots) for details.
