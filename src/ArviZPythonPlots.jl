@@ -54,7 +54,7 @@ function __init__()
     PythonCall.pycopy!(arviz, pyimport("arviz"))
     PythonCall.pycopy!(xarray, pyimport("xarray"))
     PythonCall.pycopy!(pandas, pyimport("pandas"))
-    PythonCall.pycopy!(_rcParams, arviz.rcParams)
+    PythonCall.pycopy!(rcParams, arviz.rcParams)
     # use 1-based indexing in plots
     rcParams["data.index_origin"] = 1
     return nothing
@@ -62,7 +62,7 @@ end
 
 include("lazyhelp.jl")
 include("utils.jl")
-# include("rcparams.jl")
+include("rcparams.jl")
 include("style.jl")
 include("xarray.jl")
 include("conversions.jl")
