@@ -73,10 +73,3 @@ function topandas(::Val{:DataFrame}, df; index_name=nothing)
     index_name !== nothing && pdf.set_index(index_name; inplace=true)
     return pdf
 end
-function topandas(::Val{:Series}, df)
-    # initialize_pandas()
-    df = DataFrames.DataFrame(df)
-    rownames = pylist(names(df))
-    colvals = Py(only(eachrow(df))).to_numpy()
-    return pandas.Series(colvals, rownames)
-end
