@@ -15,7 +15,7 @@ PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
 Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 
 [compat]
-ArviZ = "0.9"
+ArviZ = "0.9, 0.10"
 ArviZExampleData = "0.1.5"
 Conda = "1.0"
 DataFrames = "0.20, 0.21, 0.22, 1.0"
