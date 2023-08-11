@@ -1,27 +1,7 @@
-@forwardplotfun plot_autocorr
-@forwardplotfun plot_bpv
-@forwardplotfun plot_compare
-@forwardplotfun plot_density
-@forwardplotfun plot_dist
-@forwardplotfun plot_dist_comparison
-@forwardplotfun plot_ecdf
-@forwardplotfun plot_elpd
-@forwardplotfun plot_energy
-@forwardplotfun plot_ess
-@forwardplotfun plot_forest
-@forwardplotfun plot_hdi
-@forwardplotfun plot_kde
-@forwardplotfun plot_khat
-@forwardplotfun plot_loo_pit
-@forwardplotfun plot_mcse
-@forwardplotfun plot_pair
-@forwardplotfun plot_parallel
-@forwardplotfun plot_posterior
-@forwardplotfun plot_ppc
-@forwardplotfun plot_rank
-@forwardplotfun plot_separation
-@forwardplotfun plot_trace
-@forwardplotfun plot_violin
+
+for f in _PLOT_FUNCTIONS
+    @eval @forwardplotfun $f
+end
 
 function convert_arguments(::typeof(plot_elpd), data, args...; kwargs...)
     dict = OrderedDict(
