@@ -668,20 +668,33 @@ style_list = [
     "arviz-darkgrid",
     "arviz-whitegrid",
     "arviz-white",
+    "arviz-grayscale",
+    ["arviz-white", "arviz-redish"],
+    ["arviz-white", "arviz-bluish"],
+    ["arviz-white", "arviz-orangish"],
+    ["arviz-white", "arviz-brownish"],
+    ["arviz-white", "arviz-purplish"],
+    ["arviz-white", "arviz-cyanish"],
+    ["arviz-white", "arviz-greenish"],
+    ["arviz-white", "arviz-royish"],
+    ["arviz-white", "arviz-viridish"],
+    ["arviz-white", "arviz-plasmish"],
+    "arviz-doc",
+    "arviz-docgrid",
 ]
 
-fig = figure(; figsize=(12, 12))
+fig = figure(; figsize=(20, 10))
 for (idx, style) in enumerate(style_list)
-    pywith(pyplot.style.context(style)) do _
-        ax = fig.add_subplot(3, 2, idx; label=idx)
-        for i in 0:9
+    pywith(pyplot.style.context(style; after_reset=true)) do _
+        ax = fig.add_subplot(5, 4, idx; label=idx)
+        colors = pyplot.rcParams["axes.prop_cycle"].by_key()["color"]
+        for i in 0:(length(colors) - 1)
             ax.plot(x, dist .- i, "C$i"; label="C$i")
         end
         ax.set_title(style)
         ax.set_xlabel("x")
         ax.set_ylabel("f(x)"; rotation=0, labelpad=15)
-        ax.legend(; bbox_to_anchor=(1, 1))
-        draw()
+        ax.set_xticklabels([])
     end
 end
 tight_layout()
