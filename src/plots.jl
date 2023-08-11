@@ -1,27 +1,7 @@
-@forwardplotfun plot_autocorr
-@forwardplotfun plot_bpv
-@forwardplotfun plot_compare
-@forwardplotfun plot_density
-@forwardplotfun plot_dist
-@forwardplotfun plot_dist_comparison
-@forwardplotfun plot_ecdf
-@forwardplotfun plot_elpd
-@forwardplotfun plot_energy
-@forwardplotfun plot_ess
-@forwardplotfun plot_forest
-@forwardplotfun plot_hdi
-@forwardplotfun plot_kde
-@forwardplotfun plot_khat
-@forwardplotfun plot_loo_pit
-@forwardplotfun plot_mcse
-@forwardplotfun plot_pair
-@forwardplotfun plot_parallel
-@forwardplotfun plot_posterior
-@forwardplotfun plot_ppc
-@forwardplotfun plot_rank
-@forwardplotfun plot_separation
-@forwardplotfun plot_trace
-@forwardplotfun plot_violin
+
+for f in _PLOT_FUNCTIONS
+    @eval @forwardplotfun $f
+end
 
 function convert_arguments(::typeof(plot_elpd), data, args...; kwargs...)
     dict = OrderedDict(
@@ -33,6 +13,7 @@ end
 
 for f in (
     :plot_autocorr,
+    :plot_bf,
     :plot_ess,
     :plot_mcse,
     :plot_pair,
@@ -52,6 +33,19 @@ end
 function convert_arguments(::typeof(plot_energy), data, args...; kwargs...)
     dataset = convert_to_dataset(data; group=:sample_stats)
     return tuple(dataset, args...), kwargs
+end
+
+function convert_arguments(
+    ::typeof(plot_lm), y, _idata=nothing, args...; idata=nothing, kwargs...
+)
+    if _idata !== nothing
+        idata = convert_to_inference_data(_idata)
+    elseif idata !== nothing
+        idata = convert_to_inference_data(idata)
+    else
+        idata = nothing
+    end
+    return tuple(y, idata, args...), kwargs
 end
 
 for f in (:plot_density, :plot_forest, :plot_rank)

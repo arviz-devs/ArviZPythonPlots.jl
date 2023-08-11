@@ -14,6 +14,20 @@ gcf()
 
 See [`plot_autocorr`](@ref)
 
+## Bayes Factor Plot
+
+```@example
+using ArviZ, ArviZPythonPlots
+
+use_style("arviz-darkgrid")
+
+idata = from_namedtuple((a = 1 .+ randn(5_000) ./ 2,), prior=(a = randn(5_000),))
+plot_bf(idata; var_name="a", ref_val=0)
+gcf()
+```
+
+See [`plot_bf`](@ref)
+
 ## Bayesian P-Value Posterior Plot
 
 ```@example
@@ -99,6 +113,37 @@ gcf()
 ```
 
 See [`plot_dist`](@ref)
+
+## Dot Plot
+
+```@example
+using ArviZPythonPlots
+
+use_style("arviz-darkgrid")
+
+data = randn(1000)
+figure() # hide
+plot_dot(data; dotcolor="C1", point_interval=true)
+title("Gaussian Distribution")
+gcf()
+```
+
+See [`plot_dot`](@ref)
+
+## ECDF Plot
+
+```@example
+using ArviZPythonPlots, Distributions
+
+use_style("arviz-darkgrid")
+
+sample = randn(1_000)
+dist = Normal()
+plot_ecdf(sample; cdf=x -> cdf(dist, x), confidence_bands=true)
+gcf()
+```
+
+See [`plot_ecdf`](@ref)
 
 ## ELPD Plot
 
@@ -547,6 +592,26 @@ gcf()
 
 See [`plot_rank`](@ref)
 
+## Regression Plot
+
+```@example
+using ArviZ, ArviZPythonPlots, ArviZExampleData, DimensionalData
+
+use_style("arviz-darkgrid")
+
+data = load_example_data("regression1d")
+x = range(0, 1; length=100)
+posterior = data.posterior
+constant_data = convert_to_dataset((; x); default_dims=())
+y_model = broadcast_dims(muladd, posterior.intercept, posterior.slope, constant_data.x)
+posterior = merge(posterior, (; y_model))
+data = merge(data, InferenceData(; posterior, constant_data))
+plot_lm("y"; idata=data, x="x", y_model="y_model")
+gcf()
+```
+
+See [`plot_lm`](@ref)
+
 ## Separation Plot
 
 ```@example
@@ -603,20 +668,33 @@ style_list = [
     "arviz-darkgrid",
     "arviz-whitegrid",
     "arviz-white",
+    "arviz-grayscale",
+    ["arviz-white", "arviz-redish"],
+    ["arviz-white", "arviz-bluish"],
+    ["arviz-white", "arviz-orangish"],
+    ["arviz-white", "arviz-brownish"],
+    ["arviz-white", "arviz-purplish"],
+    ["arviz-white", "arviz-cyanish"],
+    ["arviz-white", "arviz-greenish"],
+    ["arviz-white", "arviz-royish"],
+    ["arviz-white", "arviz-viridish"],
+    ["arviz-white", "arviz-plasmish"],
+    "arviz-doc",
+    "arviz-docgrid",
 ]
 
-fig = figure(; figsize=(12, 12))
+fig = figure(; figsize=(20, 10))
 for (idx, style) in enumerate(style_list)
-    pywith(pyplot.style.context(style)) do _
-        ax = fig.add_subplot(3, 2, idx; label=idx)
-        for i in 0:9
+    pywith(pyplot.style.context(style; after_reset=true)) do _
+        ax = fig.add_subplot(5, 4, idx; label=idx)
+        colors = pyplot.rcParams["axes.prop_cycle"].by_key()["color"]
+        for i in 0:(length(colors) - 1)
             ax.plot(x, dist .- i, "C$i"; label="C$i")
         end
         ax.set_title(style)
         ax.set_xlabel("x")
         ax.set_ylabel("f(x)"; rotation=0, labelpad=15)
-        ax.legend(; bbox_to_anchor=(1, 1))
-        draw()
+        ax.set_xticklabels([])
     end
 end
 tight_layout()

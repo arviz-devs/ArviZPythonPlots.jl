@@ -6,8 +6,8 @@ Use matplotlib style settings from a style specification `style`.
 
 The style name of "default" is reserved for reverting back to the default style settings.
 
-ArviZ-specific styles are
-`["arviz-whitegrid", "arviz-darkgrid", "arviz-colors", "arviz-white"]`.
+ArviZ-specific styles include
+`["arviz-whitegrid", "arviz-darkgrid", "arviz-colors", "arviz-white", "arviz-doc"]`.
 To see all available style specifications, use [`styles()`](@ref).
 
 If a `Vector` of styles is provided, they are applied from first to last.
