@@ -15,11 +15,13 @@ using Tables
 ## Plots
 const _PLOT_FUNCTIONS = (
     :plot_autocorr,
+    :plot_bf,
     :plot_bpv,
     :plot_compare,
     :plot_density,
     :plot_dist,
     :plot_dist_comparison,
+    :plot_dot,
     :plot_ecdf,
     :plot_elpd,
     :plot_energy,
@@ -28,6 +30,7 @@ const _PLOT_FUNCTIONS = (
     :plot_hdi,
     :plot_kde,
     :plot_khat,
+    :plot_lm,
     :plot_loo_pit,
     :plot_mcse,
     :plot_pair,
