@@ -17,7 +17,7 @@ See [`plot_autocorr`](@ref)
 ## Bayes Factor Plot
 
 ```@example
-using ArviZPythonPlots
+using ArviZ, ArviZPythonPlots
 
 use_style("arviz-darkgrid")
 
@@ -594,7 +594,7 @@ See [`plot_rank`](@ref)
 ## Regression Plot
 
 ```@example
-using ArviZ, ArviZPythonPlots, ArviZExampleData
+using ArviZ, ArviZPythonPlots, ArviZExampleData, DimensionalData
 
 use_style("arviz-darkgrid")
 
@@ -602,9 +602,7 @@ data = load_example_data("regression1d")
 x = range(0, 1; length=100)
 posterior = data.posterior
 constant_data = convert_to_dataset((; x); default_dims=())
-y_model = broadcast_dims(posterior.intercept, posterior.slope, constant_data.x) do bi, mi, xj
-    mi * xj + bi
-end
+y_model = broadcast_dims(muladd, posterior.intercept, posterior.slope, constant_data.x)
 posterior = merge(posterior, (; y_model))
 data = merge(data, InferenceData(; posterior, constant_data))
 plot_lm("y"; idata=data, x="x", y_model="y_model")
