@@ -1,5 +1,4 @@
 using ArviZPythonPlots
-using DataFrames: DataFrames
 using PythonCall
 using Test
 
