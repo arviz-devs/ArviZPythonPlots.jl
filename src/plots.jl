@@ -13,6 +13,7 @@ end
 
 for f in (
     :plot_autocorr,
+    :plot_bf,
     :plot_ess,
     :plot_mcse,
     :plot_pair,
@@ -32,6 +33,19 @@ end
 function convert_arguments(::typeof(plot_energy), data, args...; kwargs...)
     dataset = convert_to_dataset(data; group=:sample_stats)
     return tuple(dataset, args...), kwargs
+end
+
+function convert_arguments(
+    ::typeof(plot_lm), y, _idata=nothing, args...; idata=nothing, kwargs...
+)
+    if _idata !== nothing
+        idata = convert_to_inference_data(_idata)
+    elseif idata !== nothing
+        idata = convert_to_inference_data(idata)
+    else
+        idata = nothing
+    end
+    return tuple(y, idata, args...), kwargs
 end
 
 for f in (:plot_density, :plot_forest, :plot_rank)
