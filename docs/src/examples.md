@@ -122,6 +122,7 @@ using ArviZPythonPlots
 use_style("arviz-darkgrid")
 
 data = randn(1000)
+figure() # hide
 plot_dot(data; dotcolor="C1", point_interval=true)
 title("Gaussian Distribution")
 gcf()
