@@ -79,7 +79,7 @@ using Test
         plotclose()
     end
 
-    @testset "$(f)" for f in (plot_dist, ArviZPythonPlots.plot_ecdf)
+    @testset "$(f)" for f in (plot_dist, plot_dot, plot_ecdf)
         f(arr1)
         plotclose()
     end
