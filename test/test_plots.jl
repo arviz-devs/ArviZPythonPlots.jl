@@ -1,6 +1,7 @@
 using ArviZ
 using ArviZExampleData
 using ArviZPythonPlots
+using DimensionalData
 using PythonCall
 using Test
 
@@ -50,6 +51,29 @@ using Test
         plot_bpv(data)
         plotclose()
         plot_bpv(data; kind="p_value")
+        plotclose()
+    end
+
+    @testset "plot_bf" begin
+        plot_bf(data; var_name="mu")
+        plotclose()
+    end
+
+    @testset "plot_lm" begin
+        data3 = load_example_data("regression1d")
+        x = range(0, 1; length=100)
+        posterior = data3.posterior
+        constant_data = convert_to_dataset((; x); default_dims=())
+        y_model = broadcast_dims(
+            posterior.intercept, posterior.slope, constant_data.x
+        ) do bi, mi, xj
+            mi * xj + bi
+        end
+        posterior = merge(posterior, (; y_model))
+        data_new = merge(data3, InferenceData(; posterior, constant_data))
+        plot_lm("y"; idata=data_new, x="x", y_model="y_model")
+        plotclose()
+        plot_lm("y", data_new; x="x", y_model="y_model")
         plotclose()
     end
 
