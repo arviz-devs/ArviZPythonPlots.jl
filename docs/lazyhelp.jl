@@ -33,15 +33,22 @@ function gendocstr(h::LazyHelp)
     end
 end
 
-function Documenter.Writers.HTMLWriter.mdconvert(h::LazyHelp, parent; kwargs...)
-    s = gendocstr(h)
-    # quote docstring `s` to prevent changing display result
-    m = Markdown.parse("""
-                       ```
-                       $s
-                       ```
-                       """)
-    return Documenter.Writers.HTMLWriter.mdconvert(m, parent; kwargs...)
+function Base.Docs.parsedoc(d::Base.Docs.DocStr)
+    if d.object isa LazyHelp
+        s = gendocstr(d.object)
+        # quote docstring `s` to prevent changing display result
+        md = Markdown.parse("""
+                           ```
+                           $s
+                           ```
+                           """)
+        d.object = md
+    end
+    # copied from base Julia's implementation
+    if d.object === nothing
+        md = Base.Docs.formatdoc(d)
+        md.meta[:module] = d.data[:module]
+        md.meta[:path]   = d.data[:path]
+        d.object = md
+    return d.object
 end
-
-Documenter.Utilities.MDFlatten.mdflatten(::IOBuffer, ::LazyHelp, ::Markdown.MD) = nothing
