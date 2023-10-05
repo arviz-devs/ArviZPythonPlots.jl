@@ -49,7 +49,7 @@ function Base.Docs.parsedoc(d::Base.Docs.DocStr)
     if d.object === nothing
         md = Base.Docs.formatdoc(d)
         md.meta[:module] = d.data[:module]
-        md.meta[:path]   = d.data[:path]
+        md.meta[:path] = d.data[:path]
         d.object = md
     end
     return d.object
