@@ -33,6 +33,7 @@ function gendocstr(h::LazyHelp)
     end
 end
 
+# warning: piracy on the high seas 🏴‍☠️
 function Base.Docs.parsedoc(d::Base.Docs.DocStr)
     if d.object isa LazyHelp
         s = gendocstr(d.object)
@@ -50,5 +51,6 @@ function Base.Docs.parsedoc(d::Base.Docs.DocStr)
         md.meta[:module] = d.data[:module]
         md.meta[:path]   = d.data[:path]
         d.object = md
+    end
     return d.object
 end
