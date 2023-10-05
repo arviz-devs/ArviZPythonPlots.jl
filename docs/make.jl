@@ -5,6 +5,7 @@ include("lazyhelp.jl")
 
 makedocs(;
     modules=[ArviZPythonPlots],
+    repo=Remotes.GitHub("arviz-devs", "ArviZPythonPlots.jl"),
     sitename="ArviZPythonPlots.jl",
     pages=[
         "Home" => "index.md",
@@ -22,7 +23,6 @@ makedocs(;
     ),
     doctest=false,
     linkcheck=true,
-    strict=true,
 )
 
 deploydocs(;
