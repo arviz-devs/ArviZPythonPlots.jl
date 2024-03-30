@@ -19,7 +19,9 @@ using Test
         @test o isa Py
         @test pyisinstance(o, ArviZPythonPlots.xarray.Dataset)
 
-        @test issetequal(Symbol.(o.coords.keys()), (:chain, :draw, :shared, :ydim1))
+        @test issetequal(
+            Symbol.(collect(o.coords.keys())), (:chain, :draw, :shared, :ydim1)
+        )
         for (dim, coord) in o.coords.items()
             @test pyeq(
                 Bool, pylist(coord.values), pylist(DimensionalData.index(ds, Symbol(dim)))
