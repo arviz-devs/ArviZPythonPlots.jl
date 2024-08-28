@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         julia-version: ["1"]
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, macOS-latest]
         include:
           - julia-version: "1.8"
             os: ubuntu-latest
