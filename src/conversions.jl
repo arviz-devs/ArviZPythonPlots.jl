@@ -8,7 +8,7 @@ function PythonCall.Py(d::PSISLOOResult)
         elpd_loo=estimates.elpd,
         se=estimates.se_elpd,
         p_loo=estimates.p,
-        n_samples=psis_result.nchains * psis_result.ndraws,
+        n_samples=(psis_result.nchains * psis_result.ndraws),
         n_data_points=psis_result.nparams,
         warning=false,
         loo_i=pyds.loo_i,
