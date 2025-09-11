@@ -6,7 +6,7 @@ function PythonCall.Py(d::PSISLOOResult)
     pyds = PythonCall.Py(ds)
     entries = (
         elpd_loo=estimates.elpd,
-        se=estimates.elpd_mcse,
+        se=estimates.se_elpd,
         p_loo=estimates.p,
         n_samples=psis_result.nchains * psis_result.ndraws,
         n_data_points=psis_result.nparams,
@@ -27,7 +27,7 @@ function PythonCall.Py(d::WAICResult)
     pyds = PythonCall.Py(ds)
     entries = (
         elpd_waic=estimates.elpd,
-        se=estimates.elpd_mcse,
+        se=estimates.se_elpd,
         p_waic=estimates.p,
         n_samples="unknown",
         n_data_points=length(pointwise.elpd),
@@ -47,7 +47,7 @@ end
 
 function PythonCall.Py(mc::ModelComparisonResult)
     table = Tables.columntable(mc)
-    se_pairs = (:elpd_mcse => :se, :elpd_diff_mcse => :dse)
+    se_pairs = (:se_elpd => :se, :se_elpd_diff => :dse)
     est_pairs = if eltype(mc.elpd_result) <: PSISLOOResult
         (:elpd => :elpd_loo, :p => :p_loo)
     elseif eltype(mc.elpd_result) <: WAICResult
