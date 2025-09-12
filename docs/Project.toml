@@ -11,6 +11,7 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 ArviZPythonPlots = {path = ".."}
 
 [compat]
+ArviZ = "0.13"
 ArviZExampleData = "0.1.5"
 Distributions = "0.25"
 Documenter = "1"
