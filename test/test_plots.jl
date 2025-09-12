@@ -108,7 +108,7 @@ using Test
         plotclose()
     end
 
-    VERSION ≥ v"1.8" && @testset "plot_kde" begin
+    @testset "plot_kde" begin
         plot_kde(arr1)
         plotclose()
 
