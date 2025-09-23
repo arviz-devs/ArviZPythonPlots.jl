@@ -1,6 +1,6 @@
-using ArviZ
 using ArviZExampleData
 using ArviZPythonPlots
+using PosteriorStats
 using PythonCall
 using Test
 

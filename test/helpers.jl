@@ -1,5 +1,5 @@
-using ArviZ
 using ArviZPythonPlots
+using InferenceObjects
 using Random
 using Test
 
