@@ -1,9 +1,10 @@
 module ArviZPythonPlots
 
 using Base: @__doc__
-using ArviZ
 using DimensionalData: DimensionalData, Dimensions
+using InferenceObjects
 using OrderedCollections: OrderedDict
+using PosteriorStats
 using PythonCall
 using Reexport
 using Tables
