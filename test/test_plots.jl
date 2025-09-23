@@ -1,7 +1,8 @@
-using ArviZ
 using ArviZExampleData
 using ArviZPythonPlots
 using DimensionalData
+using InferenceObjects
+using PosteriorStats
 using PythonCall
 using Test
 

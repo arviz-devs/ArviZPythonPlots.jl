@@ -1,6 +1,6 @@
-using ArviZ
 using ArviZPythonPlots
 using DimensionalData
+using InferenceObjects
 using PythonCall
 using Test
 
