@@ -20,24 +20,26 @@ function PythonCall.Py(d::PSISLOOResult)
     return arviz.stats.ELPDData(; data, index)
 end
 
-function PythonCall.Py(d::WAICResult)
-    estimates = elpd_estimates(d)
-    pointwise = elpd_estimates(d; pointwise=true)
-    ds = convert_to_dataset((waic_i=pointwise.elpd,))
-    pyds = PythonCall.Py(ds)
-    entries = (
-        elpd_waic=estimates.elpd,
-        se=estimates.se_elpd,
-        p_waic=estimates.p,
-        n_samples="unknown",
-        n_data_points=length(pointwise.elpd),
-        warning=false,
-        waic_i=pyds.waic_i,
-        scale="log",
-    )
-    data = pylist(values(entries))
-    index = pylist(map(pystr, keys(entries)))
-    return arviz.stats.ELPDData(; data, index)
+@static if isdefined(PosteriorStats, :WAICResult)
+    function PythonCall.Py(d::WAICResult)
+        estimates = elpd_estimates(d)
+        pointwise = elpd_estimates(d; pointwise=true)
+        ds = convert_to_dataset((waic_i=pointwise.elpd,))
+        pyds = PythonCall.Py(ds)
+        entries = (
+            elpd_waic=estimates.elpd,
+            se=estimates.se_elpd,
+            p_waic=estimates.p,
+            n_samples="unknown",
+            n_data_points=length(pointwise.elpd),
+            warning=false,
+            waic_i=pyds.waic_i,
+            scale="log",
+        )
+        data = pylist(values(entries))
+        index = pylist(map(pystr, keys(entries)))
+        return arviz.stats.ELPDData(; data, index)
+    end
 end
 
 function rekey(nt::NamedTuple, old_new_keys::Pair...)
@@ -48,14 +50,16 @@ end
 function PythonCall.Py(mc::ModelComparisonResult)
     table = Tables.columntable(mc)
     se_pairs = (:se_elpd => :se, :se_elpd_diff => :dse)
-    est_pairs = if eltype(mc.elpd_result) <: PSISLOOResult
-        (:elpd => :elpd_loo, :p => :p_loo)
-    elseif eltype(mc.elpd_result) <: WAICResult
-        (:elpd => :elpd_waic, :p => :p_waic)
-    end
+    est_pairs = _estimate_name_map(eltype(mc.elpd_result))
     nrows = Tables.rowcount(table)
     new_cols = (warning=fill(false, nrows), scale=fill("log", nrows))
     table_new = merge(rekey(table, est_pairs..., se_pairs...), new_cols)
     pdf = topandas(Val(:DataFrame), table_new; index_name="name")
     return pdf
+end
+
+_estimate_name_map(::Type{<:PSISLOOResult}) = (:elpd => :elpd_loo, :p => :p_loo)
+
+@static if isdefined(PosteriorStats, :WAICResult)
+    _estimate_name_map(::Type{<:WAICResult}) = (:elpd => :elpd_waic, :p => :p_waic)
 end
