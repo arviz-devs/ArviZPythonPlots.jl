@@ -25,7 +25,7 @@ using Test
         @test pyconvert(Array{Float64}, py_loo_result.pareto_k.values) ≈
             pyconvert(Array{Float64}, loo_py_result.pareto_k.values) rtol = 1e-1
     end
-    @testset "WAICResult" begin
+    isdefined(PosteriorStats, :WAICResult) && @testset "WAICResult" begin
         idata = load_example_data("centered_eight")
         waic_result = waic(idata)
         waic_py_result = ArviZPythonPlots.arviz.waic(idata; pointwise=true)
@@ -36,8 +36,7 @@ using Test
         )
         @test pyconvert(Float64, py_waic_result.elpd_waic) ≈
             pyconvert(Float64, waic_py_result.elpd_waic) rtol = 1e-3
-        @test pyconvert(Float64, py_waic_result.se) ≈ pyconvert(Float64, waic_py_result.se) rtol =
-            1e-1
+        @test pyconvert(Float64, py_waic_result.se) ≈ pyconvert(Float64, waic_py_result.se) rtol = 1e-1
         @test pyconvert(Float64, py_waic_result.p_waic) ≈
             pyconvert(Float64, waic_py_result.p_waic) rtol = 1e-3
         @test pyconvert(Array{Float64}, py_waic_result.waic_i.values) ≈

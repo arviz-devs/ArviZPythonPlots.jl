@@ -1,7 +1,7 @@
 name = "ArviZPythonPlots"
 uuid = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
 authors = ["Seth Axen <seth@sethaxen.com>"]
-version = "0.1.11"
+version = "0.1.12"
 
 [deps]
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
@@ -22,7 +22,7 @@ DimensionalData = "0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29"
 InferenceObjects = "0.4.13"
 Markdown = "1"
 OrderedCollections = "1"
-PosteriorStats = "0.3"
+PosteriorStats = "0.3, 0.4"
 PythonCall = "0.9"
 PythonPlot = "1"
 Random = "1"
