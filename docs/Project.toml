@@ -7,11 +7,11 @@ Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 
-[sources]
-ArviZPythonPlots = {path = ".."}
+[sources.ArviZPythonPlots]
+path = ".."
 
 [compat]
-ArviZ = "0.13"
+ArviZ = "0.13, 0.14"
 ArviZExampleData = "0.1.5"
 Distributions = "0.25"
 Documenter = "1"
