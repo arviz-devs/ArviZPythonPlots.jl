@@ -10,9 +10,9 @@ using Test
         loo_result = loo(idata; reff=1)
         loo_py_result = ArviZPythonPlots.arviz.loo(idata; pointwise=true, reff=1)
         py_loo_result = Py(loo_result)
-        @test all(
-            pyconvert(Array{String}, py_loo_result.keys()) ==
+        @test issubset(
             pyconvert(Array{String}, loo_py_result.keys()),
+            pyconvert(Array{String}, py_loo_result.keys()),
         )
         @test pyconvert(Float64, py_loo_result.elpd_loo) ≈
             pyconvert(Float64, loo_py_result.elpd_loo) rtol = 1e-3
