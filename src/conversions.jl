@@ -4,6 +4,9 @@ function PythonCall.Py(d::PSISLOOResult)
     psis_result = d.psis_result
     ds = convert_to_dataset((loo_i=pointwise.elpd, pareto_shape=pointwise.pareto_shape))
     pyds = PythonCall.Py(ds)
+    n_samples = d.psis_result.ndraws * d.psis_result.nchains
+    good_k = min(1 - inv(log10(n_samples)), 0.7)
+
     entries = (
         elpd_loo=estimates.elpd,
         se=estimates.se_elpd,
@@ -14,6 +17,7 @@ function PythonCall.Py(d::PSISLOOResult)
         loo_i=pyds.loo_i,
         pareto_k=pyds.pareto_shape,
         scale="log",
+        good_k=good_k,
     )
     data = pylist(values(entries))
     index = pylist(map(pystr, keys(entries)))
