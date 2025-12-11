@@ -11,6 +11,8 @@ jobs:
   test:
     name: Julia ${{ matrix.julia-version }} - ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      DATADEPS_ALWAYS_ACCEPT: true
     strategy:
       fail-fast: false
       matrix:
@@ -35,6 +37,13 @@ jobs:
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('docs/CondaPkg.toml') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
+      - name: Cache DataDeps
+        uses: actions/cache@v4
+        with:
+          path: ~/.julia/datadeps
+          key: ${{ runner.os }}-datadeps-${{ hashFiles('**/Project.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-datadeps-
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
       - uses: julia-actions/julia-processcoverage@v1
