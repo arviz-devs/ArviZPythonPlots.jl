@@ -44,6 +44,22 @@ jobs:
           key: ${{ runner.os }}-datadeps-${{ hashFiles('**/Project.toml') }}
           restore-keys: |
             ${{ runner.os }}-datadeps-
+      - name: Diagnostic - Check IP and test Figshare access
+        run: |
+          echo "=== Runner IP Address ==="
+          curl -s https://api.ipify.org
+          echo ""
+          echo ""
+          echo "=== Testing Figshare download access ==="
+          echo "Attempting to download regression1d dataset from Figshare..."
+          curl -v -L --max-time 30 "https://ndownloader.figshare.com/files/16254899" -o /tmp/test_download.nc 2>&1 | head -100
+          echo ""
+          if [ -f /tmp/test_download.nc ]; then
+            echo "Download successful! File size: $(wc -c < /tmp/test_download.nc) bytes"
+            rm /tmp/test_download.nc
+          else
+            echo "Download failed!"
+          fi
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
       - uses: julia-actions/julia-processcoverage@v1
