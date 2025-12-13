@@ -1,7 +1,7 @@
 name = "ArviZPythonPlots"
 uuid = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
-authors = ["Seth Axen <seth@sethaxen.com>"]
 version = "0.1.13"
+authors = ["Seth Axen <seth@sethaxen.com>"]
 
 [deps]
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
@@ -16,7 +16,7 @@ Reexport = "189a3867-3050-52da-a836-e630ba90ab69"
 Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 
 [compat]
-ArviZExampleData = "0.1.5"
+ArviZExampleData = "0.1.5, 0.2"
 CondaPkg = "0.2"
 DimensionalData = "0.23, 0.24, 0.25, 0.26, 0.27, 0.28, 0.29"
 InferenceObjects = "0.4.13"
