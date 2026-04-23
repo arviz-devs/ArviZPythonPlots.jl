@@ -13,5 +13,6 @@ ArviZPythonPlots = {path = ".."}
 [compat]
 ArviZ = "0.13"
 ArviZExampleData = "0.1.5"
+DimensionalData = "0.29"
 Distributions = "0.25"
 Documenter = "1"
