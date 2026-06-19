@@ -196,7 +196,7 @@ using ArviZPythonPlots, ArviZExampleData
 use_style("arviz-darkgrid")
 
 idata = load_example_data("non_centered_eight")
-plot_ess(idata; var_names=["mu"], kind="local", marker="_", ms=20, mew=2, rug=true)
+plot_ess(idata; var_names=["mu"], kind="local", marker="_", mew=2, rug=true)
 gcf()
 ```
 
