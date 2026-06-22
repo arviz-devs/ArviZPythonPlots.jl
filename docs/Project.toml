@@ -11,7 +11,10 @@ PythonCall = "6099a3de-0909-46bc-b1f4-468b9a2dfc0d"
 ArviZPythonPlots = {path = ".."}
 
 [compat]
-ArviZ = "0.13"
-ArviZExampleData = "0.1.5"
+ArviZ = "0.14"
+ArviZExampleData = "0.3"
+ArviZPythonPlots = "0.1.13"
+DimensionalData = "0.29"
 Distributions = "0.25"
 Documenter = "1"
+PythonCall = "0.9"
