@@ -28,34 +28,6 @@ gcf()
 
 See [`plot_bf`](@ref)
 
-## Bayesian P-Value Posterior Plot
-
-```@example
-using ArviZPythonPlots, ArviZExampleData
-
-use_style("arviz-darkgrid")
-
-data = load_example_data("regression1d")
-plot_bpv(data)
-gcf()
-```
-
-See [`plot_bpv`](@ref)
-
-## Bayesian P-Value with Median T Statistic Posterior Plot
-
-```@example
-using ArviZPythonPlots, ArviZExampleData
-
-use_style("arviz-darkgrid")
-
-data = load_example_data("regression1d")
-plot_bpv(data; kind="t_stat", t_stat="0.5")
-gcf()
-```
-
-See [`plot_bpv`](@ref)
-
 ## Compare Plot
 
 ```@example
@@ -595,36 +567,18 @@ See [`plot_rank`](@ref)
 ## Regression Plot
 
 ```@example
-using ArviZ, ArviZPythonPlots, ArviZExampleData, DimensionalData
+using ArviZ, ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-darkgrid")
 
-data = load_example_data("regression1d")
-x = range(0, 1; length=100)
-posterior = data.posterior
-constant_data = convert_to_dataset((; x); default_dims=())
-y_model = broadcast_dims(muladd, posterior.intercept, posterior.slope, constant_data.x)
-posterior = merge(posterior, (; y_model))
-data = merge(data, InferenceData(; posterior, constant_data))
-plot_lm("y"; idata=data, x="x", y_model="y_model")
+data = load_example_data("roaches_zinb")
+posterior = merge(data.posterior, (; y_model=data.posterior.mu))
+data = merge(data, InferenceData(; posterior))
+plot_lm("y"; idata=data, x="roach count", y_model="y_model")
 gcf()
 ```
 
 See [`plot_lm`](@ref)
-
-## Separation Plot
-
-```@example
-using ArviZPythonPlots, ArviZExampleData
-
-use_style("arviz-darkgrid")
-
-data = load_example_data("classification10d")
-plot_separation(data; y="outcome", y_hat="outcome", figsize=(8, 1))
-gcf()
-```
-
-See [`plot_separation`](@ref)
 
 ## Trace Plot
 
