@@ -69,7 +69,8 @@ makedocs(;
                 "gallery/model_comparison/99_plot_bf.md",
             ],
             "Simulation based calibration" => [
-                "gallery/sbc/00_plot_ecdf_pit.md", "gallery/sbc/01_plot_ecdf_coverage.md"
+                "gallery/sbc/00_plot_ecdf_pit.md",
+                "gallery/sbc/01_plot_ecdf_coverage.md",
             ],
             "Mixed" => [
                 "gallery/mixed/00_plot_rank_dist.md",
