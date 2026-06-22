@@ -1,7 +1,17 @@
-using ArviZPythonPlots, Documenter
+using ArviZPythonPlots, Documenter, Literate
 using ArviZPythonPlots: LazyHelp
 
 include("lazyhelp.jl")
+
+# render each literate example script into a markdown page alongside it, which `pages` below
+# points at
+const GALLERY_DIR = joinpath(@__DIR__, "src", "gallery")
+for (root, _, files) in walkdir(GALLERY_DIR)
+    for file in files
+        endswith(file, ".jl") || continue
+        Literate.markdown(joinpath(root, file), root)
+    end
+end
 
 makedocs(;
     modules=[ArviZPythonPlots],

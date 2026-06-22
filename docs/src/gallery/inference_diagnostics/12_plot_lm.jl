@@ -1,9 +1,8 @@
-# Linear model plot
+# # Linear model plot
+#
+# Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible
+# intervals around predictions alongside observed data points.
 
-Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible
-intervals around predictions alongside observed data points.
-
-```@example
 using ArviZPythonPlots, InferenceObjects, DimensionalData, Random
 
 use_style("arviz-variat")
@@ -15,13 +14,14 @@ y_data_rep = 2 .+ reshape(x_data, 1, 1, :) .* 0.5 .+ randn(rng, 4, 200, 100) .* 
 
 obs_id = Dim{:obs_id}(0:99)
 data = InferenceData(;
-    posterior_predictive=Dataset((; y=DimArray(y_data_rep, (Dim{:chain}(0:3), Dim{:draw}(0:199), obs_id)))),
+    posterior_predictive=Dataset((;
+        y=DimArray(y_data_rep, (Dim{:chain}(0:3), Dim{:draw}(0:199), obs_id))
+    )),
     observed_data=Dataset((; y=DimArray(y_data, (obs_id,)))),
     constant_data=Dataset((; x=DimArray(x_data, (obs_id,)))),
 )
 
 pc = plot_lm(data)
 gcf()
-```
 
-See [`plot_lm`](@ref).
+# See [`plot_lm`](@ref).

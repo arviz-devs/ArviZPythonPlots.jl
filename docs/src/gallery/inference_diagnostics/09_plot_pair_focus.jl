@@ -1,8 +1,7 @@
-# Scatter plot of one variable against all other variables with divergences
+# # Scatter plot of one variable against all other variables with divergences
+#
+# Plot one variable against other variables in the dataset.
 
-Plot one variable against other variables in the dataset.
-
-```@example
 using ArviZPythonPlots, ArviZExampleData, InferenceObjects
 
 use_style("arviz-variat")
@@ -15,6 +14,5 @@ pc = plot_pair_focus(
     data, "log_tau"; var_names=["theta"], visuals=Dict("divergence" => true)
 )
 gcf()
-```
 
-See [`plot_pair_focus`](@ref).
+# See [`plot_pair_focus`](@ref).

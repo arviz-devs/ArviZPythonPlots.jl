@@ -1,8 +1,7 @@
-# Scatter plot of all variables against each other with divergences
+# # Scatter plot of all variables against each other with divergences
+#
+# Plot all variables against each other in the dataset.
 
-Plot all variables against each other in the dataset.
-
-```@example
 using ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-variat")
@@ -16,6 +15,5 @@ pc = plot_pair(
     marginal=false,
 )
 gcf()
-```
 
-See [`plot_pair`](@ref).
+# See [`plot_pair`](@ref).

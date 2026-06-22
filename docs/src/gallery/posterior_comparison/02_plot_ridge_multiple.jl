@@ -1,8 +1,7 @@
-# Ridge plot for multiple models
+# # Ridge plot for multiple models
+#
+# Visual representation of marginal distributions over the y axis for multiple models.
 
-Visual representation of marginal distributions over the y axis for multiple models.
-
-```@example
 using ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-variat")
@@ -16,6 +15,5 @@ pc = plot_ridge(
 )
 pc.add_legend("model")
 gcf()
-```
 
-See [`plot_ridge`](@ref).
+# See [`plot_ridge`](@ref).

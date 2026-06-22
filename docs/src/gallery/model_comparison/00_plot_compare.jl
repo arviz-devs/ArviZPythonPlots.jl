@@ -1,9 +1,8 @@
-# Predictive model comparison
+# # Predictive model comparison
+#
+# Compare multiple models using predictive accuracy estimated using PSIS-LOO-CV. Usually the
+# `cmp_df` is generated using [`compare`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.compare).
 
-Compare multiple models using predictive accuracy estimated using PSIS-LOO-CV. Usually the
-`cmp_df` is generated using [`compare`](https://julia.arviz.org/ArviZ/stable/api/stats/#ArviZ.compare).
-
-```@example
 using ArviZPythonPlots, PythonCall
 
 use_style("arviz-variat")
@@ -22,6 +21,5 @@ cmp_df = ArviZPythonPlots.pandas.DataFrame(
 )
 pc = plot_compare(cmp_df)
 gcf()
-```
 
-See [`plot_compare`](@ref).
+# See [`plot_compare`](@ref).

@@ -1,8 +1,7 @@
-# Rootogram
+# # Rootogram
+#
+# Rootogram for the posterior predictive and observed data.
 
-Rootogram for the posterior predictive and observed data.
-
-```@example
 using ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-variat")
@@ -16,8 +15,7 @@ pc = plot_ppc_rootogram(
 )
 pc.add_title("Posterior Predictive Rootogram for Rugby Model")
 gcf()
-```
 
-See [`plot_ppc_rootogram`](@ref).
-
-See also the EABM chapter on [Posterior predictive checks for count data](https://arviz-devs.github.io/EABM/Chapters/Prior_posterior_predictive_checks.html#posterior-predictive-checks-for-count-data).
+# See [`plot_ppc_rootogram`](@ref).
+#
+# See also the EABM chapter on [Posterior predictive checks for count data](https://arviz-devs.github.io/EABM/Chapters/Prior_posterior_predictive_checks.html#posterior-predictive-checks-for-count-data).

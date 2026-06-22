@@ -1,9 +1,8 @@
-# Custom diagnostic plots combination
+# # Custom diagnostic plots combination
+#
+# Arrange three diagnostic plots (ESS evolution plot, rank plot, and autocorrelation plot) in a
+# custom column layout.
 
-Arrange three diagnostic plots (ESS evolution plot, rank plot, and autocorrelation plot) in a
-custom column layout.
-
-```@example
 using ArviZPythonPlots, ArviZExampleData
 
 use_style("arviz-variat")
@@ -20,6 +19,5 @@ pc = combine_plots(
     coords=Dict("school" => ["Hotchkiss", "St. Paul's"]),
 )
 gcf()
-```
 
-See [`combine_plots`](@ref).
+# See [`combine_plots`](@ref).
