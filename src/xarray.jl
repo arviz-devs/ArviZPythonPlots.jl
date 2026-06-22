@@ -26,7 +26,7 @@ function _to_xarray(data::DimensionalData.AbstractDimArray)
     kwargs = (; dims, coords, sample_dims)
     pykwargs = map(topytype, kwargs)
     return da = arviz.ndarray_to_dataarray(
-        topytype(values), topytype(var_name); pykwargs...
+        Py(values).to_numpy(), topytype(var_name); pykwargs...
     )
     # if !isempty(metadata)
     #    da.attrs = metadata
