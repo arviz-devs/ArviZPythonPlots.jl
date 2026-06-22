@@ -51,7 +51,8 @@ function test_idata_approx_equal(
             dims1 = DimensionalData.dims(da1)
             dims2 = DimensionalData.dims(da2)
             @test DimensionalData.name(dims1) == DimensionalData.name(dims2)
-            @test DimensionalData.index(dims1) == DimensionalData.index(dims2)
+            @test parent.(DimensionalData.lookup(dims1)) ==
+                parent.(DimensionalData.lookup(dims2))
         end
         if check_metadata
             metadata1 = DimensionalData.metadata(ds1)

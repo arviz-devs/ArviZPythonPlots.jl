@@ -24,7 +24,9 @@ using Test
         )
         for (dim, coord) in o.coords.items()
             @test pyeq(
-                Bool, pylist(coord.values), pylist(DimensionalData.index(ds, Symbol(dim)))
+                Bool,
+                pylist(coord.values),
+                pylist(parent(DimensionalData.lookup(ds, Symbol(dim)))),
             )
         end
 
