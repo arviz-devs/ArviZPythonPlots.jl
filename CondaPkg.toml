@@ -2,4 +2,5 @@
 pandas = ""
 matplotlib = ""
 xarray = ""
-arviz = ">=0.15.0,<=0.22"
+arviz = ">=1.0,<2"
+python = ">=3.12"
