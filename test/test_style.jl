@@ -7,7 +7,7 @@ using Test
         @test styles() isa Vector{String}
         @test "arviz-darkgrid" ∈ styles()
         @test styles() ==
-            map(Base.Fix1(pyconvert, String), ArviZPythonPlots.arviz.style.available)
+            map(Base.Fix1(pyconvert, String), ArviZPythonPlots.pyplot.style.available)
     end
 
     @testset "use_style" begin
