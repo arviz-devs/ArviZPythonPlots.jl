@@ -14,6 +14,7 @@ for f in (
     :plot_dist,
     :plot_ess,
     :plot_ess_evolution,
+    :plot_forest,
     :plot_mcse,
     :plot_pair,
     :plot_pair_focus,
@@ -23,6 +24,7 @@ for f in (
     :plot_psense_quantities,
     :plot_rank,
     :plot_rank_dist,
+    :plot_ridge,
     :plot_trace,
     :plot_trace_dist,
 )
@@ -64,26 +66,33 @@ function convert_arguments(::typeof(plot_energy), data, args...; kwargs...)
 end
 
 # functions that also accept a dict/vector of models for multi-model comparison
-for f in (:plot_forest, :plot_ridge)
+# (a `NamedTuple` already means "one model's variables" per `convert_to_inference_data`,
+# so multi-model dispatch is intentionally restricted to `AbstractDict`)
+for f in (:plot_dist, :plot_ess, :plot_forest, :plot_ridge)
     @eval begin
         function convert_arguments(
-            ::typeof($(f)), data, args...; transform=identity, group=:posterior, kwargs...
+            ::typeof($(f)), data::AbstractDict, args...; group=:posterior, kwargs...
         )
-            idata = convert_to_inference_data(transform(data); group)
-            return tuple(idata, args...), kwargs
+            dict = OrderedDict(
+                string(k) => convert_to_inference_data(v; group) for (k, v) in pairs(data)
+            )
+            return tuple(dict, args...), kwargs
         end
+    end
+end
+
+for f in (:plot_forest, :plot_ridge)
+    @eval begin
         function convert_arguments(
             ::typeof($(f)),
             data::Union{AbstractVector,Tuple},
             args...;
-            transform=identity,
             group=:posterior,
             kwargs...,
         )
-            tdata = transform(data)
             dict = OrderedDict(
                 "model$i" => convert_to_inference_data(datum; group) for
-                (i, datum) in enumerate(tdata)
+                (i, datum) in enumerate(data)
             )
             return tuple(dict, args...), kwargs
         end
