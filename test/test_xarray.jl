@@ -47,12 +47,12 @@ using Test
         idata = random_data()
         pyidata = Py(idata)
         @test pyidata isa Py
-        @test pyisinstance(pyidata, ArviZPythonPlots.arviz.InferenceData)
+        @test pyisinstance(pyidata, ArviZPythonPlots.xarray.DataTree)
         for group in keys(idata)
             pyds = Py(idata[group])
             @test pyds isa Py
             @test pyisinstance(pyds, ArviZPythonPlots.xarray.Dataset)
-            @test pyall(pyidata[pystr(group)] == pyds)
+            @test pyall(pyidata[pystr(group)].dataset == pyds)
         end
     end
 end
