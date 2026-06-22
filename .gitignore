@@ -4,7 +4,8 @@
 /deps/deps.jl
 /deps/build.log
 /docs/build
-/docs/src/gallery/**/*.md
+/docs/src/gallery
+/docs/gallery/**/assets/
 /test/*.log
 .DS_Store
 .CondaPkg

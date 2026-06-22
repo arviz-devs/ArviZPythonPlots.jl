@@ -1,3 +1,10 @@
+# ---
+# title: "Linear model plot"
+# id: 12_plot_lm
+# cover: assets/12_plot_lm.png
+# description: "Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible intervals around predictions alongside observed data points."
+# ---
+#
 # # Linear model plot
 #
 # Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible
@@ -22,6 +29,8 @@ data = InferenceData(;
 )
 
 pc = plot_lm(data)
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "12_plot_lm.png")) #hide
 gcf()
 
 # See [`plot_lm`](@ref).

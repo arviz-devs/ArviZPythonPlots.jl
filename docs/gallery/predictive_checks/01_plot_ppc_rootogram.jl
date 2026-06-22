@@ -1,3 +1,10 @@
+# ---
+# title: "Rootogram"
+# id: 01_plot_ppc_rootogram
+# cover: assets/01_plot_ppc_rootogram.png
+# description: "Rootogram for the posterior predictive and observed data."
+# ---
+#
 # # Rootogram
 #
 # Rootogram for the posterior predictive and observed data.
@@ -14,6 +21,8 @@ pc = plot_ppc_rootogram(
     aes_by_visuals=Dict("title" => ["color"]),
 )
 pc.add_title("Posterior Predictive Rootogram for Rugby Model")
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "01_plot_ppc_rootogram.png")) #hide
 gcf()
 
 # See [`plot_ppc_rootogram`](@ref).

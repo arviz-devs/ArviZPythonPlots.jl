@@ -1,3 +1,10 @@
+# ---
+# title: "Sensitivity posterior marginals"
+# id: 00_plot_psense
+# cover: assets/00_plot_psense.png
+# description: "The posterior sensitivity is assessed by power-scaling the prior or likelihood and visualizing the resulting changes. Sensitivity can then be quantified by considering how much the perturbed posteriors differ from the base posterior."
+# ---
+#
 # # Sensitivity posterior marginals
 #
 # The posterior sensitivity is assessed by power-scaling the prior or likelihood and
@@ -23,6 +30,8 @@ pc = plot_psense_dist(
     coords=Dict("team" => ["Scotland", "Wales"]),
     y=[-2, -1, 0],
 )
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "00_plot_psense.png")) #hide
 gcf()
 
 # See [`plot_psense_dist`](@ref).

@@ -1,3 +1,10 @@
+# ---
+# title: "PIT ECDF"
+# id: 04_plot_ppc_pit
+# cover: assets/04_plot_ppc_pit.png
+# description: "Plot of the probability integral transform of the posterior predictive distribution with respect to the observed data."
+# ---
+#
 # # PIT ECDF
 #
 # Plot of the probability integral transform of the posterior predictive distribution with
@@ -9,6 +16,8 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_ppc_pit(data)
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "04_plot_ppc_pit.png")) #hide
 gcf()
 
 # See [`plot_ppc_pit`](@ref).

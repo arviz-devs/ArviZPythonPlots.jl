@@ -1,3 +1,10 @@
+# ---
+# title: "Coverage ECDF"
+# id: 05_plot_ppc_coverage
+# cover: assets/05_plot_ppc_coverage.png
+# description: "Proportion of true values that fall within a given prediction interval."
+# ---
+#
 # # Coverage ECDF
 #
 # Proportion of true values that fall within a given prediction interval.
@@ -8,6 +15,8 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_ppc_pit(data; coverage=true)
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "05_plot_ppc_coverage.png")) #hide
 gcf()
 
 # See [`plot_ppc_pit`](@ref).

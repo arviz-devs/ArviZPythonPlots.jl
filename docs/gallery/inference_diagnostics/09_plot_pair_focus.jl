@@ -1,3 +1,10 @@
+# ---
+# title: "Scatter plot of one variable against all other variables with divergences"
+# id: 09_plot_pair_focus
+# cover: assets/09_plot_pair_focus.png
+# description: "Plot one variable against other variables in the dataset."
+# ---
+#
 # # Scatter plot of one variable against all other variables with divergences
 #
 # Plot one variable against other variables in the dataset.
@@ -13,6 +20,8 @@ data = merge(data, InferenceData(; posterior))
 pc = plot_pair_focus(
     data, "log_tau"; var_names=["theta"], visuals=Dict("divergence" => true)
 )
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "09_plot_pair_focus.png")) #hide
 gcf()
 
 # See [`plot_pair_focus`](@ref).

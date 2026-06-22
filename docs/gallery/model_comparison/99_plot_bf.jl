@@ -1,3 +1,10 @@
+# ---
+# title: "Bayes factor"
+# id: 99_plot_bf
+# cover: assets/99_plot_bf.png
+# description: "Compute the Bayes factor using the Savage-Dickey ratio."
+# ---
+#
 # # Bayes factor
 #
 # Compute the Bayes factor using the Savage-Dickey ratio.
@@ -17,6 +24,8 @@ use_style("arviz-variat")
 
 data = load_example_data("centered_eight")
 pc = plot_bf(data, ["mu"])
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "99_plot_bf.png")) #hide
 gcf()
 
 # See [`plot_bf`](@ref).

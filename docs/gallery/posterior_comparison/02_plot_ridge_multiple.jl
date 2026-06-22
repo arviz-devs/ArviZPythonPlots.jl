@@ -1,3 +1,10 @@
+# ---
+# title: "Ridge plot for multiple models"
+# id: 02_plot_ridge_multiple
+# cover: assets/02_plot_ridge_multiple.png
+# description: "Visual representation of marginal distributions over the y axis for multiple models."
+# ---
+#
 # # Ridge plot for multiple models
 #
 # Visual representation of marginal distributions over the y axis for multiple models.
@@ -14,6 +21,8 @@ pc = plot_ridge(
     coords=Dict("school" => ["Deerfield", "St. Paul's", "Hotchkiss"]),
 )
 pc.add_legend("model")
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "02_plot_ridge_multiple.png")) #hide
 gcf()
 
 # See [`plot_ridge`](@ref).

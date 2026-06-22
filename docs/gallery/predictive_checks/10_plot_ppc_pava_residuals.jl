@@ -1,3 +1,10 @@
+# ---
+# title: "PAV-adjusted residual plot"
+# id: 10_plot_ppc_pava_residuals
+# cover: assets/10_plot_ppc_pava_residuals.png
+# description: "Residual plot using PAV-adjusted calibration for binary predictions."
+# ---
+#
 # # PAV-adjusted residual plot
 #
 # Residual plot using PAV-adjusted calibration for binary predictions.
@@ -8,6 +15,8 @@ use_style("arviz-variat")
 
 data = load_example_data("roaches_zinb")
 pc = plot_ppc_pava_residuals(data, "roach count"; var_names="y_pos")
+mkpath(joinpath(@__DIR__, "assets")) #hide
+savefig(joinpath(@__DIR__, "assets", "10_plot_ppc_pava_residuals.png")) #hide
 gcf()
 
 # See [`plot_ppc_pava_residuals`](@ref).
