@@ -1,6 +1,6 @@
 name = "ArviZPythonPlots"
 uuid = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
-version = "0.1.14"
+version = "0.2.0"
 authors = ["Seth Axen <seth@sethaxen.com>"]
 
 [deps]
