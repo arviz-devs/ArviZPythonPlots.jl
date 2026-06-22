@@ -10,18 +10,15 @@ using Test
         loo_result = loo(idata; reff=1)
         loo_py_result = ArviZPythonPlots.arviz.loo(idata; pointwise=true, reff=1)
         py_loo_result = Py(loo_result)
-        @test issubset(
-            pyconvert(Array{String}, loo_py_result.keys()),
-            pyconvert(Array{String}, py_loo_result.keys()),
-        )
-        @test pyconvert(Float64, py_loo_result.elpd_loo) ≈
-            pyconvert(Float64, loo_py_result.elpd_loo) rtol = 1e-3
+        @test pyconvert(String, py_loo_result.kind) == "loo"
+        @test pyconvert(Float64, py_loo_result.elpd) ≈
+            pyconvert(Float64, loo_py_result.elpd) rtol = 1e-3
         @test pyconvert(Float64, py_loo_result.se) ≈ pyconvert(Float64, loo_py_result.se) rtol =
             1e-1
-        @test pyconvert(Float64, py_loo_result.p_loo) ≈
-            pyconvert(Float64, loo_py_result.p_loo) rtol = 1e-3
-        @test pyconvert(Array{Float64}, py_loo_result.loo_i.values) ≈
-            pyconvert(Array{Float64}, loo_py_result.loo_i.values) rtol = 1e-3
+        @test pyconvert(Float64, py_loo_result.p) ≈ pyconvert(Float64, loo_py_result.p) rtol =
+            1e-3
+        @test pyconvert(Array{Float64}, py_loo_result.elpd_i.values) ≈
+            pyconvert(Array{Float64}, loo_py_result.elpd_i.values) rtol = 1e-3
         @test pyconvert(Array{Float64}, py_loo_result.pareto_k.values) ≈
             pyconvert(Array{Float64}, loo_py_result.pareto_k.values) rtol = 1e-1
     end
@@ -30,16 +27,12 @@ using Test
         waic_result = waic(idata)
         waic_py_result = ArviZPythonPlots.arviz.waic(idata; pointwise=true)
         py_waic_result = Py(waic_result)
-        @test all(
-            pyconvert(Array{String}, py_waic_result.keys()) ==
-            pyconvert(Array{String}, waic_py_result.keys()),
-        )
-        @test pyconvert(Float64, py_waic_result.elpd_waic) ≈
-            pyconvert(Float64, waic_py_result.elpd_waic) rtol = 1e-3
+        @test pyconvert(String, py_waic_result.kind) == "waic"
+        @test pyconvert(Float64, py_waic_result.elpd) ≈
+            pyconvert(Float64, waic_py_result.elpd) rtol = 1e-3
         @test pyconvert(Float64, py_waic_result.se) ≈ pyconvert(Float64, waic_py_result.se) rtol = 1e-1
-        @test pyconvert(Float64, py_waic_result.p_waic) ≈
-            pyconvert(Float64, waic_py_result.p_waic) rtol = 1e-3
-        @test pyconvert(Array{Float64}, py_waic_result.waic_i.values) ≈
-            pyconvert(Array{Float64}, waic_py_result.waic_i.values) rtol = 1e-3
+        @test pyconvert(Float64, py_waic_result.p) ≈ pyconvert(Float64, waic_py_result.p) rtol = 1e-3
+        @test pyconvert(Array{Float64}, py_waic_result.elpd_i.values) ≈
+            pyconvert(Array{Float64}, waic_py_result.elpd_i.values) rtol = 1e-3
     end
 end
