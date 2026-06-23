@@ -4,7 +4,7 @@ ArviZPythonPlots.jl provides PyPlot-compatible plotting functions for explorator
 It uses [PythonCall.jl](https://github.com/cjdoris/PythonCall.jl) to provide an interface for using the plotting functions in [Python ArviZ](https://python.arviz.org/) with Julia types.
 It also re-exports all methods exported by [PythonPlot.jl](https://github.com/JuliaPy/PythonPlot.jl).
 
-For details, see the [examples gallery](gallery/distribution/00_plot_dist_ecdf.md) or the [API](@ref api).
+For details, see the [examples gallery](gallery/index.md) or the [API](@ref api).
 
 ## [Installation](@id installation)
 

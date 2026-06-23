@@ -111,9 +111,12 @@ function strip_frontmatter(content)
 end
 
 # Generates `out_root/<category>/<id>.md` and `out_root/index.md`, and returns the
-# `pages=`-ready entry for `makedocs`. Every example page is registered via `hide(...)` (the
-# same helper already used for the API section below) so it builds deterministically without
-# adding sidebar nav depth, matching today's flat single-entry sidebar behavior.
+# `pages=`-ready entries for `makedocs` (splat these into the top-level `pages` list, don't
+# wrap them in a `"label" => [...]` pair — that nests them into their own section, which
+# duplicates "Examples gallery" in the sidebar and makes Documenter scope the sidebar/TOC to
+# just that section while viewing an example). Every example page is registered via `hide(...)`
+# (the same helper already used for the API section below) so it builds deterministically
+# without adding sidebar nav depth, matching today's flat single-entry sidebar behavior.
 function build_gallery!(src_root, out_root, categories, prettyurls)
     for (category, _) in categories
         dir = joinpath(src_root, category)
@@ -133,7 +136,7 @@ function build_gallery!(src_root, out_root, categories, prettyurls)
         hide(joinpath("gallery", e.category, "$(e.id).md")) for
         e in gallery_sources(src_root, categories)
     ]
-    return "Examples gallery" => vcat(joinpath("gallery", "index.md"), hidden_pages)
+    return vcat(joinpath("gallery", "index.md"), hidden_pages)
 end
 
 # Each example's `@example` block already renders its own plot inline (via the script's
