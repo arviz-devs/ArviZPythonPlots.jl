@@ -14,18 +14,26 @@ using ArviZPythonPlots, InferenceObjects, DimensionalData, Random
 
 use_style("arviz-variat")
 
-rng = MersenneTwister(42)
-x_data = randn(rng, 100)
-y_data = 2 .+ x_data .* 0.5 .+ randn(rng, 100) .* 0.5
-y_data_rep = 2 .+ reshape(x_data, 1, 1, :) .* 0.5 .+ randn(rng, 4, 200, 100) .* 0.5
+function generate_data(rng, x_data, sample_dims...)
+    eps = similar(x_data, dims(x_data)..., sample_dims...)
+    Random.randn!(rng, eps)
+    y_data = @. 2 + (x_data + eps) / 2
+    return y_data
+end
 
-obs_id = Dim{:obs_id}(0:99)
-data = InferenceData(;
-    posterior_predictive=Dataset((;
-        y=DimArray(y_data_rep, (Dim{:chain}(0:3), Dim{:draw}(0:199), obs_id))
-    )),
-    observed_data=Dataset((; y=DimArray(y_data, (obs_id,)))),
-    constant_data=Dataset((; x=DimArray(x_data, (obs_id,)))),
+rng = Xoshiro(42)
+obs_dims = Dim{:obs_id}(1:100)
+draw_dims = Dim{:draw}(1:200)
+chain_dims = Dim{:chain}(1:4)
+
+x_data = DimArray(randn(rng, length(obs_dims)), obs_dims)
+y_data = generate_data(rng, x_data)
+y_data_rep = generate_data(rng, x_data, draw_dims, chain_dims)
+
+data = from_namedtuple(;
+    posterior_predictive=(; y=y_data_rep),
+    observed_data=(; y=y_data),
+    constant_data=(; x=x_data),
 )
 
 pc = plot_lm(data)

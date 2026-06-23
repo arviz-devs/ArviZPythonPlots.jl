@@ -18,10 +18,7 @@ use_style("arviz-variat")
 idata = load_example_data("rugby")
 ## the power-scaling sensitivity diagnostic needs every log_likelihood variable to share the
 ## sample dimensions, so drop the home_team/away_team string covariates that live there too
-log_likelihood = Dataset((;
-    home_points=idata.log_likelihood.home_points,
-    away_points=idata.log_likelihood.away_points,
-))
+log_likelihood = idata.log_likelihood[(:home_points, :away_points)]
 idata = merge(idata, InferenceData(; log_likelihood))
 
 pc = plot_psense_dist(
