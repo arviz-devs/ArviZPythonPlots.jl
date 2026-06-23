@@ -22,27 +22,6 @@ function PythonCall.Py(d::PSISLOOResult)
     )
 end
 
-@static if isdefined(PosteriorStats, :WAICResult)
-    function PythonCall.Py(d::WAICResult)
-        estimates = elpd_estimates(d)
-        pointwise = elpd_estimates(d; pointwise=true)
-        ds = convert_to_dataset((elpd_i=pointwise.elpd,))
-        pyds = PythonCall.Py(ds)
-        return arviz.ELPDData(;
-            kind="waic",
-            elpd=estimates.elpd,
-            se=estimates.se_elpd,
-            p=estimates.p,
-            n_samples="unknown",
-            n_data_points=length(pointwise.elpd),
-            scale="log",
-            warning=false,
-            good_k=NaN,
-            elpd_i=pyds.elpd_i,
-        )
-    end
-end
-
 function rekey(nt::NamedTuple, old_new_keys::Pair...)
     keys_new = replace(keys(nt), old_new_keys...)
     return NamedTuple{keys_new}(values(nt))
