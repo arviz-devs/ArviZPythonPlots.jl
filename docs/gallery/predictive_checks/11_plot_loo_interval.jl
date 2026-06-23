@@ -16,11 +16,13 @@ use_style("arviz-variat")
 data = load_example_data("radon")
 obs_id_subset = At(0:49)
 data_subset = InferenceData(;
+    posterior=data.posterior,
     posterior_predictive=data.posterior_predictive[obs_id = obs_id_subset],
+    log_likelihood=data.log_likelihood[obs_id = obs_id_subset],
     observed_data=data.observed_data[obs_id = obs_id_subset],
 )
 
-pc = ArviZPythonPlots.arviz.plot_loo_interval(data_subset; backend="matplotlib")
+pc = plot_loo_interval(data_subset)
 mkpath(joinpath(@__DIR__, "assets")) #hide
 savefig(joinpath(@__DIR__, "assets", "11_plot_loo_interval.png")) #hide
 gcf()
