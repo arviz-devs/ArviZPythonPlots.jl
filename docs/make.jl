@@ -1,4 +1,4 @@
-using ArviZPythonPlots, Documenter, DemoCards
+using ArviZPythonPlots, Documenter, DemoCards, DocumenterInterLinks
 using ArviZPythonPlots: LazyHelp
 
 include("lazyhelp.jl")
@@ -9,6 +9,8 @@ gallery, postprocess_cb, gallery_assets = makedemos("gallery"; root=@__DIR__)
 
 assets = String[]
 isnothing(gallery_assets) || push!(assets, gallery_assets)
+
+links = InterLinks("PosteriorStats" => "https://julia.arviz.org/PosteriorStats/stable/")
 
 makedocs(;
     modules=[ArviZPythonPlots],
@@ -35,6 +37,7 @@ makedocs(;
     ),
     doctest=false,
     linkcheck=true,
+    plugins=[links],
 )
 
 postprocess_cb()
