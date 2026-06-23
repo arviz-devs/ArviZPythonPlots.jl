@@ -19,7 +19,7 @@ pc = plot_ppc_rootogram(
     aes_by_visuals=Dict("title" => ["color"]),
 )
 pc.add_title("Posterior Predictive Rootogram for Rugby Model")
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_rootogram`](@ref).
 #

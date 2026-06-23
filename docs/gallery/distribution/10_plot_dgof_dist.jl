@@ -14,7 +14,7 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_dgof_dist(data; var_names="g", kind="kde")
-gcf()
+gcf() #hide
 
 # See [`plot_dgof_dist`](@ref).
 #

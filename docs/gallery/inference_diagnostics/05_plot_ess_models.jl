@@ -14,6 +14,6 @@ use_style("arviz-variat")
 c = load_example_data("centered_eight")
 n = load_example_data("non_centered_eight")
 pc = plot_ess(Dict("Centered" => c, "Non Centered" => n))
-gcf()
+gcf() #hide
 
 # See [`plot_ess`](@ref).

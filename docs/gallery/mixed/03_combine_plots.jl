@@ -23,6 +23,6 @@ pc = combine_plots(
     var_names=["theta", "mu", "tau"],
     coords=Dict("school" => ["Hotchkiss", "St. Paul's"]),
 )
-gcf()
+gcf() #hide
 
 # See [`combine_plots`](@ref).

@@ -14,7 +14,7 @@ use_style("arviz-variat")
 
 data = load_example_data("centered_eight")
 pc = plot_dist(data; kind="hist", visuals=Dict("point_estimate_text" => false))
-gcf()
+gcf() #hide
 
 # See [`plot_dist`](@ref).
 #

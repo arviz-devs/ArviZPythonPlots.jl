@@ -13,7 +13,7 @@ use_style("arviz-variat")
 
 data = load_example_data("centered_eight")
 pc = plot_dist(data; kind="ecdf", col_wrap=4)
-gcf()
+gcf() #hide
 
 # See [`plot_dist`](@ref).
 #

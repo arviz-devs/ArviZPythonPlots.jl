@@ -13,7 +13,7 @@ use_style("arviz-variat")
 
 data = load_example_data("anes")
 pc = plot_ppc_pava(data)
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_pava`](@ref).
 #

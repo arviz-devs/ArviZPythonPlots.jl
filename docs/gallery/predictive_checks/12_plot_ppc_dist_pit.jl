@@ -14,7 +14,7 @@ use_style("arviz-variat")
 
 data = load_example_data("rugby")
 pc = plot_ppc_dist_pit(data; kind="ecdf", var_names=["home_points", "away_points"])
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_dist_pit`](@ref).
 #

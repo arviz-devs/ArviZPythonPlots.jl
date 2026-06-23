@@ -21,6 +21,6 @@ data_subset = InferenceData(;
 )
 
 pc = plot_loo_interval(data_subset)
-gcf()
+gcf() #hide
 
 # See [`plot_loo_interval`](@ref).

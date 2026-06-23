@@ -19,6 +19,6 @@ data_subset = InferenceData(;
 )
 
 pc = plot_ppc_interval(data_subset)
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_interval`](@ref).

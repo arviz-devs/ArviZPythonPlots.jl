@@ -20,7 +20,7 @@ pc = plot_dist(
     visuals=Dict("point_estimate_text" => false),
     stats=Dict("dist" => Dict("nquantiles" => 200)),
 )
-gcf()
+gcf() #hide
 
 # See [`plot_dist`](@ref).
 #

@@ -25,6 +25,6 @@ pc = plot_psense_dist(
     coords=Dict("team" => ["Scotland", "Wales"]),
     y=[-2, -1, 0],
 )
-gcf()
+gcf() #hide
 
 # See [`plot_psense_dist`](@ref).

@@ -22,6 +22,6 @@ idata = merge(idata, InferenceData(; log_likelihood))
 pc = plot_psense_quantities(
     idata; var_names=["sd_att", "sd_def"], quantities=["mean", "sd", "0.25", "0.75"]
 )
-gcf()
+gcf() #hide
 
 # See [`plot_psense_quantities`](@ref).

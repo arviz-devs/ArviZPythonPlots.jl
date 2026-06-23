@@ -13,6 +13,6 @@ use_style("arviz-variat")
 
 data = load_example_data("centered_eight")
 pc = plot_ess(data; kind="local", rug=true)
-gcf()
+gcf() #hide
 
 # See [`plot_ess`](@ref).

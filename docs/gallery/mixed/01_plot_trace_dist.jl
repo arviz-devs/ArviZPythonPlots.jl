@@ -13,6 +13,6 @@ use_style("arviz-variat")
 
 data = load_example_data("non_centered_eight")
 pc = plot_trace_dist(data)
-gcf()
+gcf() #hide
 
 # See [`plot_trace_dist`](@ref).

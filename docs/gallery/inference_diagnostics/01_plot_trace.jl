@@ -14,6 +14,6 @@ use_style("arviz-variat")
 data = load_example_data("centered_eight")
 pc = plot_trace(data)
 pc.add_title("MCMC Sampling Traces: Centered Eight Model")
-gcf()
+gcf() #hide
 
 # See [`plot_trace`](@ref).

@@ -13,7 +13,7 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_ppc_tstat(data; t_stat="median")
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_tstat`](@ref).
 #

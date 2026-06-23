@@ -19,6 +19,6 @@ pc = plot_ridge(
     coords=Dict("school" => ["Deerfield", "St. Paul's", "Hotchkiss"]),
 )
 pc.add_legend("model")
-gcf()
+gcf() #hide
 
 # See [`plot_ridge`](@ref).

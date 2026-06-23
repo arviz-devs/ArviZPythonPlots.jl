@@ -35,6 +35,6 @@ data = from_namedtuple(;
 )
 
 pc = plot_lm(data)
-gcf()
+gcf() #hide
 
 # See [`plot_lm`](@ref).

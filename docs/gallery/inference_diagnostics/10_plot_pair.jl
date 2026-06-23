@@ -19,6 +19,6 @@ pc = plot_pair(
     visuals=Dict("divergence" => true),
     marginal=false,
 )
-gcf()
+gcf() #hide
 
 # See [`plot_pair`](@ref).

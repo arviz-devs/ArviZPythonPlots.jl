@@ -21,6 +21,6 @@ use_style("arviz-variat")
 
 data = load_example_data("sbc")
 pc = plot_ecdf_pit(data)
-gcf()
+gcf() #hide
 
 # See [`plot_ecdf_pit`](@ref).

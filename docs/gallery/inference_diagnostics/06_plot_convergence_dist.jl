@@ -13,6 +13,6 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_convergence_dist(data; var_names=["za_county"])
-gcf()
+gcf() #hide
 
 # See [`plot_convergence_dist`](@ref).

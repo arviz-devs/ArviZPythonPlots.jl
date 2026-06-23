@@ -15,6 +15,6 @@ data = load_example_data("centered_eight")
 pc = plot_parallel(
     data; var_names=["theta", "tau", "mu"], norm_method="rank", label_type="vert"
 )
-gcf()
+gcf() #hide
 
 # See [`plot_parallel`](@ref).

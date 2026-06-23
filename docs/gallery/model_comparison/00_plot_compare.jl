@@ -18,6 +18,6 @@ models = (
 )
 mc = compare(models)
 pc = plot_compare(mc)
-gcf()
+gcf() #hide
 
 # See [`plot_compare`](@ref).

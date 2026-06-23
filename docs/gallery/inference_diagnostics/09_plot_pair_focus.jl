@@ -18,6 +18,6 @@ data = merge(data, InferenceData(; posterior))
 pc = plot_pair_focus(
     data, "log_tau"; var_names=["theta"], visuals=Dict("divergence" => true)
 )
-gcf()
+gcf() #hide
 
 # See [`plot_pair_focus`](@ref).

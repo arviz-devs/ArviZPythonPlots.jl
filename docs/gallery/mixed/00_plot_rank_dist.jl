@@ -13,6 +13,6 @@ use_style("arviz-variat")
 
 data = load_example_data("non_centered_eight")
 pc = plot_rank_dist(data; var_names=["mu", "tau"])
-gcf()
+gcf() #hide
 
 # See [`plot_rank_dist`](@ref).

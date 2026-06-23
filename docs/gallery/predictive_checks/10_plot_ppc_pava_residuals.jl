@@ -13,7 +13,7 @@ use_style("arviz-variat")
 
 data = load_example_data("roaches_zinb")
 pc = plot_ppc_pava_residuals(data, "roach count"; var_names="y_pos")
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_pava_residuals`](@ref).
 #

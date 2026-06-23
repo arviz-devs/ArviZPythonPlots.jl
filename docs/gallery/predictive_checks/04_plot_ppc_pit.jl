@@ -14,7 +14,7 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_ppc_pit(data)
-gcf()
+gcf() #hide
 
 # See [`plot_ppc_pit`](@ref).
 #
