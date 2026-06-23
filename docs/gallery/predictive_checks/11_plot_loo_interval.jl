@@ -1,7 +1,5 @@
 # ---
 # title: "Interval plot (LOO)"
-# id: 11_plot_loo_interval
-# cover: assets/11_plot_loo_interval.png
 # description: "Plot LOO posterior predictive point estimate and intervals at each observation."
 # ---
 #
@@ -23,8 +21,6 @@ data_subset = InferenceData(;
 )
 
 pc = plot_loo_interval(data_subset)
-mkpath(joinpath(@__DIR__, "assets")) #hide
-savefig(joinpath(@__DIR__, "assets", "11_plot_loo_interval.png")) #hide
 gcf()
 
 # See [`plot_loo_interval`](@ref).

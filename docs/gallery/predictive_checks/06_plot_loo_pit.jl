@@ -1,7 +1,5 @@
 # ---
 # title: "LOO-PIT ECDF"
-# id: 06_plot_loo_pit
-# cover: assets/06_plot_loo_pit.png
 # description: "Plot of the probability integral transform of the posterior predictive distribution with respect to the observed data using the leave-one-out (LOO) method."
 # ---
 #
@@ -16,8 +14,6 @@ use_style("arviz-variat")
 
 data = load_example_data("radon")
 pc = plot_loo_pit(data)
-mkpath(joinpath(@__DIR__, "assets")) #hide
-savefig(joinpath(@__DIR__, "assets", "06_plot_loo_pit.png")) #hide
 gcf()
 
 # See [`plot_loo_pit`](@ref).

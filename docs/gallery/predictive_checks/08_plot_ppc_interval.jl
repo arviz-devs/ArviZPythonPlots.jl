@@ -1,7 +1,5 @@
 # ---
 # title: "Interval plot"
-# id: 08_plot_ppc_interval
-# cover: assets/08_plot_ppc_interval.png
 # description: "Plot posterior predictive point estimate and intervals at each observation."
 # ---
 #
@@ -21,8 +19,6 @@ data_subset = InferenceData(;
 )
 
 pc = plot_ppc_interval(data_subset)
-mkpath(joinpath(@__DIR__, "assets")) #hide
-savefig(joinpath(@__DIR__, "assets", "08_plot_ppc_interval.png")) #hide
 gcf()
 
 # See [`plot_ppc_interval`](@ref).

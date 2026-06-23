@@ -1,7 +1,5 @@
 # ---
 # title: "Posterior quantile dot plots"
-# id: 03_plot_dist_qds
-# cover: assets/03_plot_dist_qds.png
 # description: "Quantile dot plot of the variable `mu` from the centered eight model. The point estimate text is removed and the number of quantiles is changed to 200."
 # ---
 #
@@ -22,8 +20,6 @@ pc = plot_dist(
     visuals=Dict("point_estimate_text" => false),
     stats=Dict("dist" => Dict("nquantiles" => 200)),
 )
-mkpath(joinpath(@__DIR__, "assets")) #hide
-savefig(joinpath(@__DIR__, "assets", "03_plot_dist_qds.png")) #hide
 gcf()
 
 # See [`plot_dist`](@ref).
