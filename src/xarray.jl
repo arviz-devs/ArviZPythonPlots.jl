@@ -1,4 +1,10 @@
 PythonCall.Py(data::Dataset) = _to_xarray(data)
+PythonCall.Py(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
+
+# more specific than `topytype(::AbstractArray{<:Real})`/`topytype(::AbstractVector{<:Real})`
+# (src/utils.jl), which would otherwise convert a `DimArray` to a bare numpy array before it
+# ever reaches the generic `Py(x)` fallback that calls the method above
+topytype(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
 
 function PythonCall.Py(data::InferenceData)
     groups = NamedTuple(data)
