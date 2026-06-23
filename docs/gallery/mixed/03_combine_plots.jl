@@ -18,9 +18,9 @@ data = load_example_data("non_centered_eight")
 pc = combine_plots(
     data,
     [
-        (ArviZPythonPlots.arviz.plot_ess_evolution, Dict()),
-        (ArviZPythonPlots.arviz.plot_rank, Dict()),
-        (ArviZPythonPlots.arviz.plot_autocorr, Dict()),
+        (plot_ess_evolution, Dict()),
+        (plot_rank, Dict()),
+        (plot_autocorr, Dict()),
     ];
     var_names=["theta", "mu", "tau"],
     coords=Dict("school" => ["Hotchkiss", "St. Paul's"]),

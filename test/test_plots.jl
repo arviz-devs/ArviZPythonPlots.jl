@@ -162,6 +162,11 @@ using Test
     end
 
     @testset "combine_plots" begin
+        combine_plots(data, [(plot_dist, Dict()), (plot_ess, Dict())]; var_names=["mu"])
+        plotclose()
+    end
+
+    @testset "combine_plots with raw arviz functions" begin
         combine_plots(
             data,
             [

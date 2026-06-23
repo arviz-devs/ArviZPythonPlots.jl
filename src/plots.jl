@@ -5,7 +5,6 @@ end
 
 # functions whose `dt` argument defaults to the `posterior` group
 for f in (
-    :combine_plots,
     :plot_autocorr,
     :plot_bf,
     :plot_convergence_dist,
@@ -34,6 +33,26 @@ for f in (
             return tuple(idata, args...), kwargs
         end
     end
+end
+
+# `combine_plots` takes a list of `(plotting_function, kwargs)` pairs forwarded to
+# `arviz.combine_plots`; accept the exported Julia wrappers (e.g. `plot_rank`) here too,
+# since `@forwardplotfun` always names a wrapper after the `arviz` function it calls
+_arviz_plotfun(f::Py) = f
+function _arviz_plotfun(f::Function)
+    name = nameof(f)
+    PythonCall.pyhasattr(arviz, string(name)) || throw(
+        ArgumentError(
+            "`$f` is not one of this package's exported plot functions and is not an `arviz` callable",
+        ),
+    )
+    return getproperty(arviz, name)
+end
+
+function convert_arguments(::typeof(combine_plots), data, plot_list, args...; kwargs...)
+    idata = convert_to_inference_data(data; group=:posterior)
+    new_plot_list = [(_arviz_plotfun(f), kw) for (f, kw) in plot_list]
+    return tuple(idata, new_plot_list, args...), kwargs
 end
 
 # functions whose `dt` argument defaults to the `posterior_predictive` group
