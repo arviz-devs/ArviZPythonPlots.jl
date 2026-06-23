@@ -89,6 +89,8 @@ using Test
     @testset "plot_pair_focus" begin
         plot_pair_focus(data, "mu"; var_names=["theta", "mu"])
         plotclose()
+        plot_pair_focus(data, data.posterior.mu; var_names=["theta", "mu"])
+        plotclose()
     end
 
     @testset "plot_lm" begin
@@ -176,5 +178,9 @@ using Test
             var_names=["mu"],
         )
         plotclose()
+    end
+
+    @testset "combine_plots with invalid plot function" begin
+        @test_throws ArgumentError combine_plots(data, [(sin, Dict())]; var_names=["mu"])
     end
 end

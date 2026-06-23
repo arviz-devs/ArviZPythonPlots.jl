@@ -43,6 +43,27 @@ using Test
         )
     end
 
+    @testset "DimArray -> xarray" begin
+        xdims = (:chain, :draw, Dim{:shared}(["s1", "s2", "s3"]))
+        x = DimArray(randn(4, 100, 3), xdims; name=:x)
+
+        o = Py(x)
+        @test o isa Py
+        @test pyisinstance(o, ArviZPythonPlots.xarray.DataArray)
+        @test Bool(pyeq(Py(x), o.values).all())
+        @test Bool(o.dims == pytuple(pystr.((:chain, :draw, :shared))))
+        @test pyeq(
+            Bool,
+            pylist(o.coords["shared"].values),
+            pylist(parent(DimensionalData.lookup(x, :shared))),
+        )
+
+        # `topytype` must dispatch to the same conversion, not the generic
+        # `AbstractArray{<:Real}` -> bare numpy array shortcut (src/utils.jl)
+        t = ArviZPythonPlots.topytype(x)
+        @test pyisinstance(t, ArviZPythonPlots.xarray.DataArray)
+    end
+
     @testset "InferenceData -> Py" begin
         idata = random_data()
         pyidata = Py(idata)

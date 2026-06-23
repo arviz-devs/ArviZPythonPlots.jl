@@ -43,7 +43,7 @@ function _arviz_plotfun(f::Function)
     name = nameof(f)
     PythonCall.pyhasattr(arviz, string(name)) || throw(
         ArgumentError(
-            "`$f` is not one of this package's exported plot functions and is not an `arviz` callable",
+            "`$name` is not one of this package's exported plot functions and is not an `arviz` callable",
         ),
     )
     return getproperty(arviz, name)
