@@ -99,6 +99,17 @@ function gallery_index_markdown(src_root, categories, prettyurls)
     return String(take!(io))
 end
 
+# `parse_frontmatter` already extracts the `# ---`/`title:`/`description:`/`# ---` block;
+# strip it here (via Literate's `preprocess` hook) so it doesn't also show up as unrendered
+# literal text at the top of the generated page.
+function strip_frontmatter(content)
+    lines = split(content, '\n')
+    lines[1] == "# ---" || return content
+    close_idx = findnext(==("# ---"), lines, 2)
+    close_idx === nothing && return content
+    return join(lines[(close_idx + 1):end], '\n')
+end
+
 # Generates `out_root/<category>/<id>.md` and `out_root/index.md`, and returns the
 # `pages=`-ready entry for `makedocs`. Every example page is registered via `hide(...)` (the
 # same helper already used for the API section below) so it builds deterministically without
@@ -108,7 +119,9 @@ function build_gallery!(src_root, out_root, categories, prettyurls)
         dir = joinpath(src_root, category)
         outdir = joinpath(out_root, category)
         for file in jl_files(dir)
-            Literate.markdown(joinpath(dir, file), outdir)
+            Literate.markdown(
+                joinpath(dir, file), outdir; preprocess=strip_frontmatter, credit=false
+            )
         end
     end
     mkpath(out_root)
