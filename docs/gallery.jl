@@ -159,8 +159,7 @@ function copy_gallery_covers!(src_root, build_root, categories, prettyurls)
             joinpath(build_root, example.category)
         end
         matches = filter(readdir(dir)) do f
-            endswith(f, ".png") &&
-                (prettyurls || startswith(f, "$(example.id)-"))
+            return endswith(f, ".png") && (prettyurls || startswith(f, "$(example.id)-"))
         end
         length(matches) == 1 || error(
             "expected exactly one cover image candidate for $(example.id) in $dir, found $(length(matches))",
