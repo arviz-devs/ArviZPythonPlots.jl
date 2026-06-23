@@ -1,8 +1,3 @@
-# ---
-# title: "Interval plot"
-# description: "Plot posterior predictive point estimate and intervals at each observation."
-# ---
-#
 # # Interval plot
 #
 # Plot posterior predictive point estimate and intervals at each observation.

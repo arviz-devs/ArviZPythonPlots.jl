@@ -1,8 +1,3 @@
-# ---
-# title: "Convergence diagnostics distribution"
-# description: "Plot the distribution of ESS and R-hat."
-# ---
-#
 # # Convergence diagnostics distribution
 #
 # Plot the distribution of ESS and R-hat.

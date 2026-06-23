@@ -1,8 +1,3 @@
-# ---
-# title: "Parallel coordinates plot"
-# description: "Plot parallel coordinates plot showing posterior points with divergences."
-# ---
-#
 # # Parallel coordinates plot
 #
 # Plot parallel coordinates plot showing posterior points with divergences.

@@ -1,8 +1,3 @@
-# ---
-# title: "Autocorrelation Plot"
-# description: "Faceted plot with autocorrelation for each variable."
-# ---
-#
 # # Autocorrelation Plot
 #
 # Faceted plot with autocorrelation for each variable.

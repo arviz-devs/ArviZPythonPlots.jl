@@ -1,8 +1,3 @@
-# ---
-# title: "Ridge plot for multiple models"
-# description: "Visual representation of marginal distributions over the y axis for multiple models."
-# ---
-#
 # # Ridge plot for multiple models
 #
 # Visual representation of marginal distributions over the y axis for multiple models.

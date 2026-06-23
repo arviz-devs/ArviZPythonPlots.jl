@@ -1,8 +1,3 @@
-# ---
-# title: "Rootogram"
-# description: "Rootogram for the posterior predictive and observed data."
-# ---
-#
 # # Rootogram
 #
 # Rootogram for the posterior predictive and observed data.

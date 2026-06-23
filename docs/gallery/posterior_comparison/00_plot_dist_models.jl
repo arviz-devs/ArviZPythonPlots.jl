@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior KDEs for two models"
-# description: "Full marginal distribution comparison between different models."
-# ---
-#
 # # Posterior KDEs for two models
 #
 # Full marginal distribution comparison between different models.

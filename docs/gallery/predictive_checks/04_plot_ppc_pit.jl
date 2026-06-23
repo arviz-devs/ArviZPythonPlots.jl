@@ -1,8 +1,3 @@
-# ---
-# title: "PIT ECDF"
-# description: "Plot of the probability integral transform of the posterior predictive distribution with respect to the observed data."
-# ---
-#
 # # PIT ECDF
 #
 # Plot of the probability integral transform of the posterior predictive distribution with

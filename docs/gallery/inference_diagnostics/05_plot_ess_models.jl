@@ -1,8 +1,3 @@
-# ---
-# title: "ESS comparison"
-# description: "Full ESS (either local or quantile) comparison between different models."
-# ---
-#
 # # ESS comparison
 #
 # Full ESS (either local or quantile) comparison between different models.

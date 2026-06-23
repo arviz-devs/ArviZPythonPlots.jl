@@ -1,8 +1,3 @@
-# ---
-# title: "Sensitivity posterior quantities"
-# description: "The posterior quantities are computed by power-scaling the prior or likelihood and visualizing the resulting changes. Sensitivity can then be quantified by considering how much the perturbed quantities differ from the base quantities."
-# ---
-#
 # # Sensitivity posterior quantities
 #
 # The posterior quantities are computed by power-scaling the prior or likelihood and

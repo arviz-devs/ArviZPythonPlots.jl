@@ -1,8 +1,3 @@
-# ---
-# title: "ESS local"
-# description: "Faceted local ESS plot."
-# ---
-#
 # # ESS local
 #
 # Faceted local ESS plot.

@@ -1,8 +1,3 @@
-# ---
-# title: "PAV-adjusted calibration"
-# description: "PAV-adjusted calibration plot for binary predictions."
-# ---
-#
 # # PAV-adjusted calibration
 #
 # PAV-adjusted calibration plot for binary predictions.

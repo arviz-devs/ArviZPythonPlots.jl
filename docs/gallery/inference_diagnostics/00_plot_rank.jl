@@ -1,8 +1,3 @@
-# ---
-# title: "Rank plot"
-# description: "Faceted plot with fractional ranks for each variable."
-# ---
-#
 # # Rank plot
 #
 # Faceted plot with fractional ranks for each variable.

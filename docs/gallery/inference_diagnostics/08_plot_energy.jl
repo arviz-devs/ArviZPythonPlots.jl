@@ -1,8 +1,3 @@
-# ---
-# title: "Energy"
-# description: "Plot transition and marginal energy distributions."
-# ---
-#
 # # Energy
 #
 # Plot transition and marginal energy distributions.

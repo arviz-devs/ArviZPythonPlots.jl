@@ -1,8 +1,3 @@
-# ---
-# title: "Forest plot"
-# description: "Default forest plot with marginal distribution summaries."
-# ---
-#
 # # Forest plot
 #
 # Default forest plot with marginal distribution summaries.

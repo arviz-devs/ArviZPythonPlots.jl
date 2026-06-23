@@ -1,8 +1,3 @@
-# ---
-# title: "Ridge plot"
-# description: "Visual representation of marginal distributions over the y axis for a single model."
-# ---
-#
 # # Ridge plot
 #
 # Visual representation of marginal distributions over the y axis for a single model.

@@ -1,8 +1,3 @@
-# ---
-# title: "Trace plot"
-# description: "Faceted plot with MCMC traces for each variable."
-# ---
-#
 # # Trace plot
 #
 # Faceted plot with MCMC traces for each variable.

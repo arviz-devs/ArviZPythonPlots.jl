@@ -1,8 +1,3 @@
-# ---
-# title: "Trace and distribution plot"
-# description: "Two column layout with marginal distributions on the left and MCMC traces on the right."
-# ---
-#
 # # Trace and distribution plot
 #
 # Two column layout with marginal distributions on the left and MCMC traces on the right.

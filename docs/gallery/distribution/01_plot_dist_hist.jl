@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior Histograms"
-# description: "Faceted histogram plots for 1D marginals of the distribution. The `point_estimate_text` option is set to `false` to omit that visual from the plot."
-# ---
-#
 # # Posterior Histograms
 #
 # Faceted histogram plots for 1D marginals of the distribution. The `point_estimate_text` option

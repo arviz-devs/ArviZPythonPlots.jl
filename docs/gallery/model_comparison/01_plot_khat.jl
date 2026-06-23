@@ -1,8 +1,3 @@
-# ---
-# title: "Pareto k parameter diagnostics"
-# description: "Default Pareto k diagnostic plot from PSIS-LOO-CV to assess importance sampling reliability."
-# ---
-#
 # # Pareto k parameter diagnostics
 #
 # Default Pareto k diagnostic plot from PSIS-LOO-CV to assess importance sampling reliability.

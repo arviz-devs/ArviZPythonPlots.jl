@@ -1,8 +1,3 @@
-# ---
-# title: "Bayes factor"
-# description: "Compute the Bayes factor using the Savage-Dickey ratio."
-# ---
-#
 # # Bayes factor
 #
 # Compute the Bayes factor using the Savage-Dickey ratio.

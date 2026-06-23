@@ -1,8 +1,3 @@
-# ---
-# title: "Survival analysis (censored data)"
-# description: "Plot Kaplan-Meier survival curve vs posterior predictive draws."
-# ---
-#
 # # Survival analysis (censored data)
 #
 # Plot Kaplan-Meier survival curve vs posterior predictive draws.

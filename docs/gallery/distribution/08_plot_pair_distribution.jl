@@ -1,8 +1,3 @@
-# ---
-# title: "Scatterplot all variables against each other"
-# description: "Plot all variables against each other in the dataset."
-# ---
-#
 # # Scatterplot all variables against each other
 #
 # Plot all variables against each other in the dataset.

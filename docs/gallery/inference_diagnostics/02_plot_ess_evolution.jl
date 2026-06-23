@@ -1,8 +1,3 @@
-# ---
-# title: "ESS evolution"
-# description: "Faceted plot with ESS \"bulk\" and \"tail\" for each variable."
-# ---
-#
 # # ESS evolution
 #
 # Faceted plot with ESS "bulk" and "tail" for each variable.

@@ -1,8 +1,3 @@
-# ---
-# title: "Sensitivity posterior marginals"
-# description: "The posterior sensitivity is assessed by power-scaling the prior or likelihood and visualizing the resulting changes. Sensitivity can then be quantified by considering how much the perturbed posteriors differ from the base posterior."
-# ---
-#
 # # Sensitivity posterior marginals
 #
 # The posterior sensitivity is assessed by power-scaling the prior or likelihood and

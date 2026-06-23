@@ -1,8 +1,3 @@
-# ---
-# title: "Interval plot (LOO)"
-# description: "Plot LOO posterior predictive point estimate and intervals at each observation."
-# ---
-#
 # # Interval plot (LOO)
 #
 # Plot LOO posterior predictive point estimate and intervals at each observation.

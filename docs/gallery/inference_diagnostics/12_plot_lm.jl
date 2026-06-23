@@ -1,8 +1,3 @@
-# ---
-# title: "Linear model plot"
-# description: "Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible intervals around predictions alongside observed data points."
-# ---
-#
 # # Linear model plot
 #
 # Posterior predictive and mean plots for regression-like data. `plot_lm` visualizes credible

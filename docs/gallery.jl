@@ -15,20 +15,27 @@ function gallery_sources(src_root, categories)
     return examples
 end
 
-function parse_frontmatter(path)
+# Reads the card title/description straight from the page's own `# # Heading` and the
+# prose paragraph right after it, instead of a separate frontmatter block — the two would
+# otherwise just be the same text typed twice (and prone to drifting apart).
+function gallery_card_text(path)
     lines = readlines(path)
-    lines[1] == "# ---" || error("expected frontmatter at the top of $path")
-    close_idx = findnext(==("# ---"), lines, 2)
-    close_idx === nothing && error("unterminated frontmatter in $path")
-    fields = Dict{String,String}()
-    for line in lines[2:(close_idx - 1)]
-        m = match(r"^# (\w+): \"(.*)\"$", line)
-        m === nothing && error("could not parse frontmatter line in $path: $line")
-        key, value = m.captures
-        fields[key] = replace(value, "\\\"" => "\"")
+    heading_idx = findfirst(l -> startswith(l, "# # "), lines)
+    heading_idx === nothing && error("expected a `# # Heading` line in $path")
+    title = lines[heading_idx][5:end]
+    description_lines = String[]
+    for line in lines[(heading_idx + 1):end]
+        if isempty(description_lines)
+            line == "#" && continue
+        elseif line == "#" || !startswith(line, "# ")
+            break
+        end
+        startswith(line, "# ") || break
+        push!(description_lines, line[3:end])
     end
-    haskey(fields, "title") || error("missing `title` frontmatter key in $path")
-    return (; title=fields["title"], description=get(fields, "description", ""))
+    isempty(description_lines) &&
+        error("expected a description paragraph after the heading in $path")
+    return (; title, description=join(description_lines, " "))
 end
 
 _htmlescape(s) = replace(s, "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
@@ -45,12 +52,12 @@ example_url(prettyurls, category, id) = prettyurls ? "$category/$id/" : "$catego
 # it can point at a file that doesn't exist yet. A single link "stretched" over the whole
 # card (as in the upstream arviz-plots gallery) makes the image and title click the same way.
 # The description stays real Markdown, inside a raw-HTML overlay div, so it still renders any
-# Markdown the `description:` frontmatter contains (e.g. an embedded `[`fn`](@ref)`).
+# Markdown the source paragraph contains (e.g. an embedded `[`fn`](@ref)`).
 function gallery_card(src_root, category, id, prettyurls)
-    fm = parse_frontmatter(joinpath(src_root, category, "$id.jl"))
+    text = gallery_card_text(joinpath(src_root, category, "$id.jl"))
     url = example_url(prettyurls, category, id)
     cover = joinpath("covers", "$id.png")
-    title = _htmlescape(fm.title)
+    title = _htmlescape(text.title)
     return """
     ```@raw html
     <div class="gallery-card">
@@ -58,7 +65,7 @@ function gallery_card(src_root, category, id, prettyurls)
     <img src="$cover" alt="$title">
     <div class="gallery-card-overlay">
     ```
-    $(fm.description)
+    $(text.description)
     ```@raw html
     </div>
     </div>
@@ -99,17 +106,6 @@ function gallery_index_markdown(src_root, categories, prettyurls)
     return String(take!(io))
 end
 
-# `parse_frontmatter` already extracts the `# ---`/`title:`/`description:`/`# ---` block;
-# strip it here (via Literate's `preprocess` hook) so it doesn't also show up as unrendered
-# literal text at the top of the generated page.
-function strip_frontmatter(content)
-    lines = split(content, '\n')
-    lines[1] == "# ---" || return content
-    close_idx = findnext(==("# ---"), lines, 2)
-    close_idx === nothing && return content
-    return join(lines[(close_idx + 1):end], '\n')
-end
-
 # Generates `out_root/<category>/<id>.md` and `out_root/index.md`, and returns the
 # `pages=`-ready entry for `makedocs`: a nested "Examples gallery" section with one
 # subsection per category, listing that category's example pages (bare paths, each
@@ -124,9 +120,7 @@ function build_gallery!(src_root, out_root, categories, prettyurls)
         dir = joinpath(src_root, category)
         outdir = joinpath(out_root, category)
         for file in jl_files(dir)
-            Literate.markdown(
-                joinpath(dir, file), outdir; preprocess=strip_frontmatter, credit=false
-            )
+            Literate.markdown(joinpath(dir, file), outdir; credit=false)
         end
     end
     mkpath(out_root)

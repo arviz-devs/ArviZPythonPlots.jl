@@ -1,8 +1,3 @@
-# ---
-# title: "Plot prior and posterior"
-# description: "Plot prior and posterior marginal distributions."
-# ---
-#
 # # Plot prior and posterior
 #
 # Plot prior and posterior marginal distributions.

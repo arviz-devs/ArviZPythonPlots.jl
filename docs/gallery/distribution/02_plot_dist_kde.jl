@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior KDEs"
-# description: "KDE plot of the variable `mu` from the centered eight model. `sample_dims` restricts the KDE computation to the `draw` dimension only."
-# ---
-#
 # # Posterior KDEs
 #
 # KDE plot of the variable `mu` from the centered eight model. `sample_dims` restricts the KDE

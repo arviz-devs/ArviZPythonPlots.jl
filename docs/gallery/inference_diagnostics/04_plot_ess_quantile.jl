@@ -1,8 +1,3 @@
-# ---
-# title: "ESS quantile"
-# description: "Faceted quantile ESS plot."
-# ---
-#
 # # ESS quantile
 #
 # Faceted quantile ESS plot.

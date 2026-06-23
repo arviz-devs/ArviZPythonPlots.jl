@@ -1,8 +1,3 @@
-# ---
-# title: "Coverage ECDF"
-# description: "Proportion of true values that fall within a given prediction interval."
-# ---
-#
 # # Coverage ECDF
 #
 # Proportion of true values that fall within a given prediction interval.

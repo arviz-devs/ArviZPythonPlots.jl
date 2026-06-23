@@ -1,8 +1,3 @@
-# ---
-# title: "PAV-adjusted residual plot"
-# description: "Residual plot using PAV-adjusted calibration for binary predictions."
-# ---
-#
 # # PAV-adjusted residual plot
 #
 # Residual plot using PAV-adjusted calibration for binary predictions.

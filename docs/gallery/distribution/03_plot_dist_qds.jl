@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior quantile dot plots"
-# description: "Quantile dot plot of the variable `mu` from the centered eight model. The point estimate text is removed and the number of quantiles is changed to 200."
-# ---
-#
 # # Posterior quantile dot plots
 #
 # Quantile dot plot of the variable `mu` from the centered eight model. The point estimate text

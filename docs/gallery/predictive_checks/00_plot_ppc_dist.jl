@@ -1,8 +1,3 @@
-# ---
-# title: "Predictive check with KDEs"
-# description: "Plot of samples from the posterior predictive and observed data."
-# ---
-#
 # # Predictive check with KDEs
 #
 # Plot of samples from the posterior predictive and observed data.

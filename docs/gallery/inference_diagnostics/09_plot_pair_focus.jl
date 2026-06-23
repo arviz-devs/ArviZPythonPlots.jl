@@ -1,8 +1,3 @@
-# ---
-# title: "Scatter plot of one variable against all other variables with divergences"
-# description: "Plot one variable against other variables in the dataset."
-# ---
-#
 # # Scatter plot of one variable against all other variables with divergences
 #
 # Plot one variable against other variables in the dataset.

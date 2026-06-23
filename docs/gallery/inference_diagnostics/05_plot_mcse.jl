@@ -1,8 +1,3 @@
-# ---
-# title: "Monte Carlo standard error"
-# description: "Faceted quantile MCSE plot."
-# ---
-#
 # # Monte Carlo standard error
 #
 # Faceted quantile MCSE plot.

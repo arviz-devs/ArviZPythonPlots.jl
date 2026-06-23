@@ -1,8 +1,3 @@
-# ---
-# title: "Diagnostics for density estimation"
-# description: "Diagnostics for assessing the goodness-of-fit of estimated distributions to the underlying data using the Probability Integral Transform (PIT) and the Δ-ECDF-PIT plots."
-# ---
-#
 # # Diagnostics for density estimation
 #
 # Diagnostics for assessing the goodness-of-fit of estimated distributions to the underlying

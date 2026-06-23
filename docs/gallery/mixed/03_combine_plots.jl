@@ -1,8 +1,3 @@
-# ---
-# title: "Custom diagnostic plots combination"
-# description: "Arrange three diagnostic plots (ESS evolution plot, rank plot, and autocorrelation plot) in a custom column layout."
-# ---
-#
 # # Custom diagnostic plots combination
 #
 # Arrange three diagnostic plots (ESS evolution plot, rank plot, and autocorrelation plot) in a

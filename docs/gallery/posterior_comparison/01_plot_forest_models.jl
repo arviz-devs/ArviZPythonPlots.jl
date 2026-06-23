@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior forest for two models"
-# description: "Forest plot summaries for 1D marginal distributions."
-# ---
-#
 # # Posterior forest for two models
 #
 # Forest plot summaries for 1D marginal distributions.

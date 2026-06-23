@@ -1,8 +1,3 @@
-# ---
-# title: "Forest plot with shading"
-# description: "Forest plot marginal summaries with row shading to enhance reading."
-# ---
-#
 # # Forest plot with shading
 #
 # Forest plot marginal summaries with row shading to enhance reading.

@@ -1,8 +1,3 @@
-# ---
-# title: "Predictive model comparison"
-# description: "Compare multiple models using predictive accuracy estimated using PSIS-LOO-CV."
-# ---
-#
 # # Predictive model comparison
 #
 # Compare multiple models using predictive accuracy estimated using PSIS-LOO-CV. The `mc`

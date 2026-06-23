@@ -1,8 +1,3 @@
-# ---
-# title: "Posterior ECDFs"
-# description: "Faceted ECDF plots for 1D marginals of the distribution."
-# ---
-#
 # # Posterior ECDFs
 #
 # Faceted ECDF plots for 1D marginals of the distribution.

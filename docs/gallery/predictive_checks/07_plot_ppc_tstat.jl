@@ -1,8 +1,3 @@
-# ---
-# title: "Test statistics"
-# description: "T-statistic for the observed data and posterior predictive data."
-# ---
-#
 # # Test statistics
 #
 # T-statistic for the observed data and posterior predictive data.

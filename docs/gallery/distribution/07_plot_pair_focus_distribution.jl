@@ -1,8 +1,3 @@
-# ---
-# title: "Scatterplot one variable against all others"
-# description: "Plot one variable against other variables in the dataset."
-# ---
-#
 # # Scatterplot one variable against all others
 #
 # Plot one variable against other variables in the dataset.
