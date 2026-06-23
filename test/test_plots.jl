@@ -61,6 +61,14 @@ using Test
         plotclose()
     end
 
+    @testset "backend kwarg is not overridden" begin
+        pc = plot_dist(data; var_names=["mu"])
+        @test pyconvert(String, pc.backend) == "matplotlib"
+        plotclose()
+        pc = plot_dist(data; var_names=["mu"], backend="none")
+        @test pyconvert(String, pc.backend) == "none"
+    end
+
     @testset "plot_rank_dist" begin
         # chain coordinates must start at 0: https://github.com/arviz-devs/arviz-plots/issues
         plot_rank_dist(data; var_names=["tau", "mu"])

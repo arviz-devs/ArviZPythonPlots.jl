@@ -23,7 +23,7 @@ macro forwardplotfun(f)
             args, kwargs = convert_arguments($(fesc), args...; kwargs...)
             pyargs = Iterators.map(topytype, args)
             pykwargs = (k => topytype(v) for (k, v) in pairs(kwargs))
-            result = arviz.$(f)(pyargs...; pykwargs..., backend="matplotlib")
+            result = arviz.$(f)(pyargs...; pykwargs...)
             return result
         end
     end
