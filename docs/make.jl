@@ -15,8 +15,13 @@ const GALLERY_CATEGORIES = [
     "mixed" => "Mixed",
 ]
 
+prettyurls = haskey(ENV, "CI")
+
 gallery_page = build_gallery!(
-    joinpath(@__DIR__, "gallery"), joinpath(@__DIR__, "src", "gallery"), GALLERY_CATEGORIES
+    joinpath(@__DIR__, "gallery"),
+    joinpath(@__DIR__, "src", "gallery"),
+    GALLERY_CATEGORIES,
+    prettyurls,
 )
 
 links = InterLinks("PosteriorStats" => "https://julia.arviz.org/PosteriorStats/stable/")
@@ -37,7 +42,7 @@ makedocs(;
     ],
     checkdocs=:exports,
     format=Documenter.HTML(;
-        prettyurls=haskey(ENV, "CI"),
+        prettyurls=prettyurls,
         sidebar_sitename=false,
         canonical="stable",
         size_threshold=300_000,
@@ -49,7 +54,10 @@ makedocs(;
 )
 
 copy_gallery_covers!(
-    joinpath(@__DIR__, "gallery"), joinpath(@__DIR__, "build", "gallery"), GALLERY_CATEGORIES
+    joinpath(@__DIR__, "gallery"),
+    joinpath(@__DIR__, "build", "gallery"),
+    GALLERY_CATEGORIES,
+    prettyurls,
 )
 
 deploydocs(;

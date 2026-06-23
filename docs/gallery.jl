@@ -31,31 +31,45 @@ function parse_frontmatter(path)
     return (; title=fields["title"], description=get(fields, "description", ""))
 end
 
-# The link/description are real Markdown (not raw HTML) so Documenter rewrites the `.md`
-# link (respecting `prettyurls`) and renders any Markdown the `description:` frontmatter
-# contains (e.g. an embedded `[`fn`](@ref)`); the cover `<img>` is raw HTML because
-# Documenter validates Markdown image links exist on disk *before* the `@example` blocks
-# that produce them run (and before `copy_gallery_covers!` runs, which is after the whole
-# build) — raw HTML isn't checked, so it can point at a file that doesn't exist yet.
-function gallery_card(src_root, category, id)
+_htmlescape(s) = replace(s, "&" => "&amp;", "<" => "&lt;", ">" => "&gt;", "\"" => "&quot;")
+
+# Mirrors Documenter's own `get_url`/`pretty_url` (HTMLWriter.jl) for a link from
+# `gallery/index.md` to `gallery/<category>/<id>.md`, verified against real Documenter
+# output for both `prettyurls` settings. Needed because the cover image's wrapping link must
+# be raw HTML (see `gallery_card`), which Documenter does not rewrite itself.
+example_url(prettyurls, category, id) = prettyurls ? "$category/$id/" : "$category/$id.html"
+
+# The cover `<img>` and its wrapping link are raw HTML because Documenter validates Markdown
+# image links exist on disk *before* the `@example` blocks that produce them run (and before
+# `copy_gallery_covers!` runs, which is after the whole build) — raw HTML isn't checked, so
+# it can point at a file that doesn't exist yet. A single link "stretched" over the whole
+# card (as in the upstream arviz-plots gallery) makes the image and title click the same way.
+# The description stays real Markdown, inside a raw-HTML overlay div, so it still renders any
+# Markdown the `description:` frontmatter contains (e.g. an embedded `[`fn`](@ref)`).
+function gallery_card(src_root, category, id, prettyurls)
     fm = parse_frontmatter(joinpath(src_root, category, "$id.jl"))
-    href = joinpath(category, "$id.md")
+    url = example_url(prettyurls, category, id)
     cover = joinpath("covers", "$id.png")
+    title = _htmlescape(fm.title)
     return """
     ```@raw html
     <div class="gallery-card">
-    <img src="$cover" alt="$(fm.title)">
+    <div class="gallery-card-image">
+    <img src="$cover" alt="$title">
+    <div class="gallery-card-overlay">
     ```
-    **[$(fm.title)]($href)**
-
     $(fm.description)
     ```@raw html
+    </div>
+    </div>
+    <div class="gallery-card-footer">$title</div>
+    <a class="gallery-card-link" href="$url" aria-label="$title"></a>
     </div>
     ```
     """
 end
 
-function gallery_index_markdown(src_root, categories)
+function gallery_index_markdown(src_root, categories, prettyurls)
     io = IOBuffer()
     println(io, "# Examples gallery")
     println(io)
@@ -75,7 +89,7 @@ function gallery_index_markdown(src_root, categories)
         println(io, "<div class=\"gallery-grid\">")
         println(io, "```")
         for file in jl_files(joinpath(src_root, category))
-            print(io, gallery_card(src_root, category, first(splitext(file))))
+            print(io, gallery_card(src_root, category, first(splitext(file)), prettyurls))
             println(io)
         end
         println(io, "```@raw html")
@@ -89,7 +103,7 @@ end
 # `pages=`-ready entry for `makedocs`. Every example page is registered via `hide(...)` (the
 # same helper already used for the API section below) so it builds deterministically without
 # adding sidebar nav depth, matching today's flat single-entry sidebar behavior.
-function build_gallery!(src_root, out_root, categories)
+function build_gallery!(src_root, out_root, categories, prettyurls)
     for (category, _) in categories
         dir = joinpath(src_root, category)
         outdir = joinpath(out_root, category)
@@ -98,7 +112,10 @@ function build_gallery!(src_root, out_root, categories)
         end
     end
     mkpath(out_root)
-    write(joinpath(out_root, "index.md"), gallery_index_markdown(src_root, categories))
+    write(
+        joinpath(out_root, "index.md"),
+        gallery_index_markdown(src_root, categories, prettyurls),
+    )
     hidden_pages = [
         hide(joinpath("gallery", e.category, "$(e.id).md")) for
         e in gallery_sources(src_root, categories)
@@ -108,15 +125,22 @@ end
 
 # Each example's `@example` block already renders its own plot inline (via the script's
 # final `gcf()`); reuse that rendered image as the index page's cover thumbnail instead of
-# executing every example a second time just to generate one.
-function copy_gallery_covers!(src_root, build_root, categories)
+# executing every example a second time just to generate one. Where Documenter puts that
+# rendered image depends on `prettyurls`: a sibling `<id>-*.png` next to `<id>.html`, or a
+# `*.png` inside the page's own `<id>/` directory (alongside its `index.html`).
+function copy_gallery_covers!(src_root, build_root, categories, prettyurls)
     covers_dir = joinpath(build_root, "covers")
     mkpath(covers_dir)
     for example in gallery_sources(src_root, categories)
-        dir = joinpath(build_root, example.category)
-        matches = filter(
-            f -> startswith(f, "$(example.id)-") && endswith(f, ".png"), readdir(dir)
-        )
+        dir = if prettyurls
+            joinpath(build_root, example.category, example.id)
+        else
+            joinpath(build_root, example.category)
+        end
+        matches = filter(readdir(dir)) do f
+            endswith(f, ".png") &&
+                (prettyurls || startswith(f, "$(example.id)-"))
+        end
         length(matches) == 1 || error(
             "expected exactly one cover image candidate for $(example.id) in $dir, found $(length(matches))",
         )
