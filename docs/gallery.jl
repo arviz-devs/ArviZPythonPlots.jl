@@ -111,12 +111,14 @@ function strip_frontmatter(content)
 end
 
 # Generates `out_root/<category>/<id>.md` and `out_root/index.md`, and returns the
-# `pages=`-ready entries for `makedocs` (splat these into the top-level `pages` list, don't
-# wrap them in a `"label" => [...]` pair — that nests them into their own section, which
-# duplicates "Examples gallery" in the sidebar and makes Documenter scope the sidebar/TOC to
-# just that section while viewing an example). Every example page is registered via `hide(...)`
-# (the same helper already used for the API section below) so it builds deterministically
-# without adding sidebar nav depth, matching today's flat single-entry sidebar behavior.
+# `pages=`-ready entry for `makedocs`: a nested "Examples gallery" section with one
+# subsection per category, listing that category's example pages (bare paths, each
+# auto-labeled from the page's own title — no individual `hide(...)`, so the sidebar shows
+# every plot title in the active category, not just the current one; Documenter only
+# auto-expands the active category by default, so other categories stay collapsed). The
+# overview page is labeled "Overview", not left as a bare path, so its nav label doesn't
+# collide with the "Examples gallery" section label itself (that collision is what previously
+# made Documenter duplicate the label and collapse the sidebar to just the active page).
 function build_gallery!(src_root, out_root, categories, prettyurls)
     for (category, _) in categories
         dir = joinpath(src_root, category)
@@ -132,11 +134,14 @@ function build_gallery!(src_root, out_root, categories, prettyurls)
         joinpath(out_root, "index.md"),
         gallery_index_markdown(src_root, categories, prettyurls),
     )
-    hidden_pages = [
-        hide(joinpath("gallery", e.category, "$(e.id).md")) for
-        e in gallery_sources(src_root, categories)
+    category_pages = [
+        category_title => [
+            joinpath("gallery", category, "$(splitext(file)[1]).md") for
+            file in jl_files(joinpath(src_root, category))
+        ] for (category, category_title) in categories
     ]
-    return vcat(joinpath("gallery", "index.md"), hidden_pages)
+    return "Examples gallery" =>
+        vcat("Overview" => joinpath("gallery", "index.md"), category_pages)
 end
 
 # Each example's `@example` block already renders its own plot inline (via the script's

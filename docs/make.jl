@@ -17,7 +17,7 @@ const GALLERY_CATEGORIES = [
 
 prettyurls = haskey(ENV, "CI")
 
-gallery_pages = build_gallery!(
+gallery_page = build_gallery!(
     joinpath(@__DIR__, "gallery"),
     joinpath(@__DIR__, "src", "gallery"),
     GALLERY_CATEGORIES,
@@ -32,7 +32,7 @@ makedocs(;
     sitename="ArviZPythonPlots.jl",
     pages=[
         "Home" => "index.md",
-        gallery_pages...,
+        gallery_page,
         "API" => [
             hide("api/index.md"),
             "Plotting styles" => "api/style.md",
