@@ -5,7 +5,6 @@
 /deps/build.log
 /docs/build
 /docs/src/gallery
-/docs/gallery/**/assets/
 /test/*.log
 .DS_Store
 .CondaPkg
