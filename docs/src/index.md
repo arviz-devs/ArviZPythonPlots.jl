@@ -8,7 +8,6 @@ For details, see the [examples gallery](gallery/index.md) or the [API](@ref api)
 
 ## [Installation](@id installation)
 
-To install ArviZPythonPlots.jl, we first need to install Python ArviZ.
 From the Julia REPL, type `]` to enter the Pkg REPL mode and run
 
 ```
