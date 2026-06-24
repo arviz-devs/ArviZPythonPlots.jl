@@ -1,8 +1,14 @@
 PythonCall.Py(data::Dataset) = _to_xarray(data)
+PythonCall.Py(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
+
+# more specific than `topytype(::AbstractArray{<:Real})`/`topytype(::AbstractVector{<:Real})`
+# (src/utils.jl), which would otherwise convert a `DimArray` to a bare numpy array before it
+# ever reaches the generic `Py(x)` fallback that calls the method above
+topytype(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
 
 function PythonCall.Py(data::InferenceData)
     groups = NamedTuple(data)
-    return arviz.InferenceData(; map(topytype, groups)...)
+    return xarray.DataTree.from_dict(topytype(Dict(pairs(groups))))
 end
 
 function _to_xarray(data::DimensionalData.AbstractDimStack)
@@ -16,16 +22,18 @@ function _to_xarray(data::DimensionalData.AbstractDimArray)
     data_dims = DimensionalData.dims(data)
     dims = DimensionalData.name(data_dims)
     coords = Dict(zip(dims, parent.(DimensionalData.lookup(data_dims))))
-    default_dims = ()
+    sample_dims = ()
     values = parent(data)
     if Missing <: eltype(values)
         # passing `missing` to Python causes the array to have a `PythonCall.jlwrap` dtype
         values = replace(values, missing => NaN)
     end
     metadata = pairs(DimensionalData.metadata(data))
-    kwargs = (; var_name, dims, coords, default_dims)
+    kwargs = (; dims, coords, sample_dims)
     pykwargs = map(topytype, kwargs)
-    return da = arviz.numpy_to_data_array(topytype(values); pykwargs...)
+    return da = arviz.ndarray_to_dataarray(
+        Py(values).to_numpy(), topytype(var_name); pykwargs...
+    )
     # if !isempty(metadata)
     #    da.attrs = metadata
     # end

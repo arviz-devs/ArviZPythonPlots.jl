@@ -4,7 +4,8 @@
 Convert arguments to the function `f` before calling.
 
 This function is used primarily for pre-processing arguments within macros before sending
-to arviz.
+to arviz. See the "Input conversions" docs page for the general rules `src/plots.jl`'s
+overloads of this function follow.
 """
 convert_arguments(::Any, args...; kwargs...) = args, kwargs
 
@@ -23,7 +24,7 @@ macro forwardplotfun(f)
             args, kwargs = convert_arguments($(fesc), args...; kwargs...)
             pyargs = Iterators.map(topytype, args)
             pykwargs = (k => topytype(v) for (k, v) in pairs(kwargs))
-            result = arviz.$(f)(pyargs...; pykwargs..., backend="matplotlib")
+            result = arviz.$(f)(pyargs...; pykwargs...)
             return result
         end
     end

@@ -5,7 +5,7 @@ using Test
 @testset "rcParams" begin
     @testset "rcParams" begin
         @test rcParams isa Py
-        @test pyisinstance(rcParams, ArviZPythonPlots.arviz.rcparams.RcParams)
+        @test pyisinstance(rcParams, pyimport("arviz_base.rcparams").RcParams)
         @test pyhasitem(rcParams, "plot.backend")
     end
 
