@@ -197,8 +197,9 @@ using Test
 
     @testset "combine_plots with dict of models" begin
         # documented (`dt : DataTree of dict of {str : DataTree}`), but confirmed broken
-        # upstream as of the installed arviz_plots release -- reproduced with a raw Python
-        # dict and a single plot function, no Julia conversion involved
+        # against arviz_plots 1.2.0 -- reproduced with a raw Python dict and a single plot
+        # function, no Julia conversion involved.
+        # Tracked upstream: https://github.com/arviz-devs/arviz-plots/issues/523
         @test_broken begin
             combine_plots(
                 Dict("a" => data, "b" => data2), [(plot_dist, Dict())]; var_names=["mu"]

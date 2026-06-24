@@ -114,6 +114,8 @@ end
 # documents the same dict form but its implementation accesses `dt.prior`/`dt.posterior`
 # directly without the `isinstance(dt, dict)` branch the others route through
 # (`arviz_plots/plots/utils.py`'s `process_group_variables_coords`), so it's omitted here.
+# Confirmed against arviz_plots 1.2.0. Tracked upstream:
+# https://github.com/arviz-devs/arviz-plots/issues/484
 for f in (:plot_dist, :plot_ess, :plot_ess_evolution, :plot_forest, :plot_mcse, :plot_ridge)
     @eval begin
         function convert_arguments(
