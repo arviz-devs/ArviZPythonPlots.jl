@@ -22,4 +22,18 @@ using Test
         @test pyconvert(Array{Float64}, py_loo_result.pareto_k.values) ≈
             pyconvert(Array{Float64}, loo_py_result.pareto_k.values) rtol = 1e-1
     end
+
+    @testset "ModelComparisonResult" begin
+        data = load_example_data("centered_eight")
+        data2 = load_example_data("non_centered_eight")
+        mc = compare((a=data, b=data2))
+        pdf = Py(mc)
+        columns = pyconvert(Vector{String}, pdf.columns.to_list())
+        # not computed by `PosteriorStats.compare`, but required by `plot_compare`, which
+        # expects the same columns as `arviz_stats.compare`
+        @test all(in(columns), ("p_worse", "diag_diff", "diag_elpd"))
+        @test all(isnan, pyconvert(Vector{Float64}, pdf.p_worse.to_numpy()))
+        @test all(==(""), pyconvert(Vector{String}, pdf.diag_diff.to_numpy()))
+        @test all(==(""), pyconvert(Vector{String}, pdf.diag_elpd.to_numpy()))
+    end
 end

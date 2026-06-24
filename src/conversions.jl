@@ -31,6 +31,12 @@ function PythonCall.Py(mc::ModelComparisonResult)
     table = Tables.columntable(mc)
     se_pairs = (:se_elpd => :se, :se_elpd_diff => :dse)
     table_new = rekey(table, se_pairs...)
+    n = length(table_new.name)
+    # `PosteriorStats.ModelComparisonResult` doesn't compute these; arviz_stats's own
+    # `compare()` DataFrame has them, and `plot_compare` expects the columns to exist
+    table_new = merge(
+        table_new, (p_worse=fill(NaN, n), diag_diff=fill("", n), diag_elpd=fill("", n))
+    )
     pdf = topandas(Val(:DataFrame), table_new; index_name="name")
     return pdf
 end
