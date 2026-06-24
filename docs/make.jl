@@ -24,7 +24,11 @@ gallery_page = build_gallery!(
     prettyurls,
 )
 
-links = InterLinks("PosteriorStats" => "https://julia.arviz.org/PosteriorStats/stable/")
+links = InterLinks(
+    "PosteriorStats" => "https://julia.arviz.org/PosteriorStats/stable/",
+    "InferenceObjects" => "https://julia.arviz.org/InferenceObjects/stable/",
+    "DimensionalData" => "https://rafaqz.github.io/DimensionalData.jl/stable/",
+)
 
 makedocs(;
     modules=[ArviZPythonPlots],
@@ -35,6 +39,7 @@ makedocs(;
         gallery_page,
         "API" => [
             hide("api/index.md"),
+            "Input conversions" => "api/conversions.md",
             "Plotting styles" => "api/style.md",
             "rcParams" => "api/rcparams.md",
             "Plotting functions" => "api/plots.md",
