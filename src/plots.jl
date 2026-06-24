@@ -3,6 +3,17 @@ for f in _PLOT_FUNCTIONS
     @eval @forwardplotfun $f
 end
 
+# Faithful 1:1 Julia representations of a `DataTree`. arviz_plots dropped the auto-conversion
+# legacy (pre-1.0) arviz used to do internally (accepting bare arrays, `NamedTuple`s, raw
+# `Dict`s of arrays, etc.); for functions whose docstring documents `dt` as strictly
+# `DataTree`/`dict of {str: DataTree}`, we don't reintroduce that convenience on the Julia
+# side either, since Python's own function no longer supports it.
+const _DataTreeLike = Union{InferenceData,Dataset,DimensionalData.AbstractDimStack}
+
+# used to narrow the per-element type within dict/vector multi-model inputs, where the
+# outer container's type alone doesn't constrain its values/elements
+_idata_like(data::_DataTreeLike; group) = convert_to_inference_data(data; group)
+
 # functions whose `dt` argument defaults to the `posterior` group
 for f in (
     :plot_autocorr,
@@ -28,7 +39,7 @@ for f in (
     :plot_trace_dist,
 )
     @eval begin
-        function convert_arguments(::typeof($(f)), data, args...; kwargs...)
+        function convert_arguments(::typeof($(f)), data::_DataTreeLike, args...; kwargs...)
             idata = convert_to_inference_data(data; group=:posterior)
             return tuple(idata, args...), kwargs
         end
@@ -49,10 +60,24 @@ function _arviz_plotfun(f::Function)
     return getproperty(arviz, name)
 end
 
-function convert_arguments(::typeof(combine_plots), data, plot_list, args...; kwargs...)
+function convert_arguments(
+    ::typeof(combine_plots), data::_DataTreeLike, plot_list, args...; kwargs...
+)
     idata = convert_to_inference_data(data; group=:posterior)
     new_plot_list = [(_arviz_plotfun(f), kw) for (f, kw) in plot_list]
     return tuple(idata, new_plot_list, args...), kwargs
+end
+function convert_arguments(
+    ::typeof(combine_plots),
+    data::AbstractDict,
+    plot_list,
+    args...;
+    group=:posterior,
+    kwargs...,
+)
+    dict = OrderedDict(string(k) => _idata_like(v; group) for (k, v) in pairs(data))
+    new_plot_list = [(_arviz_plotfun(f), kw) for (f, kw) in plot_list]
+    return tuple(dict, new_plot_list, args...), kwargs
 end
 
 # functions whose `dt` argument defaults to the `posterior_predictive` group
@@ -72,34 +97,37 @@ for f in (
     :plot_ppc_tstat,
 )
     @eval begin
-        function convert_arguments(::typeof($(f)), data, args...; kwargs...)
+        function convert_arguments(::typeof($(f)), data::_DataTreeLike, args...; kwargs...)
             idata = convert_to_inference_data(data; group=:posterior_predictive)
             return tuple(idata, args...), kwargs
         end
     end
 end
 
-function convert_arguments(::typeof(plot_energy), data, args...; kwargs...)
+function convert_arguments(::typeof(plot_energy), data::_DataTreeLike, args...; kwargs...)
     idata = convert_to_inference_data(data; group=:sample_stats)
     return tuple(idata, args...), kwargs
 end
 
-# functions that also accept a dict/vector of models for multi-model comparison
-# (a `NamedTuple` already means "one model's variables" per `convert_to_inference_data`,
-# so multi-model dispatch is intentionally restricted to `AbstractDict`)
-for f in (:plot_dist, :plot_ess, :plot_forest, :plot_ridge)
+# functions whose docstring also documents a `dict of {str: DataTree}` form for multi-model
+# comparison (a dimension `"model"` is generated from the dict keys). `plot_prior_posterior`
+# documents the same dict form but its implementation accesses `dt.prior`/`dt.posterior`
+# directly without the `isinstance(dt, dict)` branch the others route through
+# (`arviz_plots/plots/utils.py`'s `process_group_variables_coords`), so it's omitted here.
+for f in (:plot_dist, :plot_ess, :plot_ess_evolution, :plot_forest, :plot_mcse, :plot_ridge)
     @eval begin
         function convert_arguments(
             ::typeof($(f)), data::AbstractDict, args...; group=:posterior, kwargs...
         )
-            dict = OrderedDict(
-                string(k) => convert_to_inference_data(v; group) for (k, v) in pairs(data)
-            )
+            dict = OrderedDict(string(k) => _idata_like(v; group) for (k, v) in pairs(data))
             return tuple(dict, args...), kwargs
         end
     end
 end
 
+# `plot_forest`/`plot_ridge` don't document a list form, but a `Vector`/`Tuple` of models is
+# an unambiguous faithful `dict of {str: DataTree}` representation once each element is
+# itself `_DataTreeLike`, so it's kept as a convenience for naming models positionally
 for f in (:plot_forest, :plot_ridge)
     @eval begin
         function convert_arguments(
@@ -110,8 +138,7 @@ for f in (:plot_forest, :plot_ridge)
             kwargs...,
         )
             dict = OrderedDict(
-                "model$i" => convert_to_inference_data(datum; group) for
-                (i, datum) in enumerate(data)
+                "model$i" => _idata_like(datum; group) for (i, datum) in enumerate(data)
             )
             return tuple(dict, args...), kwargs
         end

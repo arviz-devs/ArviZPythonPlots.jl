@@ -46,7 +46,7 @@ using Test
     @testset "$(f)" for f in (plot_trace, plot_trace_dist, plot_pair)
         f(data; var_names=["tau", "mu"])
         plotclose()
-        f((x=arr1, y=arr2); var_names=["x", "y"])
+        f(convert_to_inference_data((x=arr1, y=arr2)); var_names=["x", "y"])
         plotclose()
     end
 
@@ -55,9 +55,24 @@ using Test
     )
         f(data; var_names=["tau", "mu"])
         plotclose()
-        f(arr1)
+        f(convert_to_inference_data(arr1))
         plotclose()
-        f((x=arr1, y=arr2); var_names=["x", "y"])
+        f(convert_to_inference_data((x=arr1, y=arr2)); var_names=["x", "y"])
+        plotclose()
+    end
+
+    @testset "$(f) rejects a bare array (no longer auto-converted)" for f in (
+        plot_trace, plot_dist
+    )
+        # not converted, so it's passed through to arviz as a raw array; arviz itself
+        # errors trying to use it as a `DataTree`
+        @test_throws PyException f(arr1)
+    end
+
+    @testset "$(f) with dict of models" for f in (
+        plot_dist, plot_ess, plot_ess_evolution, plot_mcse
+    )
+        f(Dict("a" => data, "b" => data2); var_names=["mu"])
         plotclose()
     end
 
@@ -83,10 +98,14 @@ using Test
     @testset "$(f)" for f in (plot_forest, plot_ridge)
         f(data; var_names=["tau", "mu"])
         plotclose()
-        f([(x=arr1,), (x=arr2,)]; var_names=["x"])
+        f(
+            [convert_to_inference_data((x=arr1,)), convert_to_inference_data((x=arr2,))];
+            var_names=["x"],
+        )
         plotclose()
-        f((x=arr1, y=arr2); var_names=["x", "y"])
+        f(convert_to_inference_data((x=arr1, y=arr2)); var_names=["x", "y"])
         plotclose()
+        @test_throws MethodError f(arr3)
     end
 
     @testset "plot_bf" begin
@@ -173,6 +192,19 @@ using Test
 
     @testset "combine_plots" begin
         combine_plots(data, [(plot_dist, Dict()), (plot_ess, Dict())]; var_names=["mu"])
+        plotclose()
+    end
+
+    @testset "combine_plots with dict of models" begin
+        # documented (`dt : DataTree of dict of {str : DataTree}`), but confirmed broken
+        # upstream as of the installed arviz_plots release -- reproduced with a raw Python
+        # dict and a single plot function, no Julia conversion involved
+        @test_broken begin
+            combine_plots(
+                Dict("a" => data, "b" => data2), [(plot_dist, Dict())]; var_names=["mu"]
+            )
+            true
+        end
         plotclose()
     end
 
