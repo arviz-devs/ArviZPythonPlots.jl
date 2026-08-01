@@ -30,7 +30,7 @@ jobs:
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('docs/CondaPkg.toml') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
-      - uses: julia-actions/julia-downgrade-compat@v2
+      - uses: julia-actions/julia-downgrade-compat@v2.6.2
         with:
           mode: deps
       - uses: julia-actions/julia-buildpkg@latest
