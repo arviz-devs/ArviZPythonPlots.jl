@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Overview · ArviZPythonPlots.jl</title><meta name="title" content="Overview · ArviZPythonPlots.jl"/><meta property="og:title" content="Overview · ArviZPythonPlots.jl"/><meta property="twitter:title" content="Overview · ArviZPythonPlots.jl"/><meta name="description" content="Documentation for ArviZPythonPlots.jl."/><meta property="og:description" content="Documentation for ArviZPythonPlots.jl."/><meta property="twitter:description" content="Documentation for ArviZPythonPlots.jl."/><meta property="og:url" content="stable/gallery/"/><meta property="twitter:url" content="stable/gallery/"/><link rel="canonical" href="stable/gallery/"/><script data-outdated-warner src="../assets/warner.js"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/lato-font/3.0.0/css/lato-font.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/juliamono/0.050/juliamono.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="../assets/documenter.js"></script><script src="../search_index.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-mocha.css" data-theme-name="catppuccin-mocha"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-macchiato.css" data-theme-name="catppuccin-macchiato"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-frappe.css" data-theme-name="catppuccin-frappe"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/catppuccin-latte.css" data-theme-name="catppuccin-latte"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-dark.css" data-theme-name="documenter-dark" data-theme-primary-dark/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="../assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="../assets/themeswap.js"></script><link href="../assets/gallery.css" rel="stylesheet" type="text/css"/></head><body><div id="documenter"><nav class="docs-sidebar"><button class="docs-search-query input is-rounded is-small is-clickable my-2 mx-auto py-1 px-2" id="documenter-search-query">Search docs (Ctrl + /)</button><ul class="docs-menu"><li><a class="tocitem" href="../">Home</a></li><li><span class="tocitem">Examples gallery</span><ul><li class="is-active"><a class="tocitem" href>Overview</a><ul class="internal"><li><a class="tocitem" href="#Distribution"><span>Distribution</span></a></li><li><a class="tocitem" href="#Posterior-comparison"><span>Posterior comparison</span></a></li><li><a class="tocitem" href="#Inference-diagnostics"><span>Inference diagnostics</span></a></li><li><a class="tocitem" href="#Predictive-checks"><span>Predictive checks</span></a></li><li><a class="tocitem" href="#Prior-and-likelihood-sensitivity-checks"><span>Prior and likelihood sensitivity checks</span></a></li><li><a class="tocitem" href="#Model-comparison"><span>Model comparison</span></a></li><li><a class="tocitem" href="#Simulation-based-calibration"><span>Simulation based calibration</span></a></li><li><a class="tocitem" href="#Mixed"><span>Mixed</span></a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-2" type="checkbox"/><label class="tocitem" for="menuitem-2-2"><span class="docs-label">Distribution</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="distribution/00_plot_dist_ecdf/">Posterior ECDFs</a></li><li><a class="tocitem" href="distribution/01_plot_dist_hist/">Posterior Histograms</a></li><li><a class="tocitem" href="distribution/02_plot_dist_kde/">Posterior KDEs</a></li><li><a class="tocitem" href="distribution/03_plot_dist_qds/">Posterior quantile dot plots</a></li><li><a class="tocitem" href="distribution/04_plot_forest/">Forest plot</a></li><li><a class="tocitem" href="distribution/05_plot_forest_shade/">Forest plot with shading</a></li><li><a class="tocitem" href="distribution/06_plot_prior_posterior/">Plot prior and posterior</a></li><li><a class="tocitem" href="distribution/07_plot_pair_focus_distribution/">Scatterplot one variable against all others</a></li><li><a class="tocitem" href="distribution/08_plot_pair_distribution/">Scatterplot all variables against each other</a></li><li><a class="tocitem" href="distribution/08_plot_ridge/">Ridge plot</a></li><li><a class="tocitem" href="distribution/09_plot_dgof/">Diagnostics for density estimation</a></li><li><a class="tocitem" href="distribution/10_plot_dgof_dist/">Density and diagnostics for density estimation</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-3" type="checkbox"/><label class="tocitem" for="menuitem-2-3"><span class="docs-label">Posterior comparison</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="posterior_comparison/00_plot_dist_models/">Posterior KDEs for two models</a></li><li><a class="tocitem" href="posterior_comparison/01_plot_forest_models/">Posterior forest for two models</a></li><li><a class="tocitem" href="posterior_comparison/02_plot_ridge_multiple/">Ridge plot for multiple models</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-4" type="checkbox"/><label class="tocitem" for="menuitem-2-4"><span class="docs-label">Inference diagnostics</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="inference_diagnostics/00_plot_rank/">Rank plot</a></li><li><a class="tocitem" href="inference_diagnostics/01_plot_trace/">Trace plot</a></li><li><a class="tocitem" href="inference_diagnostics/02_plot_ess_evolution/">ESS evolution</a></li><li><a class="tocitem" href="inference_diagnostics/03_plot_ess_local/">ESS local</a></li><li><a class="tocitem" href="inference_diagnostics/04_plot_ess_quantile/">ESS quantile</a></li><li><a class="tocitem" href="inference_diagnostics/05_plot_ess_models/">ESS comparison</a></li><li><a class="tocitem" href="inference_diagnostics/05_plot_mcse/">Monte Carlo standard error</a></li><li><a class="tocitem" href="inference_diagnostics/06_plot_convergence_dist/">Convergence diagnostics distribution</a></li><li><a class="tocitem" href="inference_diagnostics/07_plot_autocorr/">Autocorrelation Plot</a></li><li><a class="tocitem" href="inference_diagnostics/08_plot_energy/">Energy</a></li><li><a class="tocitem" href="inference_diagnostics/09_plot_pair_focus/">Scatter plot of one variable against all other variables with divergences</a></li><li><a class="tocitem" href="inference_diagnostics/10_plot_pair/">Scatter plot of all variables against each other with divergences</a></li><li><a class="tocitem" href="inference_diagnostics/11_plot_parallel/">Parallel coordinates plot</a></li><li><a class="tocitem" href="inference_diagnostics/12_plot_lm/">Linear model plot</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-5" type="checkbox"/><label class="tocitem" for="menuitem-2-5"><span class="docs-label">Predictive checks</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="predictive_checks/00_plot_ppc_dist/">Predictive check with KDEs</a></li><li><a class="tocitem" href="predictive_checks/01_plot_ppc_rootogram/">Rootogram</a></li><li><a class="tocitem" href="predictive_checks/03_plot_pava_calibration/">PAV-adjusted calibration</a></li><li><a class="tocitem" href="predictive_checks/04_plot_ppc_pit/">PIT ECDF</a></li><li><a class="tocitem" href="predictive_checks/05_plot_ppc_coverage/">Coverage ECDF</a></li><li><a class="tocitem" href="predictive_checks/06_plot_loo_pit/">LOO-PIT ECDF</a></li><li><a class="tocitem" href="predictive_checks/07_plot_ppc_tstat/">Test statistics</a></li><li><a class="tocitem" href="predictive_checks/08_plot_ppc_interval/">Interval plot</a></li><li><a class="tocitem" href="predictive_checks/09_plot_ppc_censored/">Survival analysis (censored data)</a></li><li><a class="tocitem" href="predictive_checks/10_plot_ppc_pava_residuals/">PAV-adjusted residual plot</a></li><li><a class="tocitem" href="predictive_checks/11_plot_loo_interval/">Interval plot (LOO)</a></li><li><a class="tocitem" href="predictive_checks/12_plot_ppc_dist_pit/">Predictive check with ECDF and PIT Δ-ECDFs</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-6" type="checkbox"/><label class="tocitem" for="menuitem-2-6"><span class="docs-label">Prior and likelihood sensitivity checks</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="prior_and_likelihood_sensitivity_checks/00_plot_psense/">Sensitivity posterior marginals</a></li><li><a class="tocitem" href="prior_and_likelihood_sensitivity_checks/01_plot_psense_quantities/">Sensitivity posterior quantities</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-7" type="checkbox"/><label class="tocitem" for="menuitem-2-7"><span class="docs-label">Model comparison</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="model_comparison/00_plot_compare/">Predictive model comparison</a></li><li><a class="tocitem" href="model_comparison/01_plot_khat/">Pareto k parameter diagnostics</a></li><li><a class="tocitem" href="model_comparison/99_plot_bf/">Bayes factor</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-8" type="checkbox"/><label class="tocitem" for="menuitem-2-8"><span class="docs-label">Simulation based calibration</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="sbc/00_plot_ecdf_pit/">PIT-ECDF</a></li><li><a class="tocitem" href="sbc/01_plot_ecdf_coverage/">Coverage ECDF</a></li></ul></li><li><input class="collapse-toggle" id="menuitem-2-9" type="checkbox"/><label class="tocitem" for="menuitem-2-9"><span class="docs-label">Mixed</span><i class="docs-chevron"></i></label><ul class="collapsed"><li><a class="tocitem" href="mixed/00_plot_rank_dist/">Rank and distribution plot</a></li><li><a class="tocitem" href="mixed/01_plot_trace_dist/">Trace and distribution plot</a></li><li><a class="tocitem" href="mixed/03_combine_plots/">Custom diagnostic plots combination</a></li></ul></li></ul></li><li><span class="tocitem">API</span><ul><li><a class="tocitem" href="../api/conversions/">Input conversions</a></li><li><a class="tocitem" href="../api/style/">Plotting styles</a></li><li><a class="tocitem" href="../api/rcparams/">rcParams</a></li><li><a class="tocitem" href="../api/plots/">Plotting functions</a></li></ul></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><a class="docs-sidebar-button docs-navbar-link fa-solid fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a><nav class="breadcrumb"><ul class="is-hidden-mobile"><li><a class="is-disabled">Examples gallery</a></li><li class="is-active"><a href>Overview</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Overview</a></li></ul></nav><div class="docs-right"><a class="docs-navbar-link" href="https://github.com/arviz-devs/ArviZPythonPlots.jl" title="View the repository on GitHub"><span class="docs-icon fa-brands"></span><span class="docs-label is-hidden-touch">GitHub</span></a><a class="docs-navbar-link" href="https://github.com/arviz-devs/ArviZPythonPlots.jl/blob/main/docs/src/gallery/index.md" title="Edit source on GitHub"><span class="docs-icon fa-solid"></span></a><a class="docs-settings-button docs-navbar-link fa-solid fa-gear" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-article-toggle-button fa-solid fa-chevron-up" id="documenter-article-toggle-button" href="javascript:;" title="Collapse all docstrings"></a></div></header><article class="content" id="documenter-page"><h1 id="Examples-gallery"><a class="docs-heading-anchor" href="#Examples-gallery">Examples gallery</a><a id="Examples-gallery-1"></a><a class="docs-heading-anchor-permalink" href="#Examples-gallery" title="Permalink"></a></h1><p>Examples of the plotting functions exported by ArviZPythonPlots.jl, ported from the <a href="https://python.arviz.org/projects/plots/en/latest/gallery/index.html">arviz-plots gallery</a>.</p><h2 id="Distribution"><a class="docs-heading-anchor" href="#Distribution">Distribution</a><a id="Distribution-1"></a><a class="docs-heading-anchor-permalink" href="#Distribution" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_dist_ecdf.png" alt="Posterior ECDFs">
+<div class="gallery-card-overlay"><p>Faceted ECDF plots for 1D marginals of the distribution.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior ECDFs</div>
+<a class="gallery-card-link" href="distribution/00_plot_dist_ecdf/" aria-label="Posterior ECDFs"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_dist_hist.png" alt="Posterior Histograms">
+<div class="gallery-card-overlay"><p>Faceted histogram plots for 1D marginals of the distribution. The <code>point_estimate_text</code> option is set to <code>false</code> to omit that visual from the plot.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior Histograms</div>
+<a class="gallery-card-link" href="distribution/01_plot_dist_hist/" aria-label="Posterior Histograms"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/02_plot_dist_kde.png" alt="Posterior KDEs">
+<div class="gallery-card-overlay"><p>KDE plot of the variable <code>mu</code> from the centered eight model. <code>sample_dims</code> restricts the KDE computation to the <code>draw</code> dimension only.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior KDEs</div>
+<a class="gallery-card-link" href="distribution/02_plot_dist_kde/" aria-label="Posterior KDEs"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/03_plot_dist_qds.png" alt="Posterior quantile dot plots">
+<div class="gallery-card-overlay"><p>Quantile dot plot of the variable <code>mu</code> from the centered eight model. The point estimate text is removed and the number of quantiles is changed to 200.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior quantile dot plots</div>
+<a class="gallery-card-link" href="distribution/03_plot_dist_qds/" aria-label="Posterior quantile dot plots"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/04_plot_forest.png" alt="Forest plot">
+<div class="gallery-card-overlay"><p>Default forest plot with marginal distribution summaries.</p></div>
+</div>
+<div class="gallery-card-footer">Forest plot</div>
+<a class="gallery-card-link" href="distribution/04_plot_forest/" aria-label="Forest plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/05_plot_forest_shade.png" alt="Forest plot with shading">
+<div class="gallery-card-overlay"><p>Forest plot marginal summaries with row shading to enhance reading.</p></div>
+</div>
+<div class="gallery-card-footer">Forest plot with shading</div>
+<a class="gallery-card-link" href="distribution/05_plot_forest_shade/" aria-label="Forest plot with shading"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/06_plot_prior_posterior.png" alt="Plot prior and posterior">
+<div class="gallery-card-overlay"><p>Plot prior and posterior marginal distributions.</p></div>
+</div>
+<div class="gallery-card-footer">Plot prior and posterior</div>
+<a class="gallery-card-link" href="distribution/06_plot_prior_posterior/" aria-label="Plot prior and posterior"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/07_plot_pair_focus_distribution.png" alt="Scatterplot one variable against all others">
+<div class="gallery-card-overlay"><p>Plot one variable against other variables in the dataset.</p></div>
+</div>
+<div class="gallery-card-footer">Scatterplot one variable against all others</div>
+<a class="gallery-card-link" href="distribution/07_plot_pair_focus_distribution/" aria-label="Scatterplot one variable against all others"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/08_plot_pair_distribution.png" alt="Scatterplot all variables against each other">
+<div class="gallery-card-overlay"><p>Plot all variables against each other in the dataset.</p></div>
+</div>
+<div class="gallery-card-footer">Scatterplot all variables against each other</div>
+<a class="gallery-card-link" href="distribution/08_plot_pair_distribution/" aria-label="Scatterplot all variables against each other"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/08_plot_ridge.png" alt="Ridge plot">
+<div class="gallery-card-overlay"><p>Visual representation of marginal distributions over the y axis for a single model.</p></div>
+</div>
+<div class="gallery-card-footer">Ridge plot</div>
+<a class="gallery-card-link" href="distribution/08_plot_ridge/" aria-label="Ridge plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/09_plot_dgof.png" alt="Diagnostics for density estimation">
+<div class="gallery-card-overlay"><p>Diagnostics for assessing the goodness-of-fit of estimated distributions to the underlying data using the Probability Integral Transform (PIT) and the Δ-ECDF-PIT plots.</p></div>
+</div>
+<div class="gallery-card-footer">Diagnostics for density estimation</div>
+<a class="gallery-card-link" href="distribution/09_plot_dgof/" aria-label="Diagnostics for density estimation"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/10_plot_dgof_dist.png" alt="Density and diagnostics for density estimation">
+<div class="gallery-card-overlay"><p>Diagnostics for assessing the goodness-of-fit of estimated distributions to the underlying data using the Probability Integral Transform (PIT) and the Δ-ECDF-PIT plots.</p></div>
+</div>
+<div class="gallery-card-footer">Density and diagnostics for density estimation</div>
+<a class="gallery-card-link" href="distribution/10_plot_dgof_dist/" aria-label="Density and diagnostics for density estimation"></a>
+</div></div><h2 id="Posterior-comparison"><a class="docs-heading-anchor" href="#Posterior-comparison">Posterior comparison</a><a id="Posterior-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Posterior-comparison" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_dist_models.png" alt="Posterior KDEs for two models">
+<div class="gallery-card-overlay"><p>Full marginal distribution comparison between different models.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior KDEs for two models</div>
+<a class="gallery-card-link" href="posterior_comparison/00_plot_dist_models/" aria-label="Posterior KDEs for two models"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_forest_models.png" alt="Posterior forest for two models">
+<div class="gallery-card-overlay"><p>Forest plot summaries for 1D marginal distributions.</p></div>
+</div>
+<div class="gallery-card-footer">Posterior forest for two models</div>
+<a class="gallery-card-link" href="posterior_comparison/01_plot_forest_models/" aria-label="Posterior forest for two models"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/02_plot_ridge_multiple.png" alt="Ridge plot for multiple models">
+<div class="gallery-card-overlay"><p>Visual representation of marginal distributions over the y axis for multiple models.</p></div>
+</div>
+<div class="gallery-card-footer">Ridge plot for multiple models</div>
+<a class="gallery-card-link" href="posterior_comparison/02_plot_ridge_multiple/" aria-label="Ridge plot for multiple models"></a>
+</div></div><h2 id="Inference-diagnostics"><a class="docs-heading-anchor" href="#Inference-diagnostics">Inference diagnostics</a><a id="Inference-diagnostics-1"></a><a class="docs-heading-anchor-permalink" href="#Inference-diagnostics" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_rank.png" alt="Rank plot">
+<div class="gallery-card-overlay"><p>Faceted plot with fractional ranks for each variable.</p></div>
+</div>
+<div class="gallery-card-footer">Rank plot</div>
+<a class="gallery-card-link" href="inference_diagnostics/00_plot_rank/" aria-label="Rank plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_trace.png" alt="Trace plot">
+<div class="gallery-card-overlay"><p>Faceted plot with MCMC traces for each variable.</p></div>
+</div>
+<div class="gallery-card-footer">Trace plot</div>
+<a class="gallery-card-link" href="inference_diagnostics/01_plot_trace/" aria-label="Trace plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/02_plot_ess_evolution.png" alt="ESS evolution">
+<div class="gallery-card-overlay"><p>Faceted plot with ESS &quot;bulk&quot; and &quot;tail&quot; for each variable.</p></div>
+</div>
+<div class="gallery-card-footer">ESS evolution</div>
+<a class="gallery-card-link" href="inference_diagnostics/02_plot_ess_evolution/" aria-label="ESS evolution"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/03_plot_ess_local.png" alt="ESS local">
+<div class="gallery-card-overlay"><p>Faceted local ESS plot.</p></div>
+</div>
+<div class="gallery-card-footer">ESS local</div>
+<a class="gallery-card-link" href="inference_diagnostics/03_plot_ess_local/" aria-label="ESS local"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/04_plot_ess_quantile.png" alt="ESS quantile">
+<div class="gallery-card-overlay"><p>Faceted quantile ESS plot.</p></div>
+</div>
+<div class="gallery-card-footer">ESS quantile</div>
+<a class="gallery-card-link" href="inference_diagnostics/04_plot_ess_quantile/" aria-label="ESS quantile"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/05_plot_ess_models.png" alt="ESS comparison">
+<div class="gallery-card-overlay"><p>Full ESS (either local or quantile) comparison between different models.</p></div>
+</div>
+<div class="gallery-card-footer">ESS comparison</div>
+<a class="gallery-card-link" href="inference_diagnostics/05_plot_ess_models/" aria-label="ESS comparison"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/05_plot_mcse.png" alt="Monte Carlo standard error">
+<div class="gallery-card-overlay"><p>Faceted quantile MCSE plot.</p></div>
+</div>
+<div class="gallery-card-footer">Monte Carlo standard error</div>
+<a class="gallery-card-link" href="inference_diagnostics/05_plot_mcse/" aria-label="Monte Carlo standard error"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/06_plot_convergence_dist.png" alt="Convergence diagnostics distribution">
+<div class="gallery-card-overlay"><p>Plot the distribution of ESS and R-hat.</p></div>
+</div>
+<div class="gallery-card-footer">Convergence diagnostics distribution</div>
+<a class="gallery-card-link" href="inference_diagnostics/06_plot_convergence_dist/" aria-label="Convergence diagnostics distribution"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/07_plot_autocorr.png" alt="Autocorrelation Plot">
+<div class="gallery-card-overlay"><p>Faceted plot with autocorrelation for each variable.</p></div>
+</div>
+<div class="gallery-card-footer">Autocorrelation Plot</div>
+<a class="gallery-card-link" href="inference_diagnostics/07_plot_autocorr/" aria-label="Autocorrelation Plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/08_plot_energy.png" alt="Energy">
+<div class="gallery-card-overlay"><p>Plot transition and marginal energy distributions.</p></div>
+</div>
+<div class="gallery-card-footer">Energy</div>
+<a class="gallery-card-link" href="inference_diagnostics/08_plot_energy/" aria-label="Energy"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/09_plot_pair_focus.png" alt="Scatter plot of one variable against all other variables with divergences">
+<div class="gallery-card-overlay"><p>Plot one variable against other variables in the dataset.</p></div>
+</div>
+<div class="gallery-card-footer">Scatter plot of one variable against all other variables with divergences</div>
+<a class="gallery-card-link" href="inference_diagnostics/09_plot_pair_focus/" aria-label="Scatter plot of one variable against all other variables with divergences"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/10_plot_pair.png" alt="Scatter plot of all variables against each other with divergences">
+<div class="gallery-card-overlay"><p>Plot all variables against each other in the dataset.</p></div>
+</div>
+<div class="gallery-card-footer">Scatter plot of all variables against each other with divergences</div>
+<a class="gallery-card-link" href="inference_diagnostics/10_plot_pair/" aria-label="Scatter plot of all variables against each other with divergences"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/11_plot_parallel.png" alt="Parallel coordinates plot">
+<div class="gallery-card-overlay"><p>Plot parallel coordinates plot showing posterior points with divergences.</p></div>
+</div>
+<div class="gallery-card-footer">Parallel coordinates plot</div>
+<a class="gallery-card-link" href="inference_diagnostics/11_plot_parallel/" aria-label="Parallel coordinates plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/12_plot_lm.png" alt="Linear model plot">
+<div class="gallery-card-overlay"><p>Posterior predictive and mean plots for regression-like data. <code>plot_lm</code> visualizes credible intervals around predictions alongside observed data points.</p></div>
+</div>
+<div class="gallery-card-footer">Linear model plot</div>
+<a class="gallery-card-link" href="inference_diagnostics/12_plot_lm/" aria-label="Linear model plot"></a>
+</div></div><h2 id="Predictive-checks"><a class="docs-heading-anchor" href="#Predictive-checks">Predictive checks</a><a id="Predictive-checks-1"></a><a class="docs-heading-anchor-permalink" href="#Predictive-checks" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_ppc_dist.png" alt="Predictive check with KDEs">
+<div class="gallery-card-overlay"><p>Plot of samples from the posterior predictive and observed data.</p></div>
+</div>
+<div class="gallery-card-footer">Predictive check with KDEs</div>
+<a class="gallery-card-link" href="predictive_checks/00_plot_ppc_dist/" aria-label="Predictive check with KDEs"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_ppc_rootogram.png" alt="Rootogram">
+<div class="gallery-card-overlay"><p>Rootogram for the posterior predictive and observed data.</p></div>
+</div>
+<div class="gallery-card-footer">Rootogram</div>
+<a class="gallery-card-link" href="predictive_checks/01_plot_ppc_rootogram/" aria-label="Rootogram"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/03_plot_pava_calibration.png" alt="PAV-adjusted calibration">
+<div class="gallery-card-overlay"><p>PAV-adjusted calibration plot for binary predictions.</p></div>
+</div>
+<div class="gallery-card-footer">PAV-adjusted calibration</div>
+<a class="gallery-card-link" href="predictive_checks/03_plot_pava_calibration/" aria-label="PAV-adjusted calibration"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/04_plot_ppc_pit.png" alt="PIT ECDF">
+<div class="gallery-card-overlay"><p>Plot of the probability integral transform of the posterior predictive distribution with respect to the observed data.</p></div>
+</div>
+<div class="gallery-card-footer">PIT ECDF</div>
+<a class="gallery-card-link" href="predictive_checks/04_plot_ppc_pit/" aria-label="PIT ECDF"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/05_plot_ppc_coverage.png" alt="Coverage ECDF">
+<div class="gallery-card-overlay"><p>Proportion of true values that fall within a given prediction interval.</p></div>
+</div>
+<div class="gallery-card-footer">Coverage ECDF</div>
+<a class="gallery-card-link" href="predictive_checks/05_plot_ppc_coverage/" aria-label="Coverage ECDF"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/06_plot_loo_pit.png" alt="LOO-PIT ECDF">
+<div class="gallery-card-overlay"><p>Plot of the probability integral transform of the posterior predictive distribution with respect to the observed data using the leave-one-out (LOO) method.</p></div>
+</div>
+<div class="gallery-card-footer">LOO-PIT ECDF</div>
+<a class="gallery-card-link" href="predictive_checks/06_plot_loo_pit/" aria-label="LOO-PIT ECDF"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/07_plot_ppc_tstat.png" alt="Test statistics">
+<div class="gallery-card-overlay"><p>T-statistic for the observed data and posterior predictive data.</p></div>
+</div>
+<div class="gallery-card-footer">Test statistics</div>
+<a class="gallery-card-link" href="predictive_checks/07_plot_ppc_tstat/" aria-label="Test statistics"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/08_plot_ppc_interval.png" alt="Interval plot">
+<div class="gallery-card-overlay"><p>Plot posterior predictive point estimate and intervals at each observation.</p></div>
+</div>
+<div class="gallery-card-footer">Interval plot</div>
+<a class="gallery-card-link" href="predictive_checks/08_plot_ppc_interval/" aria-label="Interval plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/09_plot_ppc_censored.png" alt="Survival analysis (censored data)">
+<div class="gallery-card-overlay"><p>Plot Kaplan-Meier survival curve vs posterior predictive draws.</p></div>
+</div>
+<div class="gallery-card-footer">Survival analysis (censored data)</div>
+<a class="gallery-card-link" href="predictive_checks/09_plot_ppc_censored/" aria-label="Survival analysis (censored data)"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/10_plot_ppc_pava_residuals.png" alt="PAV-adjusted residual plot">
+<div class="gallery-card-overlay"><p>Residual plot using PAV-adjusted calibration for binary predictions.</p></div>
+</div>
+<div class="gallery-card-footer">PAV-adjusted residual plot</div>
+<a class="gallery-card-link" href="predictive_checks/10_plot_ppc_pava_residuals/" aria-label="PAV-adjusted residual plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/11_plot_loo_interval.png" alt="Interval plot (LOO)">
+<div class="gallery-card-overlay"><p>Plot LOO posterior predictive point estimate and intervals at each observation.</p></div>
+</div>
+<div class="gallery-card-footer">Interval plot (LOO)</div>
+<a class="gallery-card-link" href="predictive_checks/11_plot_loo_interval/" aria-label="Interval plot (LOO)"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/12_plot_ppc_dist_pit.png" alt="Predictive check with ECDF and PIT Δ-ECDFs">
+<div class="gallery-card-overlay"><p>Plot of the ECDF (right) of the PIT values (left) for samples from the posterior predictive and observed data.</p></div>
+</div>
+<div class="gallery-card-footer">Predictive check with ECDF and PIT Δ-ECDFs</div>
+<a class="gallery-card-link" href="predictive_checks/12_plot_ppc_dist_pit/" aria-label="Predictive check with ECDF and PIT Δ-ECDFs"></a>
+</div></div><h2 id="Prior-and-likelihood-sensitivity-checks"><a class="docs-heading-anchor" href="#Prior-and-likelihood-sensitivity-checks">Prior and likelihood sensitivity checks</a><a id="Prior-and-likelihood-sensitivity-checks-1"></a><a class="docs-heading-anchor-permalink" href="#Prior-and-likelihood-sensitivity-checks" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_psense.png" alt="Sensitivity posterior marginals">
+<div class="gallery-card-overlay"><p>The posterior sensitivity is assessed by power-scaling the prior or likelihood and visualizing the resulting changes. Sensitivity can then be quantified by considering how much the perturbed posteriors differ from the base posterior.</p></div>
+</div>
+<div class="gallery-card-footer">Sensitivity posterior marginals</div>
+<a class="gallery-card-link" href="prior_and_likelihood_sensitivity_checks/00_plot_psense/" aria-label="Sensitivity posterior marginals"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_psense_quantities.png" alt="Sensitivity posterior quantities">
+<div class="gallery-card-overlay"><p>The posterior quantities are computed by power-scaling the prior or likelihood and visualizing the resulting changes. Sensitivity can then be quantified by considering how much the perturbed quantities differ from the base quantities.</p></div>
+</div>
+<div class="gallery-card-footer">Sensitivity posterior quantities</div>
+<a class="gallery-card-link" href="prior_and_likelihood_sensitivity_checks/01_plot_psense_quantities/" aria-label="Sensitivity posterior quantities"></a>
+</div></div><h2 id="Model-comparison"><a class="docs-heading-anchor" href="#Model-comparison">Model comparison</a><a id="Model-comparison-1"></a><a class="docs-heading-anchor-permalink" href="#Model-comparison" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_compare.png" alt="Predictive model comparison">
+<div class="gallery-card-overlay"><p>Compare multiple models using predictive accuracy estimated using PSIS-LOO-CV. The <code>mc</code> argument is generated using <a href="https://julia.arviz.org/PosteriorStats/stable/api/#PosteriorStats.compare"><code>PosteriorStats.compare</code></a>.</p></div>
+</div>
+<div class="gallery-card-footer">Predictive model comparison</div>
+<a class="gallery-card-link" href="model_comparison/00_plot_compare/" aria-label="Predictive model comparison"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_khat.png" alt="Pareto k parameter diagnostics">
+<div class="gallery-card-overlay"><p>Default Pareto k diagnostic plot from PSIS-LOO-CV to assess importance sampling reliability.</p></div>
+</div>
+<div class="gallery-card-footer">Pareto k parameter diagnostics</div>
+<a class="gallery-card-link" href="model_comparison/01_plot_khat/" aria-label="Pareto k parameter diagnostics"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/99_plot_bf.png" alt="Bayes factor">
+<div class="gallery-card-overlay"><p>Compute the Bayes factor using the Savage-Dickey ratio.</p></div>
+</div>
+<div class="gallery-card-footer">Bayes factor</div>
+<a class="gallery-card-link" href="model_comparison/99_plot_bf/" aria-label="Bayes factor"></a>
+</div></div><h2 id="Simulation-based-calibration"><a class="docs-heading-anchor" href="#Simulation-based-calibration">Simulation based calibration</a><a id="Simulation-based-calibration-1"></a><a class="docs-heading-anchor-permalink" href="#Simulation-based-calibration" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_ecdf_pit.png" alt="PIT-ECDF">
+<div class="gallery-card-overlay"><p>Faceted plot with PIT Δ-ECDF values for each variable.</p></div>
+</div>
+<div class="gallery-card-footer">PIT-ECDF</div>
+<a class="gallery-card-link" href="sbc/00_plot_ecdf_pit/" aria-label="PIT-ECDF"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_ecdf_coverage.png" alt="Coverage ECDF">
+<div class="gallery-card-overlay"><p>Coverage refers to the proportion of true values that fall within a given prediction interval. For a well-calibrated model, the coverage should match the intended interval width. For example, a 95% credible interval should contain the true value 95% of the time.</p></div>
+</div>
+<div class="gallery-card-footer">Coverage ECDF</div>
+<a class="gallery-card-link" href="sbc/01_plot_ecdf_coverage/" aria-label="Coverage ECDF"></a>
+</div></div><h2 id="Mixed"><a class="docs-heading-anchor" href="#Mixed">Mixed</a><a id="Mixed-1"></a><a class="docs-heading-anchor-permalink" href="#Mixed" title="Permalink"></a></h2><div class="gallery-grid"><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/00_plot_rank_dist.png" alt="Rank and distribution plot">
+<div class="gallery-card-overlay"><p>Two column layout with marginal distributions on the left and fractional ranks on the right.</p></div>
+</div>
+<div class="gallery-card-footer">Rank and distribution plot</div>
+<a class="gallery-card-link" href="mixed/00_plot_rank_dist/" aria-label="Rank and distribution plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/01_plot_trace_dist.png" alt="Trace and distribution plot">
+<div class="gallery-card-overlay"><p>Two column layout with marginal distributions on the left and MCMC traces on the right.</p></div>
+</div>
+<div class="gallery-card-footer">Trace and distribution plot</div>
+<a class="gallery-card-link" href="mixed/01_plot_trace_dist/" aria-label="Trace and distribution plot"></a>
+</div><div class="gallery-card">
+<div class="gallery-card-image">
+<img src="covers/03_combine_plots.png" alt="Custom diagnostic plots combination">
+<div class="gallery-card-overlay"><p>Arrange three diagnostic plots (ESS evolution plot, rank plot, and autocorrelation plot) in a custom column layout.</p></div>
+</div>
+<div class="gallery-card-footer">Custom diagnostic plots combination</div>
+<a class="gallery-card-link" href="mixed/03_combine_plots/" aria-label="Custom diagnostic plots combination"></a>
+</div></div></article><nav class="docs-footer"><a class="docs-footer-prevpage" href="../">« Home</a><a class="docs-footer-nextpage" href="distribution/00_plot_dist_ecdf/">Posterior ECDFs »</a><div class="flexbox-break"></div><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.17.0 on <span class="colophon-date" title="Wednesday 8 July 2026 15:08">Wednesday 8 July 2026</span>. Using Julia version 1.12.6.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
