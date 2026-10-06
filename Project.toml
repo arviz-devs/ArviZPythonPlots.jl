@@ -3,6 +3,9 @@ uuid = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
 version = "0.2.2"
 authors = ["Seth Axen <seth@sethaxen.com>"]
 
+[workspace]
+projects = ["docs", "test"]
+
 [deps]
 CondaPkg = "992eb4ea-22a4-4c89-a5bb-47a3300528ab"
 DimensionalData = "0703355e-b756-11e9-17c0-8b28908087d0"
