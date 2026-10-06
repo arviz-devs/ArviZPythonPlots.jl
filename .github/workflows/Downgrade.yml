@@ -33,7 +33,11 @@ jobs:
       - uses: julia-actions/julia-downgrade-compat@v2.7.0
         with:
           mode: deps
+          projects: ".,test"
+          skip: Random,Test
       - uses: julia-actions/julia-buildpkg@latest
+        with:
+          project: "test"
       - uses: julia-actions/julia-runtest@latest
         with:
           allow_reresolve: false
