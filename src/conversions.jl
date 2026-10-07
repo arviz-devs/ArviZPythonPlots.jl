@@ -7,8 +7,7 @@ function PythonCall.Py(d::PSISLOOResult)
     n_samples = psis_result.nchains * psis_result.ndraws
     good_k = min(1 - inv(log10(n_samples)), 0.7)
 
-    return arviz.ELPDData(;
-        kind="loo",
+    kwargs = (;
         elpd=estimates.elpd,
         se=estimates.se_elpd,
         p=estimates.p,
@@ -20,6 +19,13 @@ function PythonCall.Py(d::PSISLOOResult)
         elpd_i=pyds.elpd_i,
         pareto_k=pyds.pareto_k,
     )
+    # arviz-stats v1.3.3 replaced the `kind` field of `ELPDData` with subclasses
+    arviz_stats_utils = pyimport("arviz_stats.utils")
+    if pyhasattr(arviz_stats_utils, "ELPDDataLOO")
+        return arviz_stats_utils.ELPDDataLOO(; kwargs...)
+    else
+        return arviz.ELPDData(; kind="loo", kwargs...)
+    end
 end
 
 function rekey(nt::NamedTuple, old_new_keys::Pair...)
