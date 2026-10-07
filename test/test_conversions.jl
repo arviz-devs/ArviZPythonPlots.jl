@@ -10,6 +10,7 @@ using Test
         loo_result = loo(idata; reff=1)
         loo_py_result = ArviZPythonPlots.arviz.loo(idata; pointwise=true, reff=1)
         py_loo_result = Py(loo_result)
+        @test pyisinstance(py_loo_result, pytype(loo_py_result))
         @test pyconvert(String, py_loo_result.kind) == "loo"
         @test pyconvert(Float64, py_loo_result.elpd) ≈
             pyconvert(Float64, loo_py_result.elpd) rtol = 1e-3
