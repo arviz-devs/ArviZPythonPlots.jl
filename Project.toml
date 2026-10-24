@@ -1,6 +1,6 @@
 name = "ArviZPythonPlots"
 uuid = "4a6e88f0-2c8e-11ee-0601-e94153f0eada"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["Seth Axen <seth@sethaxen.com>"]
 
 [workspace]
@@ -23,7 +23,7 @@ CondaPkg = "0.2"
 DimensionalData = "0.27, 0.28, 0.29, 0.30"
 InferenceObjects = "0.4.13"
 Markdown = "1"
-OrderedCollections = "1"
+OrderedCollections = "1, 2"
 PosteriorStats = "0.3, 0.4"
 PythonCall = "0.9"
 PythonPlot = "1.0.6"
