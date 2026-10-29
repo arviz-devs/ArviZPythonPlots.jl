@@ -116,6 +116,14 @@ using Test
         @test pyconvert(Vector, o.y.values) == [1, 2, 3]
     end
 
+    @testset "Symbol lookups become strings" begin
+        x = DimArray(randn(3), Dim{:school}([:b, :a, :c]); name=:x)
+        @testset for o in (ArviZPythonPlots.topytype(x), Py(Dataset((; x))).x)
+            @test pyconvert(Vector{String}, o.coords["school"].values) == ["b", "a", "c"]
+            @test pyconvert(Float64, o.sel(; school="a").item()) == x[school = At(:a)]
+        end
+    end
+
     @testset "InferenceData -> Py" begin
         idata = random_data()
         pyidata = Py(idata)

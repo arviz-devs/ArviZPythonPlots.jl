@@ -41,6 +41,8 @@ end
 # DimensionalData gives dimensions without a lookup no coordinates, which xarray (and so
 # arviz) would then index from 0, so we give them 1-based lookups instead
 _xarray_lookup(::DimensionalData.NoLookup) = DimensionalData.Sampled
+# `Symbol`s would otherwise be passed as Julia objects, which can't be selected with a `str`
+_xarray_lookup(lookup::DimensionalData.Lookup{Symbol}) = string.(parent(lookup))
 _xarray_lookup(lookup) = nothing
 
 # Python has no equivalent of `missing`, so for real values we replace it with `NaN`,
