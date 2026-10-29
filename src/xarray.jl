@@ -3,10 +3,12 @@
 # DimensionalData's PythonCall extension converts `AbstractDimArray`/`AbstractDimStack` to
 # `xarray.DataArray`/`xarray.Dataset`, but only when asked to with `xarray=true` (or its
 # `xarray_convert` preference). Since our wrappers convert transparently, we always ask for
-# it, always copy (DimensionalData can only avoid copying arrays numpy can share memory
-# with), and first handle the Julia-specific cases DimensionalData leaves to the caller.
+# it, copy only what numpy can't share memory with (DimensionalData otherwise errors), and
+# first handle the Julia-specific cases DimensionalData leaves to the caller.
 function _to_xarray(data; kwargs...)
-    return Py(_prepare_for_xarray(data); xarray=true, copy=true, kwargs...)
+    data = _prepare_for_xarray(data)
+    copy = !_can_share_memory(data)
+    return Py(data; xarray=true, copy, kwargs...)
 end
 _to_xarray(data::Dataset; kwargs...) = _to_xarray(parent(data); kwargs...)
 
@@ -16,10 +18,12 @@ topytype(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
 topytype(data::DimensionalData.AbstractDimStack) = _to_xarray(data)
 
 function _prepare_for_xarray(data::DimensionalData.AbstractDimArray)
-    return _replace_missing(_prepare_lookups(data))
+    return _make_shareable(_replace_missing(_prepare_lookups(data)))
 end
 function _prepare_for_xarray(data::DimensionalData.AbstractDimStack)
-    return DimensionalData.maplayers(_replace_missing, _prepare_lookups(data))
+    return DimensionalData.maplayers(
+        _make_shareable ∘ _replace_missing, _prepare_lookups(data)
+    )
 end
 
 function _prepare_lookups(data)
@@ -45,4 +49,20 @@ function _replace_missing(data::DimensionalData.AbstractDimArray)
     (Missing <: eltype(data) && S <: Real) || return data
     T = S === Union{} ? Float64 : float(S)
     return map(x -> ismissing(x) ? T(NaN) : T(x), data)
+end
+
+# numpy can share memory with the arrays juliacall exposes an array interface for
+function _can_share_memory(data::DimensionalData.AbstractDimArray)
+    return pyhasattr(Py(parent(data)), "__array_interface__")
+end
+function _can_share_memory(data::DimensionalData.AbstractDimStack)
+    return all(_can_share_memory, DimensionalData.layers(data))
+end
+
+# numpy can't share memory with e.g. non-strided views or ranges, but it can once they are
+# copied into an `Array` (if their elements are bits types), so that the other layers of a
+# stack don't need to be copied too
+function _make_shareable(data::DimensionalData.AbstractDimArray)
+    (isbitstype(eltype(data)) && !_can_share_memory(data)) || return data
+    return DimensionalData.modify(Array, data)
 end
