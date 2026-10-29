@@ -1,3 +1,5 @@
+# Utilities for customizing conversion of DimensionalData/InferenceObjects types to xarray
+
 # DimensionalData's PythonCall extension converts `AbstractDimArray`/`AbstractDimStack` to
 # `xarray.DataArray`/`xarray.Dataset`, but only when asked to with `xarray=true` (or its
 # `xarray_convert` preference). Since our wrappers convert transparently, we always ask for
@@ -12,15 +14,6 @@ _to_xarray(data::Dataset; kwargs...) = _to_xarray(parent(data); kwargs...)
 # (src/utils.jl), which would otherwise convert a `DimArray` to a bare numpy array
 topytype(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
 topytype(data::DimensionalData.AbstractDimStack) = _to_xarray(data)
-
-# unlike a generic `DimStack`, a `Dataset` always converts to `xarray.Dataset`, like
-# `InferenceData` always converts to `xarray.DataTree`
-PythonCall.Py(data::Dataset; kwargs...) = _to_xarray(data; kwargs...)
-
-function PythonCall.Py(data::InferenceData)
-    groups = NamedTuple(data)
-    return xarray.DataTree.from_dict(topytype(Dict(pairs(groups))))
-end
 
 function _prepare_for_xarray(data::DimensionalData.AbstractDimArray)
     return _replace_missing(_prepare_lookups(data))

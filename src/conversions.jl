@@ -1,3 +1,14 @@
+# 🏴‍☠️ Sanctioned type-piracy for types declared in arviz-devs packages
+
+# unlike a generic `DimStack`, a `Dataset` always converts to `xarray.Dataset`, like
+# `InferenceData` always converts to `xarray.DataTree`
+PythonCall.Py(data::Dataset; kwargs...) = _to_xarray(data; kwargs...)
+
+function PythonCall.Py(data::InferenceData)
+    groups = NamedTuple(data)
+    return xarray.DataTree.from_dict(topytype(Dict(pairs(groups))))
+end
+
 function PythonCall.Py(d::PSISLOOResult)
     estimates = elpd_estimates(d)
     pointwise = elpd_estimates(d; pointwise=true)
