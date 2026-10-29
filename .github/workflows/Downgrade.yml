@@ -35,6 +35,15 @@ jobs:
           mode: deps
           projects: ".,test"
           skip: Random,Test
+      # TODO: remove once DimensionalData v0.30.4 is released. The downgraded manifest keeps
+      # the registered DimensionalData's tree hash, so its `[sources]` entry is not loaded.
+      - name: Add DimensionalData from [sources]
+        run: |
+          using Pkg, TOML
+          source = TOML.parsefile("Project.toml")["sources"]["DimensionalData"]
+          spec = PackageSpec(; name="DimensionalData", url=source["url"], rev=source["rev"])
+          Pkg.add(spec; preserve=Pkg.PRESERVE_ALL)
+        shell: julia --color=yes --project=test/ {0}
       - uses: julia-actions/julia-buildpkg@v1
         with:
           project: "test"
