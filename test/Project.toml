@@ -15,7 +15,7 @@ ArviZPythonPlots = {path = ".."}
 ArviZExampleData = "0.3"
 ArviZPythonPlots = "0.2.1"
 DimensionalData = "0.30.3"
-InferenceObjects = "0.4.13"
+InferenceObjects = "0.4.16"
 PosteriorStats = "0.3, 0.4"
 PythonCall = "0.9"
 Random = "1"
