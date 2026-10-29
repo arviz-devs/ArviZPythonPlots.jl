@@ -1,41 +1,48 @@
-PythonCall.Py(data::Dataset) = _to_xarray(data)
-PythonCall.Py(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
+# Utilities for customizing conversion of DimensionalData/InferenceObjects types to xarray
+
+# DimensionalData's PythonCall extension converts `AbstractDimArray`/`AbstractDimStack` to
+# `xarray.DataArray`/`xarray.Dataset`, but only when asked to with `xarray=true` (or its
+# `xarray_convert` preference). Since our wrappers convert transparently, we always ask for
+# it, always copy (DimensionalData can only avoid copying arrays numpy can share memory
+# with), and first handle the Julia-specific cases DimensionalData leaves to the caller.
+function _to_xarray(data; kwargs...)
+    return Py(_prepare_for_xarray(data); xarray=true, copy=true, kwargs...)
+end
+_to_xarray(data::Dataset; kwargs...) = _to_xarray(parent(data); kwargs...)
 
 # more specific than `topytype(::AbstractArray{<:Real})`/`topytype(::AbstractVector{<:Real})`
-# (src/utils.jl), which would otherwise convert a `DimArray` to a bare numpy array before it
-# ever reaches the generic `Py(x)` fallback that calls the method above
+# (src/utils.jl), which would otherwise convert a `DimArray` to a bare numpy array
 topytype(data::DimensionalData.AbstractDimArray) = _to_xarray(data)
+topytype(data::DimensionalData.AbstractDimStack) = _to_xarray(data)
 
-function PythonCall.Py(data::InferenceData)
-    groups = NamedTuple(data)
-    return xarray.DataTree.from_dict(topytype(Dict(pairs(groups))))
+function _prepare_for_xarray(data::DimensionalData.AbstractDimArray)
+    return _replace_missing(_prepare_lookups(data))
+end
+function _prepare_for_xarray(data::DimensionalData.AbstractDimStack)
+    return DimensionalData.maplayers(_replace_missing, _prepare_lookups(data))
 end
 
-function _to_xarray(data::DimensionalData.AbstractDimStack)
-    data_vars = map(_to_xarray, DimensionalData.layers(data))
-    attrs = pairs(DimensionalData.metadata(data))
-    return xarray.Dataset(topytype(data_vars); attrs=topytype(attrs))
-end
-
-function _to_xarray(data::DimensionalData.AbstractDimArray)
-    var_name = DimensionalData.name(data)
-    data_dims = DimensionalData.dims(data)
-    dims = DimensionalData.name(data_dims)
-    coords = Dict(zip(dims, parent.(DimensionalData.lookup(data_dims))))
-    sample_dims = ()
-    values = parent(data)
-    if Missing <: eltype(values)
-        # passing `missing` to Python causes the array to have a `PythonCall.jlwrap` dtype
-        values = replace(values, missing => NaN)
+function _prepare_lookups(data)
+    lookups = map(DimensionalData.dims(data)) do dim
+        return DimensionalData.name(dim) => _xarray_lookup(DimensionalData.lookup(dim))
     end
-    metadata = pairs(DimensionalData.metadata(data))
-    kwargs = (; dims, coords, sample_dims)
-    pykwargs = map(topytype, kwargs)
-    return da = arviz.ndarray_to_dataarray(
-        Py(values).to_numpy(), topytype(var_name); pykwargs...
-    )
-    # if !isempty(metadata)
-    #    da.attrs = metadata
-    # end
-    # return da
+    new_lookups = filter(!isnothing ∘ last, lookups)
+    isempty(new_lookups) && return data
+    return DimensionalData.set(data, new_lookups...)
+end
+
+# DimensionalData gives dimensions without a lookup no coordinates, which xarray (and so
+# arviz) would then index from 0, so we give them 1-based lookups instead
+_xarray_lookup(::DimensionalData.NoLookup) = DimensionalData.Sampled
+# `Symbol`s would otherwise be passed as Julia objects, which can't be selected with a `str`
+_xarray_lookup(lookup::DimensionalData.Lookup{Symbol}) = string.(parent(lookup))
+_xarray_lookup(lookup) = nothing
+
+# Python has no equivalent of `missing`, so for real values we replace it with `NaN`,
+# promoting to float if necessary
+function _replace_missing(data::DimensionalData.AbstractDimArray)
+    S = nonmissingtype(eltype(data))
+    (Missing <: eltype(data) && S <: Real) || return data
+    T = S === Union{} ? Float64 : float(S)
+    return map(x -> ismissing(x) ? T(NaN) : T(x), data)
 end

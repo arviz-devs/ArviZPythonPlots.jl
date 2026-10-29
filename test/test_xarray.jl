@@ -30,16 +30,20 @@ using Test
             )
         end
 
+        # DimensionalData reverses the dimensions so that the fast axis is the same in
+        # Julia and Python
         variables = Dict(collect(o.data_vars.variables.items()))
         @test pystr("x") ∈ keys(variables)
-        @test Bool(pyeq(Py(x), variables[pystr("x")].values).all())
-        @test Bool(variables[pystr("x")].dims == pytuple(pystr.(xdims)))
+        @test pyconvert(Array, variables[pystr("x")].values) ==
+            permutedims(parent(x), ndims(x):-1:1)
+        @test Bool(variables[pystr("x")].dims == pytuple(pystr.(reverse(xdims))))
 
         @test pystr("y") ∈ keys(variables)
-        @test Bool(pyeq(Py(y), variables[pystr("y")].values).all())
+        @test pyconvert(Array, variables[pystr("y")].values) ==
+            permutedims(parent(y), ndims(y):-1:1)
         @test Bool(
             variables[pystr("y")].dims ==
-            pytuple(pystr.(("chain", "draw", "ydim1", "shared"))),
+            pytuple(pystr.(("shared", "ydim1", "draw", "chain"))),
         )
     end
 
@@ -47,21 +51,77 @@ using Test
         xdims = (:chain, :draw, Dim{:shared}(["s1", "s2", "s3"]))
         x = DimArray(randn(4, 100, 3), xdims; name=:x)
 
-        o = Py(x)
+        # `topytype` must not take the generic `AbstractArray{<:Real}` -> bare numpy array
+        # shortcut (src/utils.jl)
+        o = ArviZPythonPlots.topytype(x)
         @test o isa Py
         @test pyisinstance(o, ArviZPythonPlots.xarray.DataArray)
-        @test Bool(pyeq(Py(x), o.values).all())
-        @test Bool(o.dims == pytuple(pystr.((:chain, :draw, :shared))))
+        @test pyconvert(Array, o.values) == permutedims(parent(x), ndims(x):-1:1)
+        @test Bool(o.dims == pytuple(pystr.((:shared, :draw, :chain))))
         @test pyeq(
             Bool,
             pylist(o.coords["shared"].values),
             pylist(parent(DimensionalData.lookup(x, :shared))),
         )
+        # dimensions without a lookup get 1-based coordinates
+        @test pyeq(Bool, pylist(o.coords["draw"].values), pylist(1:100))
+    end
 
-        # `topytype` must dispatch to the same conversion, not the generic
-        # `AbstractArray{<:Real}` -> bare numpy array shortcut (src/utils.jl)
-        t = ArviZPythonPlots.topytype(x)
-        @test pyisinstance(t, ArviZPythonPlots.xarray.DataArray)
+    @testset "data is copied" begin
+        values = randn(4, 5)
+        x = DimArray(values, (:chain, :draw))
+        o = ArviZPythonPlots.topytype(x)
+        values[1, 1] = 42
+        @test pyconvert(Float64, o.isel(; chain=0, draw=0).item()) != 42
+
+        values = randn(4, 5)
+        ds = Dataset((; x=DimArray(values, (:chain, :draw))))
+        o = Py(ds)
+        values[1, 1] = 42
+        @test pyconvert(Float64, o.x.isel(; chain=0, draw=0).item()) != 42
+    end
+
+    @testset "arrays numpy can't share memory with" begin
+        values = randn(4, 5)
+        @testset for x in (
+            DimArray(view(values, :, [1, 3]), (:chain, :draw)),
+            DimArray(PermutedDimsArray(values, (2, 1)), (:draw, :chain)),
+            DimArray(1:5, :draw),
+            DimArray(reshape(1:20, 4, 5), (:chain, :draw)),
+        )
+            o = ArviZPythonPlots.topytype(x)
+            @test pyisinstance(o, ArviZPythonPlots.xarray.DataArray)
+            @test pyconvert(Array, o.values) == permutedims(collect(x), ndims(x):-1:1)
+        end
+    end
+
+    @testset "missing values become NaN" begin
+        @testset for (values, expected) in (
+            ([1.0, missing, 3.0], [1.0, NaN, 3.0]),
+            (Float32[1, 2, 3], Float32[1, 2, 3]),
+            (Union{Missing,Int}[1, 2, 3], [1.0, 2.0, 3.0]),
+            ([1, missing, 3], [1.0, NaN, 3.0]),
+            ([true, missing], [1.0, NaN]),
+            ([missing, missing], [NaN, NaN]),
+        )
+            x = DimArray(values, :draw)
+            o = ArviZPythonPlots.topytype(x)
+            @test pyconvert(String, o.dtype.name) == lowercase(string(eltype(expected)))
+            @test isequal(pyconvert(Vector, o.values), expected)
+        end
+
+        ds = Dataset((; x=DimArray([1, missing, 3], :draw), y=DimArray([1, 2, 3], :draw)))
+        o = Py(ds)
+        @test isequal(pyconvert(Vector, o.x.values), [1.0, NaN, 3.0])
+        @test pyconvert(Vector, o.y.values) == [1, 2, 3]
+    end
+
+    @testset "Symbol lookups become strings" begin
+        x = DimArray(randn(3), Dim{:school}([:b, :a, :c]); name=:x)
+        @testset for o in (ArviZPythonPlots.topytype(x), Py(Dataset((; x))).x)
+            @test pyconvert(Vector{String}, o.coords["school"].values) == ["b", "a", "c"]
+            @test pyconvert(Float64, o.sel(; school="a").item()) == x[school = At(:a)]
+        end
     end
 
     @testset "InferenceData -> Py" begin
