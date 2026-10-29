@@ -22,7 +22,12 @@ function PythonCall.Py(data::InferenceData)
     return xarray.DataTree.from_dict(topytype(Dict(pairs(groups))))
 end
 
-_prepare_for_xarray(data) = _prepare_lookups(data)
+function _prepare_for_xarray(data::DimensionalData.AbstractDimArray)
+    return _replace_missing(_prepare_lookups(data))
+end
+function _prepare_for_xarray(data::DimensionalData.AbstractDimStack)
+    return DimensionalData.maplayers(_replace_missing, _prepare_lookups(data))
+end
 
 function _prepare_lookups(data)
     lookups = map(DimensionalData.dims(data)) do dim
@@ -37,3 +42,12 @@ end
 # arviz) would then index from 0, so we give them 1-based lookups instead
 _xarray_lookup(::DimensionalData.NoLookup) = DimensionalData.Sampled
 _xarray_lookup(lookup) = nothing
+
+# Python has no equivalent of `missing`, so for real values we replace it with `NaN`,
+# promoting to float if necessary
+function _replace_missing(data::DimensionalData.AbstractDimArray)
+    S = nonmissingtype(eltype(data))
+    (Missing <: eltype(data) && S <: Real) || return data
+    T = S === Union{} ? Float64 : float(S)
+    return map(x -> ismissing(x) ? T(NaN) : T(x), data)
+end

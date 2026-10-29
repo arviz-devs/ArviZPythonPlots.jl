@@ -95,6 +95,27 @@ using Test
         end
     end
 
+    @testset "missing values become NaN" begin
+        @testset for (values, expected) in (
+            ([1.0, missing, 3.0], [1.0, NaN, 3.0]),
+            (Float32[1, 2, 3], Float32[1, 2, 3]),
+            (Union{Missing,Int}[1, 2, 3], [1.0, 2.0, 3.0]),
+            ([1, missing, 3], [1.0, NaN, 3.0]),
+            ([true, missing], [1.0, NaN]),
+            ([missing, missing], [NaN, NaN]),
+        )
+            x = DimArray(values, :draw)
+            o = ArviZPythonPlots.topytype(x)
+            @test pyconvert(String, o.dtype.name) == lowercase(string(eltype(expected)))
+            @test isequal(pyconvert(Vector, o.values), expected)
+        end
+
+        ds = Dataset((; x=DimArray([1, missing, 3], :draw), y=DimArray([1, 2, 3], :draw)))
+        o = Py(ds)
+        @test isequal(pyconvert(Vector, o.x.values), [1.0, NaN, 3.0])
+        @test pyconvert(Vector, o.y.values) == [1, 2, 3]
+    end
+
     @testset "InferenceData -> Py" begin
         idata = random_data()
         pyidata = Py(idata)
