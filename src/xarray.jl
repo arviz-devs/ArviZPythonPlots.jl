@@ -1,9 +1,10 @@
 # DimensionalData's PythonCall extension converts `AbstractDimArray`/`AbstractDimStack` to
 # `xarray.DataArray`/`xarray.Dataset`, but only when asked to with `xarray=true` (or its
 # `xarray_convert` preference). Since our wrappers convert transparently, we always ask for
-# it, and first handle the Julia-specific cases DimensionalData leaves to the caller.
+# it, always copy (DimensionalData can only avoid copying arrays numpy can share memory
+# with), and first handle the Julia-specific cases DimensionalData leaves to the caller.
 function _to_xarray(data; kwargs...)
-    return Py(_prepare_for_xarray(data); xarray=true, kwargs...)
+    return Py(_prepare_for_xarray(data); xarray=true, copy=true, kwargs...)
 end
 _to_xarray(data::Dataset; kwargs...) = _to_xarray(parent(data); kwargs...)
 

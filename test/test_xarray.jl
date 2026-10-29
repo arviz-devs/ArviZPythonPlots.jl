@@ -67,6 +67,34 @@ using Test
         @test pyeq(Bool, pylist(o.coords["draw"].values), pylist(1:100))
     end
 
+    @testset "data is copied" begin
+        values = randn(4, 5)
+        x = DimArray(values, (:chain, :draw))
+        o = ArviZPythonPlots.topytype(x)
+        values[1, 1] = 42
+        @test pyconvert(Float64, o.isel(; chain=0, draw=0).item()) != 42
+
+        values = randn(4, 5)
+        ds = Dataset((; x=DimArray(values, (:chain, :draw))))
+        o = Py(ds)
+        values[1, 1] = 42
+        @test pyconvert(Float64, o.x.isel(; chain=0, draw=0).item()) != 42
+    end
+
+    @testset "arrays numpy can't share memory with" begin
+        values = randn(4, 5)
+        @testset for x in (
+            DimArray(view(values, :, [1, 3]), (:chain, :draw)),
+            DimArray(PermutedDimsArray(values, (2, 1)), (:draw, :chain)),
+            DimArray(1:5, :draw),
+            DimArray(reshape(1:20, 4, 5), (:chain, :draw)),
+        )
+            o = ArviZPythonPlots.topytype(x)
+            @test pyisinstance(o, ArviZPythonPlots.xarray.DataArray)
+            @test pyconvert(Array, o.values) == permutedims(collect(x), ndims(x):-1:1)
+        end
+    end
+
     @testset "InferenceData -> Py" begin
         idata = random_data()
         pyidata = Py(idata)
