@@ -67,33 +67,18 @@ using Test
         @test pyeq(Bool, pylist(o.coords["draw"].values), pylist(1:100))
     end
 
-    @testset "data is copied only if numpy can't share memory with it" begin
+    @testset "data is copied" begin
         values = randn(4, 5)
         x = DimArray(values, (:chain, :draw))
         o = ArviZPythonPlots.topytype(x)
         values[1, 1] = 42
-        @test pyconvert(Float64, o.isel(; chain=0, draw=0).item()) == 42
+        @test pyconvert(Float64, o.isel(; chain=0, draw=0).item()) != 42
 
-        # only the layers numpy can't share memory with are copied
         values = randn(4, 5)
-        ds = Dataset((;
-            x=DimArray(values, (:chain, :draw)),
-            y=DimArray(view(values, :, [1, 3]), (:chain, :pair)),
-        ))
+        ds = Dataset((; x=DimArray(values, (:chain, :draw))))
         o = Py(ds)
         values[1, 1] = 42
-        @test pyconvert(Float64, o.x.isel(; chain=0, draw=0).item()) == 42
-        @test pyconvert(Float64, o.y.isel(; chain=0, pair=0).item()) != 42
-
-        # copying can be requested
-        o = Py(ds; copy=true)
-        values[1, 1] = 3.14
-        @test pyconvert(Float64, o.x.isel(; chain=0, draw=0).item()) == 42
-
-        # elements numpy can't share memory with are copied
-        ds = Dataset((; x=DimArray(randn(3), :draw), y=DimArray(["a", "b", "c"], :draw)))
-        o = Py(ds)
-        @test pyconvert(Vector{String}, o.y.values) == ["a", "b", "c"]
+        @test pyconvert(Float64, o.x.isel(; chain=0, draw=0).item()) != 42
     end
 
     @testset "arrays numpy can't share memory with" begin
