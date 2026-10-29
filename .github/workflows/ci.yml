@@ -35,6 +35,17 @@ jobs:
           key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('docs/CondaPkg.toml') }}
           restore-keys: |
             ${{ runner.os }}-${{ env.cache-name }}-
+      # Julia < v1.11 ignores `[sources]`, so add those packages explicitly
+      - name: Add packages from [sources]
+        run: |
+          using Pkg, TOML
+          VERSION < v"1.11" || exit()
+          sources = get(TOML.parsefile("Project.toml"), "sources", Dict())
+          for (name, source) in sources
+              haskey(source, "url") || continue
+              Pkg.add(PackageSpec(; name, url=source["url"], rev=get(source, "rev", nothing)))
+          end
+        shell: julia --color=yes --project=. {0}
       - uses: julia-actions/julia-buildpkg@latest
       - uses: julia-actions/julia-runtest@latest
       - uses: julia-actions/julia-processcoverage@v1
