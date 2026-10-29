@@ -15,7 +15,7 @@ ArviZPythonPlots = {path = ".."}
 
 [compat]
 ArviZExampleData = "0.3"
-ArviZPythonPlots = "0.2"
+ArviZPythonPlots = "0.3"
 DimensionalData = "0.30"
 Documenter = "1"
 DocumenterInterLinks = "1"
