@@ -30,16 +30,20 @@ using Test
             )
         end
 
+        # DimensionalData reverses the dimensions so that the fast axis is the same in
+        # Julia and Python
         variables = Dict(collect(o.data_vars.variables.items()))
         @test pystr("x") ∈ keys(variables)
-        @test Bool(pyeq(Py(x), variables[pystr("x")].values).all())
-        @test Bool(variables[pystr("x")].dims == pytuple(pystr.(xdims)))
+        @test pyconvert(Array, variables[pystr("x")].values) ==
+            permutedims(parent(x), ndims(x):-1:1)
+        @test Bool(variables[pystr("x")].dims == pytuple(pystr.(reverse(xdims))))
 
         @test pystr("y") ∈ keys(variables)
-        @test Bool(pyeq(Py(y), variables[pystr("y")].values).all())
+        @test pyconvert(Array, variables[pystr("y")].values) ==
+            permutedims(parent(y), ndims(y):-1:1)
         @test Bool(
             variables[pystr("y")].dims ==
-            pytuple(pystr.(("chain", "draw", "ydim1", "shared"))),
+            pytuple(pystr.(("shared", "ydim1", "draw", "chain"))),
         )
     end
 
@@ -47,21 +51,20 @@ using Test
         xdims = (:chain, :draw, Dim{:shared}(["s1", "s2", "s3"]))
         x = DimArray(randn(4, 100, 3), xdims; name=:x)
 
-        o = Py(x)
+        # `topytype` must not take the generic `AbstractArray{<:Real}` -> bare numpy array
+        # shortcut (src/utils.jl)
+        o = ArviZPythonPlots.topytype(x)
         @test o isa Py
         @test pyisinstance(o, ArviZPythonPlots.xarray.DataArray)
-        @test Bool(pyeq(Py(x), o.values).all())
-        @test Bool(o.dims == pytuple(pystr.((:chain, :draw, :shared))))
+        @test pyconvert(Array, o.values) == permutedims(parent(x), ndims(x):-1:1)
+        @test Bool(o.dims == pytuple(pystr.((:shared, :draw, :chain))))
         @test pyeq(
             Bool,
             pylist(o.coords["shared"].values),
             pylist(parent(DimensionalData.lookup(x, :shared))),
         )
-
-        # `topytype` must dispatch to the same conversion, not the generic
-        # `AbstractArray{<:Real}` -> bare numpy array shortcut (src/utils.jl)
-        t = ArviZPythonPlots.topytype(x)
-        @test pyisinstance(t, ArviZPythonPlots.xarray.DataArray)
+        # dimensions without a lookup get 1-based coordinates
+        @test pyeq(Bool, pylist(o.coords["draw"].values), pylist(1:100))
     end
 
     @testset "InferenceData -> Py" begin
